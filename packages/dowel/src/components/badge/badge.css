@@ -1,0 +1,37 @@
+@layer dowel.components {
+  .dowel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--dowel-space-2);
+
+    block-size: 20px;
+    padding-inline: var(--dowel-space-4);
+
+    font-size: var(--dowel-fs-mini);
+    font-weight: var(--dowel-fw-medium);
+    letter-spacing: var(--dowel-tracking);
+    white-space: nowrap;
+
+    border: var(--dowel-hairline) solid var(--dowel-border-2);
+    border-radius: var(--dowel-radius-pill);
+    background-color: var(--dowel-bg-2);
+    color: var(--dowel-text-3);
+  }
+
+  .dowel-badge[data-tone="accent"] {
+    color: var(--dowel-accent);
+    border-color: var(--dowel-accent);
+  }
+  .dowel-badge[data-tone="success"] {
+    color: var(--dowel-success);
+    border-color: var(--dowel-success);
+  }
+  .dowel-badge[data-tone="warning"] {
+    color: var(--dowel-warning);
+    border-color: var(--dowel-warning);
+  }
+  .dowel-badge[data-tone="danger"] {
+    color: var(--dowel-danger);
+    border-color: var(--dowel-danger);
+  }
+}

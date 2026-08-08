@@ -1,0 +1,27 @@
+@layer dowel.components {
+  .dowel-kbd {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .dowel-kbd kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-inline-size: 17px;
+    block-size: 17px;
+    padding: var(--dowel-space-1);
+
+    font-family: var(--dowel-font);
+    font-size: var(--dowel-fs-micro);
+    font-weight: var(--dowel-fw-normal);
+    line-height: 1;
+
+    color: var(--dowel-text-3);
+    background-color: var(--dowel-bg-2);
+    border: var(--dowel-hairline) solid var(--dowel-border-2);
+    border-radius: var(--dowel-radius-sm);
+  }
+}

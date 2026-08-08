@@ -2021,13 +2021,15 @@ Expected: FAIL — cannot resolve `./index`.
 
 ```tsx
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type { ComponentProps } from "react";
 
-/** Strips the appearance escape hatches from any Base UI component's props. */
-type Props<T extends (...args: never) => unknown> = Omit<
-  ComponentProps<T>,
-  "className" | "style"
->;
+/** Strips the appearance escape hatches from any Base UI component's props.
+ *  Inferred from the call signature: ComponentProps<T> rejects this
+ *  constraint with TS2344, so infer the props parameter directly. */
+type Props<T extends (...args: never) => unknown> = T extends (
+  props: infer P,
+) => unknown
+  ? Omit<P, "className" | "style">
+  : never;
 
 export const Dialog = {
   Root: BaseDialog.Root,
@@ -2246,13 +2248,15 @@ Expected: FAIL — cannot resolve `./index`.
 
 ```tsx
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import type { ComponentProps } from "react";
 
-/** Strips the appearance escape hatches from any Base UI component's props. */
-type Props<T extends (...args: never) => unknown> = Omit<
-  ComponentProps<T>,
-  "className" | "style"
->;
+/** Strips the appearance escape hatches from any Base UI component's props.
+ *  Inferred from the call signature: ComponentProps<T> rejects this
+ *  constraint with TS2344, so infer the props parameter directly. */
+type Props<T extends (...args: never) => unknown> = T extends (
+  props: infer P,
+) => unknown
+  ? Omit<P, "className" | "style">
+  : never;
 
 export const Menu = {
   Root: BaseMenu.Root,
@@ -2475,13 +2479,15 @@ Expected: FAIL — cannot resolve `./index`.
 
 ```tsx
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import type { ComponentProps } from "react";
 
-/** Strips the appearance escape hatches from any Base UI component's props. */
-type Props<T extends (...args: never) => unknown> = Omit<
-  ComponentProps<T>,
-  "className" | "style"
->;
+/** Strips the appearance escape hatches from any Base UI component's props.
+ *  Inferred from the call signature: ComponentProps<T> rejects this
+ *  constraint with TS2344, so infer the props parameter directly. */
+type Props<T extends (...args: never) => unknown> = T extends (
+  props: infer P,
+) => unknown
+  ? Omit<P, "className" | "style">
+  : never;
 
 export const Tooltip = {
   Provider: BaseTooltip.Provider,

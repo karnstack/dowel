@@ -15,6 +15,13 @@ export interface ButtonProps extends NativeButtonProps {
   size?: "sm" | "md";
   /** Render as a different element, e.g. `render={<a href="/x" />}`. */
   render?: ReactElement;
+  /**
+   * Whether the rendered element is a native `<button>`. Rendering a
+   * non-button element via `render` (e.g. an anchor) requires
+   * `nativeButton={false}` so Base UI applies button semantics instead of
+   * native-button attributes. Defaults to `true`.
+   */
+  nativeButton?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -26,10 +33,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <BaseButton
         ref={ref}
         render={render}
+        {...props}
+        // Everything below stays AFTER the spread so a consumer cannot win
+        // via a spread of a wider object: appearance is not configurable.
         className="dowel-btn"
+        style={undefined}
         data-variant={variant}
         data-size={size}
-        {...props}
       />
     );
   },

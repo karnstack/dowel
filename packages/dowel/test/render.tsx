@@ -2,8 +2,12 @@ import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
 
 /**
- * Renders `ui` in both themes. Every component test asserts against both so a
- * token missing from dark.css fails at the component that uses it.
+ * Renders `ui` once under each `data-dowel-theme` attribute and returns both
+ * wrappers. jsdom applies no author stylesheet (it ignores rules inside
+ * `@layer`, where every dowel rule lives, and does not inherit custom
+ * properties), so this checks only that the component renders under both
+ * theme attributes without throwing. Token resolution is guarded by
+ * test/css-contract.test.ts, not here.
  */
 export function renderBoth(ui: ReactElement) {
   const light = render(<div data-dowel-theme="light">{ui}</div>);

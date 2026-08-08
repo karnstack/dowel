@@ -34,6 +34,17 @@ describe("Button", () => {
     expect(screen.getByRole("button").className).toContain("dowel-btn");
   });
 
+  it("ignores className and style smuggled through a spread", () => {
+    // ButtonProps Omits className/style, but JSX spreads skip excess-property
+    // checks, so a wider object typechecks. The runtime must hold the line.
+    const smuggled = { className: "evil", style: { color: "red" } };
+    render(<Button {...smuggled}>Go</Button>);
+    const btn = screen.getByRole("button");
+    expect(btn.className).toContain("dowel-btn");
+    expect(btn.className).not.toContain("evil");
+    expect(btn.getAttribute("style")).toBeNull();
+  });
+
   it("fires onClick", async () => {
     const onClick = vi.fn();
     render(<Button onClick={onClick}>Go</Button>);
@@ -52,11 +63,25 @@ describe("Button", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it("renders as another element via the render prop", () => {
-    render(<Button render={<a href="/docs" />}>Docs</Button>);
-    const link = screen.getByRole("link", { name: "Docs" });
-    expect(link.tagName).toBe("A");
-    expect(link.className).toContain("dowel-btn");
+  it("renders as another element via render plus nativeButton={false}", () => {
+    // Base UI swaps native <button> semantics for role="button" here, so the
+    // anchor is queried by that role, not "link".
+    render(
+      <Button render={<a href="/docs" />} nativeButton={false}>
+        Docs
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Docs" });
+    expect(el.tagName).toBe("A");
+    expect(el.getAttribute("href")).toBe("/docs");
+    expect(el.className).toContain("dowel-btn");
+    // `type` is a MIME hint on anchors — it must not leak from button mode.
+    expect(el.hasAttribute("type")).toBe(false);
+  });
+
+  it("renders a native <button> when nativeButton is unset", () => {
+    render(<Button>Go</Button>);
+    expect(screen.getByRole("button").tagName).toBe("BUTTON");
   });
 
   it("renders in both themes", () => {

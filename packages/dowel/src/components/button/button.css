@@ -32,7 +32,10 @@
     outline-offset: 1px;
   }
 
-  .dowel-btn:disabled {
+  /* :disabled only matches form controls; a Button rendered as an anchor
+     with nativeButton={false} is disabled via aria-disabled instead. */
+  .dowel-btn:disabled,
+  .dowel-btn[aria-disabled="true"] {
     opacity: 0.5;
     cursor: not-allowed;
   }

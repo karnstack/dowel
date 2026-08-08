@@ -7,3 +7,5 @@ export { Badge } from "./components/badge";
 export type { BadgeProps } from "./components/badge";
 export { Kbd } from "./components/kbd";
 export type { KbdProps } from "./components/kbd";
+export { Input, Field } from "./components/input";
+export type { InputProps } from "./components/input";

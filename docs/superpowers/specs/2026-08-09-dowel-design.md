@@ -1,7 +1,7 @@
 # dowel — design spec
 
 **Date:** 2026-08-09
-**Status:** draft — awaiting review
+**Status:** approved 2026-08-09
 
 ---
 

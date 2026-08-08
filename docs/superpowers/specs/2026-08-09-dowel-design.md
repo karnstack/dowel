@@ -336,3 +336,8 @@ Token scopes:
 
 Setting org secrets requires `admin:org` on the `gh` token; the default
 `repo, read:org, gist` set returns 403.
+
+**Plan constraint:** karnstack is on GitHub Free, where org secrets only reach
+*public* repositories. This is why dowel is public from the start rather than
+private until launch — it is also the honest posture for a project whose
+premise is an open homage.

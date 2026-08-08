@@ -4,9 +4,9 @@
 
 **Goal:** Ship `dowel@0.1.0` to npm with a working token system, a compiled-CSS build pipeline, release automation, a live docs site at dowel.sh, and 8 components proving the pattern end-to-end.
 
-**Architecture:** pnpm workspace with one publishable package (`packages/dowel`) and one docs app (`apps/docs`). Components are React wrappers over `@base-ui/react` primitives, styled by hand-authored plain CSS with `dowel-` prefixed classes. Lightning CSS bundles per-component CSS into a single `dist/dowel.css`; tsup emits ESM + types. Variants are expressed as `data-*` attributes, never className props.
+**Architecture:** pnpm workspace with one publishable package (`packages/dowel`) and one docs app (`apps/docs`). Components are React wrappers over `@base-ui/react` primitives, styled by hand-authored plain CSS with `dowel-` prefixed classes. Lightning CSS bundles per-component CSS into a single `dist/dowel.css`; tsdown emits ESM + types. Variants are expressed as `data-*` attributes, never className props.
 
-**Tech Stack:** React 19.2, `@base-ui/react` 1.7, TypeScript 5.9.3, Lightning CSS 1.33, tsup 8.5, vitest 4.1, changesets 2.31, TanStack Start 1.168, Cloudflare Workers.
+**Tech Stack:** React 19.2, `@base-ui/react` 1.7, TypeScript 5.9.3, Lightning CSS 1.33, tsdown 0.22, vitest 4.1, changesets 2.31, TanStack Start 1.168, Cloudflare Workers.
 
 ## Global Constraints
 
@@ -35,7 +35,7 @@
 packages/dowel/
 ├── package.json                    name "dowel", exports . and ./dowel.css
 ├── tsconfig.json
-├── tsup.config.ts                  ESM + d.ts
+├── tsdown.config.ts                ESM + d.ts
 ├── scripts/build-css.mjs           Lightning CSS bundle+minify
 ├── src/
 │   ├── index.ts                    barrel: re-exports every component
@@ -217,7 +217,7 @@ and add `"LICENSE"` to the package's `files` array alongside `"dist"`.
     "./dowel.css": "./dist/dowel.css"
   },
   "scripts": {
-    "build": "tsup && node scripts/build-css.mjs",
+    "build": "tsdown && node scripts/build-css.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
@@ -241,7 +241,7 @@ and add `"LICENSE"` to the package's `files` array alongside `"dist"`.
     "lightningcss": "^1.33.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.22.14",
     "vitest": "^4.1.10"
   }
 }
@@ -663,7 +663,7 @@ git commit -m "Add the dowel token layer with light and dark parity tests"
 ## Task 3: Build pipeline
 
 **Files:**
-- Create: `packages/dowel/tsup.config.ts`
+- Create: `packages/dowel/tsdown.config.ts`
 - Create: `packages/dowel/scripts/build-css.mjs`
 - Create: `packages/dowel/src/index.ts`
 - Create: `packages/dowel/src/lib/cx.ts`
@@ -671,7 +671,7 @@ git commit -m "Add the dowel token layer with light and dark parity tests"
 
 **Interfaces:**
 - Consumes: Task 2's `src/index.css` and token names.
-- Produces: `pnpm --filter dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Exports `cx(...parts: Array<string | false | null | undefined>): string` from `src/lib/cx.ts`, used by every component in Tasks 4+.
+- Produces: `pnpm --filter dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Build order is `tsdown` then `build-css.mjs` — never the reverse. Exports `cx(...parts: Array<string | false | null | undefined>): string` from `src/lib/cx.ts`, used by every component in Tasks 4+.
 
 - [ ] **Step 1: Write the failing build-contract test**
 
@@ -760,23 +760,29 @@ console.log(`built dist/dowel.css (${(code.length / 1024).toFixed(1)} kB)`);
 pnpm --filter dowel add -D browserslist@^4.26.0
 ```
 
-- [ ] **Step 5: Write tsup.config.ts**
+- [ ] **Step 5: Write tsdown.config.ts**
 
-`packages/dowel/tsup.config.ts`:
+`packages/dowel/tsdown.config.ts`:
 ```ts
-import { defineConfig } from "tsup";
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/index.ts"],
-  format: ["esm"],
+  format: "esm",
+  platform: "browser",
   dts: true,
   clean: true,
   treeshake: true,
-  // CSS is built separately by scripts/build-css.mjs; tsup must not try to
-  // process the .css imports that components do not make at runtime.
-  external: ["react", "react-dom", "@base-ui/react"],
+  // No `external` here on purpose: tsdown never bundles `dependencies` or
+  // `peerDependencies`, so react, react-dom and @base-ui/react are already
+  // external. (tsdown's `external` option is deprecated in favour of
+  // `deps.neverBundle`, and neither is needed for this package.)
 });
 ```
+
+`clean: true` wipes `dist/` — which is why `package.json` runs `tsdown` first
+and `build-css.mjs` second. Reversing that order silently deletes
+`dist/dowel.css` and the CSS contract test fails with a confusing "not built".
 
 - [ ] **Step 6: Write cx.ts**
 
@@ -817,7 +823,7 @@ Expected: build prints a kB size; all 4 contract tests PASS.
 ```bash
 grep -q '^dist/' .gitignore || echo 'dist/' >> .gitignore
 git add -A
-git commit -m "Add the Lightning CSS and tsup build pipeline with a token contract test"
+git commit -m "Add the Lightning CSS and tsdown build pipeline with a token contract test"
 ```
 
 ---

@@ -26,9 +26,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       ref={ref}
       {...props}
       // Everything below stays AFTER the spread so props spread onto the
-      // component can never override appearance. `aria-invalid` is spread
-      // conditionally: when `invalid` is unset it must not clobber an
-      // `aria-invalid` passed directly or computed by Field validation.
+      // component cannot override appearance. An element smuggled through the
+      // spread as `render` still carries its own attributes — that Base UI
+      // escape hatch is by design. `aria-invalid` is spread conditionally:
+      // when `invalid` is unset it must not clobber an `aria-invalid` passed
+      // directly or computed by Field validation.
       {...(invalid ? { "aria-invalid": true } : null)}
       className="dowel-input"
       style={undefined}
@@ -38,31 +40,48 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 });
 
 /**
+ * Public props for a Field part: the corresponding Base UI component's own
+ * props (so `invalid`, `validate`, `validationMode`, `match`, … stay
+ * reachable) minus appearance, which is not a consumer concern. Props are
+ * inferred from the component's call signature — `ComponentProps<T>` rejects
+ * this loose constraint (its own requires a `ReactNode` return), and the
+ * result is identical.
+ */
+type Props<T extends (...args: never) => unknown> = T extends (
+  props: infer P,
+) => unknown
+  ? Omit<P, "className" | "style">
+  : never;
+
+/**
  * Field wires a label, description and error message to a control, so the
  * association is never hand-rolled with matching id strings. A dowel `Input`
  * placed inside `Field.Root` is associated automatically — Base UI's Input
  * is the control Field owns.
  */
 export const Field = {
-  Root: forwardRef<
-    HTMLDivElement,
-    Omit<ComponentPropsWithoutRef<"div">, "className" | "style">
-  >(function FieldRoot(props, ref) {
-    return (
-      <BaseField.Root
-        ref={ref}
-        {...props}
-        // Everything below stays AFTER the spread so props spread onto the
-        // component can never override appearance.
-        className="dowel-field"
-        style={undefined}
-      />
-    );
-  }),
+  Root: forwardRef<HTMLDivElement, Props<typeof BaseField.Root>>(
+    function FieldRoot(props, ref) {
+      return (
+        <BaseField.Root
+          ref={ref}
+          {...props}
+          // Everything below stays AFTER the spread so props spread onto the
+          // component cannot override appearance. An element passed via
+          // `render` still carries its own attributes — that escape hatch is
+          // by design.
+          className="dowel-field"
+          style={undefined}
+        />
+      );
+    },
+  ),
 
   Label: forwardRef<
     HTMLLabelElement,
-    Omit<ComponentPropsWithoutRef<"label">, "className" | "style">
+    // htmlFor is omitted on top: Field generates the association, and a
+    // hand-written htmlFor would win over it — the exact bug Field removes.
+    Omit<Props<typeof BaseField.Label>, "htmlFor">
   >(function FieldLabel(props, ref) {
     return (
       <BaseField.Label
@@ -76,7 +95,7 @@ export const Field = {
 
   Description: forwardRef<
     HTMLParagraphElement,
-    Omit<ComponentPropsWithoutRef<"p">, "className" | "style">
+    Props<typeof BaseField.Description>
   >(function FieldDescription(props, ref) {
     return (
       <BaseField.Description
@@ -88,17 +107,17 @@ export const Field = {
     );
   }),
 
-  Error: forwardRef<
-    HTMLParagraphElement,
-    Omit<ComponentPropsWithoutRef<"p">, "className" | "style">
-  >(function FieldError(props, ref) {
-    return (
-      <BaseField.Error
-        ref={ref}
-        {...props}
-        className="dowel-field-error"
-        style={undefined}
-      />
-    );
-  }),
+  // Base UI's Field.Error renders a <div>, not a <p> — the ref type says so.
+  Error: forwardRef<HTMLDivElement, Props<typeof BaseField.Error>>(
+    function FieldError(props, ref) {
+      return (
+        <BaseField.Error
+          ref={ref}
+          {...props}
+          className="dowel-field-error"
+          style={undefined}
+        />
+      );
+    },
+  ),
 };

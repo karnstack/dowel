@@ -85,6 +85,30 @@ describe("Field", () => {
     );
   });
 
+  it("renders Field.Error on an invalid field and associates it", () => {
+    // `invalid` on Root marks the whole field invalid through Base UI state;
+    // `match` makes Error display without a validation run (dowel has no
+    // Form yet, and Base UI validates onSubmit by default). Both props exist
+    // only because Field's types derive from Base UI, not from "div"/"p".
+    render(
+      <Field.Root invalid>
+        <Field.Label>Title</Field.Label>
+        <Input />
+        <Field.Error match>Title is required</Field.Error>
+      </Field.Root>,
+    );
+    const input = screen.getByRole("textbox");
+    // The invalid field state reaches the control's ARIA without any prop
+    // on Input itself.
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    const error = document.querySelector(".dowel-field-error");
+    expect(error).not.toBeNull();
+    expect(error!.textContent).toBe("Title is required");
+    // The error is wired into the control's accessible description.
+    const describedBy = input.getAttribute("aria-describedby") ?? "";
+    expect(describedBy.split(" ")).toContain(error!.id);
+  });
+
   it("ignores className and style smuggled through a spread", () => {
     const smuggled = { className: "evil", style: { color: "red" } };
     const { container } = render(

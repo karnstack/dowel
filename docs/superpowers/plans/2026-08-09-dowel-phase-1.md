@@ -44,7 +44,6 @@ packages/dowel/
 │   │   ├── scale.css               non-colour tokens (type, size, motion, shape)
 │   │   ├── light.css               :root colour tokens
 │   │   └── dark.css                dark overrides (class, attr, media)
-│   ├── lib/cx.ts                   tiny class joiner (no clsx dep)
 │   └── components/
 │       ├── button/{index.tsx,button.css,button.test.tsx}
 │       ├── icon-button/{...}
@@ -666,12 +665,11 @@ git commit -m "Add the dowel token layer with light and dark parity tests"
 - Create: `packages/dowel/tsdown.config.ts`
 - Create: `packages/dowel/scripts/build-css.mjs`
 - Create: `packages/dowel/src/index.ts`
-- Create: `packages/dowel/src/lib/cx.ts`
 - Test: `packages/dowel/test/css-contract.test.ts`
 
 **Interfaces:**
 - Consumes: Task 2's `src/index.css` and token names.
-- Produces: `pnpm --filter dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Build order is `tsdown` then `build-css.mjs` — never the reverse. Exports `cx(...parts: Array<string | false | null | undefined>): string` from `src/lib/cx.ts`, used by every component in Tasks 4+.
+- Produces: `pnpm --filter dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Build order is `tsdown` then `build-css.mjs` — never the reverse. Produces no class-name helper: components in Tasks 4+ write `className="dowel-x"` as a plain string literal.
 
 - [ ] **Step 1: Write the failing build-contract test**
 
@@ -784,23 +782,18 @@ export default defineConfig({
 and `build-css.mjs` second. Reversing that order silently deletes
 `dist/dowel.css` and the CSS contract test fails with a confusing "not built".
 
-- [ ] **Step 6: Write cx.ts**
+- [ ] **Step 6: (intentionally empty — no class-name helper)**
 
-`packages/dowel/src/lib/cx.ts`:
-```ts
-/**
- * Joins class names, dropping falsy entries.
- *
- * dowel has no clsx/tailwind-merge dependency: class names are authored by us
- * and never merged with consumer classes, so conflict resolution is not a
- * problem this library has.
- */
-export function cx(
-  ...parts: Array<string | false | null | undefined>
-): string {
-  return parts.filter(Boolean).join(" ");
-}
+dowel ships **no `cx`/`clsx`/`tailwind-merge` helper**. Variants are `data-*`
+attributes, so no component ever builds a conditional class name — every
+`className` in this library is a single string literal:
+
+```tsx
+className="dowel-btn"
 ```
+
+If a later phase genuinely needs conditional classes, add the helper then.
+Do not add one now, and do not wrap these literals in a function.
 
 - [ ] **Step 7: Write the barrel**
 
@@ -977,7 +970,6 @@ Expected: FAIL — cannot resolve `./index`.
 import { Button as BaseButton } from "@base-ui/react/button";
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef, ReactElement } from "react";
-import { cx } from "../../lib/cx";
 
 type NativeButtonProps = Omit<
   ComponentPropsWithoutRef<"button">,
@@ -1003,7 +995,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <BaseButton
         ref={ref}
         render={render}
-        className={cx("dowel-btn")}
+        className="dowel-btn"
         data-variant={variant}
         data-size={size}
         {...props}
@@ -1216,7 +1208,6 @@ Expected: FAIL — cannot resolve `./index`.
 import { Button as BaseButton } from "@base-ui/react/button";
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef, ReactElement } from "react";
-import { cx } from "../../lib/cx";
 
 type NativeButtonProps = Omit<
   ComponentPropsWithoutRef<"button">,
@@ -1241,7 +1232,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         render={render}
         aria-label={label}
-        className={cx("dowel-icon-btn")}
+        className="dowel-icon-btn"
         data-variant={variant}
         data-size={size}
         {...props}
@@ -1430,7 +1421,6 @@ Expected: FAIL — modules not found.
 ```tsx
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
-import { cx } from "../../lib/cx";
 
 export interface BadgeProps
   extends Omit<ComponentPropsWithoutRef<"span">, "className" | "style"> {
@@ -1444,7 +1434,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   return (
     <span
       ref={ref}
-      className={cx("dowel-badge")}
+      className="dowel-badge"
       data-tone={tone}
       {...props}
     />
@@ -1499,7 +1489,6 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
 ```tsx
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
-import { cx } from "../../lib/cx";
 
 export interface KbdProps
   extends Omit<
@@ -1515,7 +1504,7 @@ export const Kbd = forwardRef<HTMLSpanElement, KbdProps>(function Kbd(
   ref,
 ) {
   return (
-    <span ref={ref} className={cx("dowel-kbd")} {...props}>
+    <span ref={ref} className="dowel-kbd" {...props}>
       {keys.map((key, i) => (
         <kbd key={`${key}-${i}`}>{key}</kbd>
       ))}
@@ -1718,7 +1707,6 @@ import { Field as BaseField } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
-import { cx } from "../../lib/cx";
 
 export interface InputProps
   extends Omit<ComponentPropsWithoutRef<"input">, "className" | "style"> {
@@ -1734,7 +1722,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <BaseInput
       ref={ref}
-      className={cx("dowel-input")}
+      className="dowel-input"
       data-size={size}
       aria-invalid={invalid || undefined}
       {...props}
@@ -1752,7 +1740,7 @@ export const Field = {
     Omit<ComponentPropsWithoutRef<"div">, "className" | "style">
   >(function FieldRoot(props, ref) {
     return (
-      <BaseField.Root ref={ref} className={cx("dowel-field")} {...props} />
+      <BaseField.Root ref={ref} className="dowel-field" {...props} />
     );
   }),
 
@@ -1763,7 +1751,7 @@ export const Field = {
     return (
       <BaseField.Label
         ref={ref}
-        className={cx("dowel-field-label")}
+        className="dowel-field-label"
         {...props}
       />
     );
@@ -1776,7 +1764,7 @@ export const Field = {
     return (
       <BaseField.Description
         ref={ref}
-        className={cx("dowel-field-description")}
+        className="dowel-field-description"
         {...props}
       />
     );
@@ -1789,7 +1777,7 @@ export const Field = {
     return (
       <BaseField.Error
         ref={ref}
-        className={cx("dowel-field-error")}
+        className="dowel-field-error"
         {...props}
       />
     );
@@ -1984,7 +1972,6 @@ Expected: FAIL — cannot resolve `./index`.
 ```tsx
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import type { ComponentProps } from "react";
-import { cx } from "../../lib/cx";
 
 /** Strips the appearance escape hatches from any Base UI component's props. */
 type Props<T extends (...args: never) => unknown> = Omit<
@@ -1998,15 +1985,15 @@ export const Dialog = {
   Portal: BaseDialog.Portal,
 
   Backdrop: function DialogBackdrop(props: Props<typeof BaseDialog.Backdrop>) {
-    return <BaseDialog.Backdrop className={cx("dowel-backdrop")} {...props} />;
+    return <BaseDialog.Backdrop className="dowel-backdrop" {...props} />;
   },
 
   Popup: function DialogPopup(props: Props<typeof BaseDialog.Popup>) {
-    return <BaseDialog.Popup className={cx("dowel-dialog")} {...props} />;
+    return <BaseDialog.Popup className="dowel-dialog" {...props} />;
   },
 
   Title: function DialogTitle(props: Props<typeof BaseDialog.Title>) {
-    return <BaseDialog.Title className={cx("dowel-dialog-title")} {...props} />;
+    return <BaseDialog.Title className="dowel-dialog-title" {...props} />;
   },
 
   Description: function DialogDescription(
@@ -2014,7 +2001,7 @@ export const Dialog = {
   ) {
     return (
       <BaseDialog.Description
-        className={cx("dowel-dialog-description")}
+        className="dowel-dialog-description"
         {...props}
       />
     );
@@ -2205,7 +2192,6 @@ Expected: FAIL — cannot resolve `./index`.
 ```tsx
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { ComponentProps } from "react";
-import { cx } from "../../lib/cx";
 
 /** Strips the appearance escape hatches from any Base UI component's props. */
 type Props<T extends (...args: never) => unknown> = Omit<
@@ -2225,16 +2211,16 @@ export const Menu = {
   },
 
   Popup: function MenuPopup(props: Props<typeof BaseMenu.Popup>) {
-    return <BaseMenu.Popup className={cx("dowel-menu")} {...props} />;
+    return <BaseMenu.Popup className="dowel-menu" {...props} />;
   },
 
   Item: function MenuItem(props: Props<typeof BaseMenu.Item>) {
-    return <BaseMenu.Item className={cx("dowel-menu-item")} {...props} />;
+    return <BaseMenu.Item className="dowel-menu-item" {...props} />;
   },
 
   Separator: function MenuSeparator(props: Props<typeof BaseMenu.Separator>) {
     return (
-      <BaseMenu.Separator className={cx("dowel-menu-separator")} {...props} />
+      <BaseMenu.Separator className="dowel-menu-separator" {...props} />
     );
   },
 
@@ -2244,7 +2230,7 @@ export const Menu = {
     props: Props<typeof BaseMenu.GroupLabel>,
   ) {
     return (
-      <BaseMenu.GroupLabel className={cx("dowel-menu-label")} {...props} />
+      <BaseMenu.GroupLabel className="dowel-menu-label" {...props} />
     );
   },
 };
@@ -2431,7 +2417,6 @@ Expected: FAIL — cannot resolve `./index`.
 ```tsx
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { ComponentProps } from "react";
-import { cx } from "../../lib/cx";
 
 /** Strips the appearance escape hatches from any Base UI component's props. */
 type Props<T extends (...args: never) => unknown> = Omit<
@@ -2452,7 +2437,7 @@ export const Tooltip = {
   },
 
   Popup: function TooltipPopup(props: Props<typeof BaseTooltip.Popup>) {
-    return <BaseTooltip.Popup className={cx("dowel-tooltip")} {...props} />;
+    return <BaseTooltip.Popup className="dowel-tooltip" {...props} />;
   },
 };
 ```

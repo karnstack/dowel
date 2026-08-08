@@ -46,6 +46,23 @@ Not headless, not framework-agnostic, not a Tailwind plugin, not customisable
 per component. If you need a different button, dowel is the wrong library —
 that is the point.
 
+## Typeface
+
+dowel is designed for Inter. It falls back to `system-ui`, which works but
+looks different. To match the docs:
+
+```bash
+pnpm add @fontsource-variable/inter
+```
+
+```ts
+import "@fontsource-variable/inter";
+import "dowel/dowel.css";
+```
+
+Inter is OFL-licensed. dowel does not bundle it, so you control whether it is
+self-hosted or served from a CDN.
+
 ## Credit
 
 dowel is an homage to the craft of [Linear](https://linear.app). Their

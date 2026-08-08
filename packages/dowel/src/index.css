@@ -1,0 +1,20 @@
+/* Layer order is declared once, first, before any @import. Consumers' own
+   unlayered styles beat every layer here, so overriding dowel never becomes a
+   specificity fight. */
+@layer dowel.tokens, dowel.base, dowel.components;
+
+@import "./tokens/scale.css";
+@import "./tokens/light.css";
+@import "./tokens/dark.css";
+
+@layer dowel.base {
+  .dowel-root,
+  [data-dowel-theme] {
+    font-family: var(--dowel-font);
+    font-size: var(--dowel-fs-small);
+    font-weight: var(--dowel-fw-normal);
+    letter-spacing: var(--dowel-tracking);
+    color: var(--dowel-text-2);
+    background-color: var(--dowel-bg-1);
+  }
+}

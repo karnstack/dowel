@@ -6,8 +6,8 @@ import type { ReactElement } from "react";
  * wrappers. jsdom applies no author stylesheet (it ignores rules inside
  * `@layer`, where every dowel rule lives, and does not inherit custom
  * properties), so this checks only that the component renders under both
- * theme attributes without throwing. Token resolution is guarded by
- * test/css-contract.test.ts, not here.
+ * theme attributes without throwing. Light/dark token parity is guarded by
+ * test/tokens.test.ts, not here.
  */
 export function renderBoth(ui: ReactElement) {
   const light = render(<div data-dowel-theme="light">{ui}</div>);

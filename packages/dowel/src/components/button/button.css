@@ -45,7 +45,9 @@
     background-color: var(--dowel-accent);
     color: var(--dowel-accent-fg);
   }
-  .dowel-btn[data-variant="primary"]:hover:not(:disabled) {
+  .dowel-btn[data-variant="primary"]:hover:not(:disabled):not(
+      [aria-disabled="true"]
+    ) {
     background-color: var(--dowel-accent-hover);
   }
 
@@ -55,7 +57,9 @@
     border-color: var(--dowel-border-2);
     color: var(--dowel-text-2);
   }
-  .dowel-btn[data-variant="secondary"]:hover:not(:disabled) {
+  .dowel-btn[data-variant="secondary"]:hover:not(:disabled):not(
+      [aria-disabled="true"]
+    ) {
     background-color: var(--dowel-bg-3);
   }
 
@@ -64,7 +68,9 @@
     background-color: transparent;
     color: var(--dowel-text-3);
   }
-  .dowel-btn[data-variant="ghost"]:hover:not(:disabled) {
+  .dowel-btn[data-variant="ghost"]:hover:not(:disabled):not(
+      [aria-disabled="true"]
+    ) {
     background-color: var(--dowel-bg-3);
     color: var(--dowel-text-2);
   }
@@ -74,7 +80,9 @@
     background-color: var(--dowel-danger);
     color: var(--dowel-danger-fg);
   }
-  .dowel-btn[data-variant="danger"]:hover:not(:disabled) {
+  .dowel-btn[data-variant="danger"]:hover:not(:disabled):not(
+      [aria-disabled="true"]
+    ) {
     opacity: 0.9;
   }
 }

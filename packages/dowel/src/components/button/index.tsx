@@ -34,8 +34,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         render={render}
         {...props}
-        // Everything below stays AFTER the spread so a consumer cannot win
-        // via a spread of a wider object: appearance is not configurable.
+        // Everything below stays AFTER the spread so props spread onto the
+        // component can never override appearance. An element passed via
+        // `render` still carries its own attributes — that escape hatch is
+        // by design.
         className="dowel-btn"
         style={undefined}
         data-variant={variant}

@@ -812,8 +812,8 @@ dowel ships **no `cx`/`clsx`/`tailwind-merge` helper**. Variants are `data-*`
 attributes, so no component ever builds a conditional class name — every
 `className` in this library is a single string literal:
 
-```tsx
-className = "dowel-btn";
+```text
+className="dowel-btn"
 ```
 
 If a later phase genuinely needs conditional classes, add the helper then.

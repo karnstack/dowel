@@ -1,7 +1,7 @@
 # dowel — design spec
 
 **Date:** 2026-08-09
-**Status:** approved for planning
+**Status:** draft — awaiting review
 
 ---
 
@@ -93,7 +93,10 @@ All public tokens are prefixed `--dowel-`.
   --dowel-text-3: lch(48%     1.2 var(--dowel-hue));
   --dowel-text-4: lch(61.803% 1.2 var(--dowel-hue));
 
-  --dowel-accent:    lch(52% 24 282);
+  /* accent — ours, not Linear's. Same energy (L~49, high chroma, indigo),
+     deliberately a different hue angle: their #5e6ad2 is lch(48.7% 60.8 295)
+     and that exact value is their brand mark, not a design pattern. */
+  --dowel-accent:    lch(49% 62 285);
   --dowel-accent-fg: lch(100% 0 0);
   --dowel-focus:     var(--dowel-accent);
 
@@ -199,7 +202,7 @@ styles. `sideEffects: ["*.css"]` so JS tree-shakes.
 
 ## 5. Components
 
-40 total. Base UI-backed unless marked.
+49 total: 39 Base UI-backed, 10 plain elements *(marked)*.
 
 **Actions** Button · IconButton · Toggle · ToggleGroup · Toolbar
 **Form** Input · Textarea *(plain)* · NumberField · OTPField · Checkbox ·
@@ -262,7 +265,7 @@ pipeline, docs site, release automation, and 8 components end-to-end:
 Button, IconButton, Badge, Kbd, Input, Dialog, Menu, Tooltip.
 Proves the whole pipeline before it is replicated 40×.
 
-**Phases 2+ — fan out** the remaining 32 against the proven pattern, grouped
+**Phases 2+ — fan out** the remaining 41 against the proven pattern, grouped
 by family, one minor version per group.
 
 ---

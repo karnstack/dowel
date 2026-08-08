@@ -24,6 +24,7 @@
 - **Never ship** Linear's logo, icons, or Berkeley Mono. Mono stack is JetBrains Mono / `ui-monospace`.
 
 **Reference documents (read before starting):**
+
 - Spec: `docs/superpowers/specs/2026-08-09-dowel-design.md`
 - Measured values: `docs/linear-audit-glossary.md`
 
@@ -63,24 +64,27 @@ apps/docs/                          TanStack Start, prerendered → dowel.sh
 .changeset/config.json
 ```
 
-**Responsibility boundaries:** one directory per component holding its markup, its styles and its tests together — they change together. Tokens are split by *what changes per theme* (colour) versus *what never does* (scale), because dark mode overrides exactly one of those files.
+**Responsibility boundaries:** one directory per component holding its markup, its styles and its tests together — they change together. Tokens are split by _what changes per theme_ (colour) versus _what never does_ (scale), because dark mode overrides exactly one of those files.
 
 ---
 
 ## Task 1: Workspace scaffold
 
 **Files:**
+
 - Create: `pnpm-workspace.yaml`, `package.json`, `.npmrc`, `.prettierrc`, `tsconfig.base.json`
 - Create: `packages/dowel/package.json`, `packages/dowel/tsconfig.json`
 - Modify: `mise.toml` (already exists, verify contents)
 
 **Interfaces:**
+
 - Consumes: nothing (first task)
 - Produces: workspace where `pnpm install`, `pnpm -r typecheck`, `pnpm format:check` all run clean. Package name `dowel`. Every later task runs commands from repo root.
 
 - [ ] **Step 1: Create the workspace manifest**
 
 `pnpm-workspace.yaml`:
+
 ```yaml
 # pnpm 11 no longer reads the "pnpm" key in package.json, and it refuses to
 # finish an install that silently skipped a package's build script. Declaring
@@ -120,12 +124,14 @@ allowBuilds:
 - [ ] **Step 3: Create .npmrc, .prettierrc and LICENSE**
 
 `.npmrc`:
+
 ```
 # Keep the lockfile honest in CI; mise pins the pnpm version itself.
 engine-strict=true
 ```
 
 `.prettierrc`:
+
 ```json
 {
   "semi": true,
@@ -163,9 +169,11 @@ SOFTWARE.
 ```
 
 Also copy it into the package so it ships with the tarball:
+
 ```bash
 cp LICENSE packages/dowel/LICENSE
 ```
+
 and add `"LICENSE"` to the package's `files` array alongside `"dist"`.
 
 - [ ] **Step 4: Create tsconfig.base.json**
@@ -259,6 +267,7 @@ and add `"LICENSE"` to the package's `files` array alongside `"dist"`.
 
 Run: `cat mise.toml`
 Expected to contain exactly:
+
 ```toml
 [tools]
 node = "24.18.0"
@@ -273,6 +282,7 @@ node = "24.18.0"
 pnpm install
 pnpm format:check
 ```
+
 Expected: install completes, format check passes. `pnpm typecheck` will fail — there is no `src` yet. That is expected; Task 2 creates it.
 
 - [ ] **Step 9: Commit**
@@ -287,6 +297,7 @@ git commit -m "Scaffold the pnpm workspace and dowel package"
 ## Task 2: Token layer
 
 **Files:**
+
 - Create: `packages/dowel/src/tokens/scale.css`
 - Create: `packages/dowel/src/tokens/light.css`
 - Create: `packages/dowel/src/tokens/dark.css`
@@ -294,12 +305,14 @@ git commit -m "Scaffold the pnpm workspace and dowel package"
 - Test: `packages/dowel/test/tokens.test.ts`
 
 **Interfaces:**
+
 - Consumes: Task 1's workspace.
 - Produces: the complete `--dowel-*` custom property set. Every component CSS file from Task 4 onward references ONLY these names. Layer order is declared as `@layer dowel.tokens, dowel.base, dowel.components;` — component CSS must live in `dowel.components`.
 
 - [ ] **Step 1: Write the failing test**
 
 `packages/dowel/test/tokens.test.ts`:
+
 ```ts
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -349,6 +362,7 @@ Expected: FAIL — `ENOENT` on `src/index.css`.
 - [ ] **Step 3: Write scale.css**
 
 `packages/dowel/src/tokens/scale.css`:
+
 ```css
 /* Non-colour tokens. Identical in light and dark — dark.css overrides colour
    only, so this file must never contain a colour value. */
@@ -424,6 +438,7 @@ Expected: FAIL — `ENOENT` on `src/index.css`.
 - [ ] **Step 4: Write light.css**
 
 `packages/dowel/src/tokens/light.css`:
+
 ```css
 /* Light is the default theme. Every neutral is one hue at low chroma —
    greys that are not grey. Changing --dowel-hue retints the entire library. */
@@ -477,6 +492,7 @@ Expected: FAIL — `ENOENT` on `src/index.css`.
 - [ ] **Step 5: Write dark.css**
 
 `packages/dowel/src/tokens/dark.css`:
+
 ```css
 /* Dark overrides colour only. Three activation paths, in precedence order:
    explicit class, explicit attribute, then system preference — and the media
@@ -568,6 +584,7 @@ spec. The `tokens.test.ts` parity test is what keeps the two copies honest.
 - [ ] **Step 6: Write index.css**
 
 `packages/dowel/src/index.css`:
+
 ```css
 /* Layer order is declared once, first, before any @import. Consumers' own
    unlayered styles beat every layer here, so overriding dowel never becomes a
@@ -624,6 +641,7 @@ self-hosted or served from a CDN.
 - [ ] **Step 8: Create the vitest config so tests can run**
 
 `packages/dowel/vitest.config.ts`:
+
 ```ts
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
@@ -639,6 +657,7 @@ export default defineConfig({
 ```
 
 `packages/dowel/test/setup.ts`:
+
 ```ts
 // Placeholder until Task 4 adds the axe matcher. Kept as a file so the
 // vitest config resolves from the very first test run.
@@ -662,18 +681,21 @@ git commit -m "Add the dowel token layer with light and dark parity tests"
 ## Task 3: Build pipeline
 
 **Files:**
+
 - Create: `packages/dowel/tsdown.config.ts`
 - Create: `packages/dowel/scripts/build-css.mjs`
 - Create: `packages/dowel/src/index.ts`
 - Test: `packages/dowel/test/css-contract.test.ts`
 
 **Interfaces:**
+
 - Consumes: Task 2's `src/index.css` and token names.
 - Produces: `pnpm --filter dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Build order is `tsdown` then `build-css.mjs` — never the reverse. Produces no class-name helper: components in Tasks 4+ write `className="dowel-x"` as a plain string literal.
 
 - [ ] **Step 1: Write the failing build-contract test**
 
 `packages/dowel/test/css-contract.test.ts`:
+
 ```ts
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -718,6 +740,7 @@ Expected: FAIL — `dist/dowel.css` does not exist.
 - [ ] **Step 3: Write the CSS build script**
 
 `packages/dowel/scripts/build-css.mjs`:
+
 ```js
 // Bundles src/index.css (following @import) into one minified dist/dowel.css.
 // Lightning CSS is used as a library rather than the CLI so the targets and
@@ -761,6 +784,7 @@ pnpm --filter dowel add -D browserslist@^4.26.0
 - [ ] **Step 5: Write tsdown.config.ts**
 
 `packages/dowel/tsdown.config.ts`:
+
 ```ts
 import { defineConfig } from "tsdown";
 
@@ -789,7 +813,7 @@ attributes, so no component ever builds a conditional class name — every
 `className` in this library is a single string literal:
 
 ```tsx
-className="dowel-btn"
+className = "dowel-btn";
 ```
 
 If a later phase genuinely needs conditional classes, add the helper then.
@@ -798,6 +822,7 @@ Do not add one now, and do not wrap these literals in a function.
 - [ ] **Step 7: Write the barrel**
 
 `packages/dowel/src/index.ts`:
+
 ```ts
 // Components are appended here by each component task.
 export {};
@@ -809,6 +834,7 @@ export {};
 pnpm --filter dowel build
 pnpm --filter dowel test css-contract
 ```
+
 Expected: build prints a kB size; all 4 contract tests PASS.
 
 - [ ] **Step 9: Add dist to .gitignore and commit**
@@ -827,12 +853,14 @@ This task establishes the pattern every later component copies: Base UI
 primitive, `data-*` variants, colocated CSS, a11y test, both-theme render.
 
 **Files:**
+
 - Create: `packages/dowel/src/components/button/{index.tsx,button.css,button.test.tsx}`
 - Create: `packages/dowel/test/render.tsx`
 - Modify: `packages/dowel/test/setup.ts`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx` from Task 3, tokens from Task 2.
 - Produces:
   - `Button` — `React.forwardRef<HTMLButtonElement, ButtonProps>`
@@ -843,6 +871,7 @@ primitive, `data-*` variants, colocated CSS, a11y test, both-theme render.
 - [ ] **Step 1: Write the shared test helpers**
 
 `packages/dowel/test/setup.ts`:
+
 ```ts
 import axe from "axe-core";
 import { expect } from "vitest";
@@ -861,6 +890,7 @@ export async function expectNoA11yViolations(el: HTMLElement): Promise<void> {
 ```
 
 `packages/dowel/test/render.tsx`:
+
 ```tsx
 import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
@@ -883,6 +913,7 @@ export function renderBoth(ui: ReactElement) {
 - [ ] **Step 2: Write the failing Button test**
 
 `packages/dowel/src/components/button/button.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -966,6 +997,7 @@ Expected: FAIL — cannot resolve `./index`.
 - [ ] **Step 4: Write the Button component**
 
 `packages/dowel/src/components/button/index.tsx`:
+
 ```tsx
 import { Button as BaseButton } from "@base-ui/react/button";
 import { forwardRef } from "react";
@@ -1008,6 +1040,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 - [ ] **Step 5: Write button.css**
 
 `packages/dowel/src/components/button/button.css`:
+
 ```css
 @layer dowel.components {
   .dowel-btn {
@@ -1091,12 +1124,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 - [ ] **Step 6: Wire it into the barrel and the stylesheet**
 
 Append to `packages/dowel/src/index.ts`:
+
 ```ts
 export { Button } from "./components/button";
 export type { ButtonProps } from "./components/button";
 ```
 
 Append to `packages/dowel/src/index.css` (after the `dowel.base` block):
+
 ```css
 @import "./components/button/button.css";
 ```
@@ -1112,6 +1147,7 @@ Expected: PASS, 9 tests.
 pnpm --filter dowel build
 pnpm --filter dowel test
 ```
+
 Expected: all suites PASS. If `css-contract` reports a missing token, the button CSS referenced a name absent from Task 2 — fix the reference, do not add an ad-hoc token.
 
 - [ ] **Step 9: Commit**
@@ -1126,16 +1162,19 @@ git commit -m "Add Button and the component authoring pattern"
 ## Task 5: IconButton
 
 **Files:**
+
 - Create: `packages/dowel/src/components/icon-button/{index.tsx,icon-button.css,icon-button.test.tsx}`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx`, tokens, `renderBoth`, `expectNoA11yViolations`.
 - Produces: `IconButton`, `IconButtonProps = { variant?: "secondary" | "ghost"; size?: "sm" | "md"; label: string; render?: ReactElement }`. `label` is required and becomes `aria-label` — an icon-only button with no name is the single most common a11y defect in component libraries, so the type system forbids it.
 
 - [ ] **Step 1: Write the failing test**
 
 `packages/dowel/src/components/icon-button/icon-button.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
@@ -1204,6 +1243,7 @@ Expected: FAIL — cannot resolve `./index`.
 - [ ] **Step 3: Write the component**
 
 `packages/dowel/src/components/icon-button/index.tsx`:
+
 ```tsx
 import { Button as BaseButton } from "@base-ui/react/button";
 import { forwardRef } from "react";
@@ -1245,6 +1285,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 - [ ] **Step 4: Write the CSS**
 
 `packages/dowel/src/components/icon-button/icon-button.css`:
+
 ```css
 @layer dowel.components {
   .dowel-icon-btn {
@@ -1293,12 +1334,14 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 - [ ] **Step 5: Wire it up**
 
 Append to `src/index.ts`:
+
 ```ts
 export { IconButton } from "./components/icon-button";
 export type { IconButtonProps } from "./components/icon-button";
 ```
 
 Append to `src/index.css`:
+
 ```css
 @import "./components/icon-button/icon-button.css";
 ```
@@ -1309,6 +1352,7 @@ Append to `src/index.css`:
 pnpm --filter dowel test icon-button
 pnpm --filter dowel build && pnpm --filter dowel test
 ```
+
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -1326,11 +1370,13 @@ Two plain-element components with no Base UI dependency. Paired because each is
 small and they share the same "static display element" shape.
 
 **Files:**
+
 - Create: `packages/dowel/src/components/badge/{index.tsx,badge.css,badge.test.tsx}`
 - Create: `packages/dowel/src/components/kbd/{index.tsx,kbd.css,kbd.test.tsx}`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx`, tokens, `renderBoth`, `expectNoA11yViolations`.
 - Produces:
   - `Badge`, `BadgeProps = { tone?: "neutral" | "accent" | "success" | "warning" | "danger" }` + span props minus className/style.
@@ -1339,6 +1385,7 @@ small and they share the same "static display element" shape.
 - [ ] **Step 1: Write both failing tests**
 
 `packages/dowel/src/components/badge/badge.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
@@ -1376,6 +1423,7 @@ describe("Badge", () => {
 ```
 
 `packages/dowel/src/components/kbd/kbd.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
@@ -1418,6 +1466,7 @@ Expected: FAIL — modules not found.
 - [ ] **Step 3: Write Badge**
 
 `packages/dowel/src/components/badge/index.tsx`:
+
 ```tsx
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
@@ -1431,18 +1480,12 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   { tone = "neutral", ...props },
   ref,
 ) {
-  return (
-    <span
-      ref={ref}
-      className="dowel-badge"
-      data-tone={tone}
-      {...props}
-    />
-  );
+  return <span ref={ref} className="dowel-badge" data-tone={tone} {...props} />;
 });
 ```
 
 `packages/dowel/src/components/badge/badge.css`:
+
 ```css
 @layer dowel.components {
   .dowel-badge {
@@ -1486,6 +1529,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
 - [ ] **Step 4: Write Kbd**
 
 `packages/dowel/src/components/kbd/index.tsx`:
+
 ```tsx
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
@@ -1514,6 +1558,7 @@ export const Kbd = forwardRef<HTMLSpanElement, KbdProps>(function Kbd(
 ```
 
 `packages/dowel/src/components/kbd/kbd.css`:
+
 ```css
 @layer dowel.components {
   .dowel-kbd {
@@ -1547,6 +1592,7 @@ export const Kbd = forwardRef<HTMLSpanElement, KbdProps>(function Kbd(
 - [ ] **Step 5: Wire both up**
 
 Append to `src/index.ts`:
+
 ```ts
 export { Badge } from "./components/badge";
 export type { BadgeProps } from "./components/badge";
@@ -1555,6 +1601,7 @@ export type { KbdProps } from "./components/kbd";
 ```
 
 Append to `src/index.css`:
+
 ```css
 @import "./components/badge/badge.css";
 @import "./components/kbd/kbd.css";
@@ -1566,6 +1613,7 @@ Append to `src/index.css`:
 pnpm --filter dowel test badge kbd
 pnpm --filter dowel build && pnpm --filter dowel test
 ```
+
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -1580,10 +1628,12 @@ git commit -m "Add Badge and Kbd"
 ## Task 7: Input and Field
 
 **Files:**
+
 - Create: `packages/dowel/src/components/input/{index.tsx,input.css,input.test.tsx}`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx`, tokens, test helpers.
 - Produces:
   - `Input`, `InputProps = { size?: "md" | "lg"; invalid?: boolean }` + native input props minus className/style.
@@ -1592,6 +1642,7 @@ git commit -m "Add Badge and Kbd"
 - [ ] **Step 1: Write the failing test**
 
 `packages/dowel/src/components/input/input.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -1702,6 +1753,7 @@ matching `id`/`htmlFor` strings — that is the bug Field exists to remove.
 - [ ] **Step 3: Write the component**
 
 `packages/dowel/src/components/input/index.tsx`:
+
 ```tsx
 import { Field as BaseField } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
@@ -1739,9 +1791,7 @@ export const Field = {
     HTMLDivElement,
     Omit<ComponentPropsWithoutRef<"div">, "className" | "style">
   >(function FieldRoot(props, ref) {
-    return (
-      <BaseField.Root ref={ref} className="dowel-field" {...props} />
-    );
+    return <BaseField.Root ref={ref} className="dowel-field" {...props} />;
   }),
 
   Label: forwardRef<
@@ -1749,11 +1799,7 @@ export const Field = {
     Omit<ComponentPropsWithoutRef<"label">, "className" | "style">
   >(function FieldLabel(props, ref) {
     return (
-      <BaseField.Label
-        ref={ref}
-        className="dowel-field-label"
-        {...props}
-      />
+      <BaseField.Label ref={ref} className="dowel-field-label" {...props} />
     );
   }),
 
@@ -1775,11 +1821,7 @@ export const Field = {
     Omit<ComponentPropsWithoutRef<"p">, "className" | "style">
   >(function FieldError(props, ref) {
     return (
-      <BaseField.Error
-        ref={ref}
-        className="dowel-field-error"
-        {...props}
-      />
+      <BaseField.Error ref={ref} className="dowel-field-error" {...props} />
     );
   }),
 };
@@ -1788,6 +1830,7 @@ export const Field = {
 - [ ] **Step 4: Write the CSS**
 
 `packages/dowel/src/components/input/input.css`:
+
 ```css
 @layer dowel.components {
   .dowel-input {
@@ -1863,12 +1906,14 @@ export const Field = {
 - [ ] **Step 5: Wire it up**
 
 Append to `src/index.ts`:
+
 ```ts
 export { Input, Field } from "./components/input";
 export type { InputProps } from "./components/input";
 ```
 
 Append to `src/index.css`:
+
 ```css
 @import "./components/input/input.css";
 ```
@@ -1879,6 +1924,7 @@ Append to `src/index.css`:
 pnpm --filter dowel test input
 pnpm --filter dowel build && pnpm --filter dowel test
 ```
+
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -1893,16 +1939,19 @@ git commit -m "Add Input and Field with automatic label association"
 ## Task 8: Dialog
 
 **Files:**
+
 - Create: `packages/dowel/src/components/dialog/{index.tsx,dialog.css,dialog.test.tsx}`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx`, tokens, test helpers.
 - Produces: `Dialog` compound — `{ Root, Trigger, Portal, Backdrop, Popup, Title, Description, Close }`. Uses the **modal** shadow tier (`--dowel-shadow-modal`).
 
 - [ ] **Step 1: Write the failing test**
 
 `packages/dowel/src/components/dialog/dialog.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -1969,6 +2018,7 @@ Expected: FAIL — cannot resolve `./index`.
 - [ ] **Step 3: Write the component**
 
 `packages/dowel/src/components/dialog/index.tsx`:
+
 ```tsx
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import type { ComponentProps } from "react";
@@ -2000,10 +2050,7 @@ export const Dialog = {
     props: Props<typeof BaseDialog.Description>,
   ) {
     return (
-      <BaseDialog.Description
-        className="dowel-dialog-description"
-        {...props}
-      />
+      <BaseDialog.Description className="dowel-dialog-description" {...props} />
     );
   },
 
@@ -2014,6 +2061,7 @@ export const Dialog = {
 - [ ] **Step 4: Write the CSS**
 
 `packages/dowel/src/components/dialog/dialog.css`:
+
 ```css
 @layer dowel.components {
   .dowel-backdrop {
@@ -2074,11 +2122,13 @@ export const Dialog = {
 - [ ] **Step 5: Wire it up**
 
 Append to `src/index.ts`:
+
 ```ts
 export { Dialog } from "./components/dialog";
 ```
 
 Append to `src/index.css`:
+
 ```css
 @import "./components/dialog/dialog.css";
 ```
@@ -2089,6 +2139,7 @@ Append to `src/index.css`:
 pnpm --filter dowel test dialog
 pnpm --filter dowel build && pnpm --filter dowel test
 ```
+
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -2103,16 +2154,19 @@ git commit -m "Add Dialog on the modal elevation tier"
 ## Task 9: Menu
 
 **Files:**
+
 - Create: `packages/dowel/src/components/menu/{index.tsx,menu.css,menu.test.tsx}`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx`, tokens, `Button` (for the trigger in tests).
 - Produces: `Menu` compound — `{ Root, Trigger, Portal, Positioner, Popup, Item, Separator, Group, GroupLabel }`. Uses the **popover** shadow tier. Item height 32px per the audit.
 
 - [ ] **Step 1: Write the failing test**
 
 `packages/dowel/src/components/menu/menu.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -2189,6 +2243,7 @@ Expected: FAIL — cannot resolve `./index`.
 - [ ] **Step 3: Write the component**
 
 `packages/dowel/src/components/menu/index.tsx`:
+
 ```tsx
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { ComponentProps } from "react";
@@ -2219,9 +2274,7 @@ export const Menu = {
   },
 
   Separator: function MenuSeparator(props: Props<typeof BaseMenu.Separator>) {
-    return (
-      <BaseMenu.Separator className="dowel-menu-separator" {...props} />
-    );
+    return <BaseMenu.Separator className="dowel-menu-separator" {...props} />;
   },
 
   Group: BaseMenu.Group,
@@ -2229,9 +2282,7 @@ export const Menu = {
   GroupLabel: function MenuGroupLabel(
     props: Props<typeof BaseMenu.GroupLabel>,
   ) {
-    return (
-      <BaseMenu.GroupLabel className="dowel-menu-label" {...props} />
-    );
+    return <BaseMenu.GroupLabel className="dowel-menu-label" {...props} />;
   },
 };
 ```
@@ -2239,6 +2290,7 @@ export const Menu = {
 - [ ] **Step 4: Write the CSS**
 
 `packages/dowel/src/components/menu/menu.css`:
+
 ```css
 @layer dowel.components {
   .dowel-menu {
@@ -2310,11 +2362,13 @@ export const Menu = {
 - [ ] **Step 5: Wire it up**
 
 Append to `src/index.ts`:
+
 ```ts
 export { Menu } from "./components/menu";
 ```
 
 Append to `src/index.css`:
+
 ```css
 @import "./components/menu/menu.css";
 ```
@@ -2325,6 +2379,7 @@ Append to `src/index.css`:
 pnpm --filter dowel test menu
 pnpm --filter dowel build && pnpm --filter dowel test
 ```
+
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -2339,16 +2394,19 @@ git commit -m "Add Menu with keyboard navigation"
 ## Task 10: Tooltip
 
 **Files:**
+
 - Create: `packages/dowel/src/components/tooltip/{index.tsx,tooltip.css,tooltip.test.tsx}`
 - Modify: `packages/dowel/src/index.ts`, `packages/dowel/src/index.css`
 
 **Interfaces:**
+
 - Consumes: `cx`, tokens, `IconButton`.
 - Produces: `Tooltip` compound — `{ Provider, Root, Trigger, Portal, Positioner, Popup }`. Consumers must wrap their app in `Tooltip.Provider` once.
 
 - [ ] **Step 1: Write the failing test**
 
 `packages/dowel/src/components/tooltip/tooltip.test.tsx`:
+
 ```tsx
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -2414,6 +2472,7 @@ Expected: FAIL — cannot resolve `./index`.
 - [ ] **Step 3: Write the component**
 
 `packages/dowel/src/components/tooltip/index.tsx`:
+
 ```tsx
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { ComponentProps } from "react";
@@ -2445,6 +2504,7 @@ export const Tooltip = {
 - [ ] **Step 4: Write the CSS**
 
 `packages/dowel/src/components/tooltip/tooltip.css`:
+
 ```css
 @layer dowel.components {
   .dowel-tooltip {
@@ -2473,11 +2533,13 @@ export const Tooltip = {
 - [ ] **Step 5: Wire it up**
 
 Append to `src/index.ts`:
+
 ```ts
 export { Tooltip } from "./components/tooltip";
 ```
 
 Append to `src/index.css`:
+
 ```css
 @import "./components/tooltip/tooltip.css";
 ```
@@ -2489,6 +2551,7 @@ pnpm --filter dowel build
 pnpm --filter dowel test
 pnpm typecheck
 ```
+
 Expected: all PASS. This is the complete 8-component slice.
 
 - [ ] **Step 7: Commit**
@@ -2503,15 +2566,18 @@ git commit -m "Add Tooltip, completing the phase 1 component slice"
 ## Task 11: CI workflow
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 **Interfaces:**
+
 - Consumes: root scripts `format:check`, `typecheck`, `build`, `test` from Task 1.
 - Produces: a workflow named exactly **`CI`** — Task 12's release workflow keys off that name in its `workflow_run` trigger. Renaming it breaks releases.
 
 - [ ] **Step 1: Write the workflow**
 
 `.github/workflows/ci.yml`:
+
 ```yaml
 name: CI
 
@@ -2578,6 +2644,7 @@ jobs:
 pnpm install --frozen-lockfile
 pnpm format:check && pnpm typecheck && pnpm build && pnpm test
 ```
+
 Expected: all four succeed. Fix anything red before pushing — a red first CI run is noise.
 
 - [ ] **Step 3: Commit and open a PR**
@@ -2599,11 +2666,13 @@ Expected: the `CI / build` check passes.
 ## Task 12: Release automation
 
 **Files:**
+
 - Create: `.changeset/config.json`
 - Create: `.github/workflows/release.yml`
 - Modify: root `package.json` (add `@changesets/cli`)
 
 **Interfaces:**
+
 - Consumes: the workflow named `CI` from Task 11; the org secret `NPM_TOKEN`.
 - Produces: merging a PR that contains a changeset opens a "Version Packages" PR; merging that publishes `dowel` to npm.
 
@@ -2617,13 +2686,11 @@ pnpm exec changeset init
 - [ ] **Step 2: Configure it**
 
 `.changeset/config.json`:
+
 ```json
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": [
-    "@changesets/changelog-github",
-    { "repo": "karnstack/dowel" }
-  ],
+  "changelog": ["@changesets/changelog-github", { "repo": "karnstack/dowel" }],
   "commit": false,
   "fixed": [],
   "linked": [],
@@ -2641,6 +2708,7 @@ pnpm add -Dw @changesets/changelog-github@^0.5.1
 - [ ] **Step 3: Write the release workflow**
 
 `.github/workflows/release.yml`:
+
 ```yaml
 name: Release
 
@@ -2707,6 +2775,7 @@ Set `packages/dowel/package.json` `"version"` to `"0.0.0"` (already done in Task
 ```bash
 pnpm exec changeset
 ```
+
 Choose `dowel`, select **minor**, and use the summary:
 `First release: token system, build pipeline, and eight components.`
 
@@ -2728,9 +2797,11 @@ Run: `gh pr list`
 Expected: a `chore: version packages` PR exists. Merging it publishes `dowel@0.1.0`.
 
 **Verification after that merge:**
+
 ```bash
 sleep 60 && curl -s https://registry.npmjs.org/dowel | python3 -c "import sys,json;print(json.load(sys.stdin)['dist-tags'])"
 ```
+
 Expected: `{"latest": "0.1.0"}`.
 
 ---
@@ -2738,17 +2809,20 @@ Expected: `{"latest": "0.1.0"}`.
 ## Task 13: Docs site
 
 **Files:**
+
 - Create: `apps/docs/` — TanStack Start app
 - Create: `apps/docs/package.json`, `apps/docs/app.config.ts`, `apps/docs/wrangler.jsonc`
 - Create: `apps/docs/src/routes/{__root.tsx,index.tsx,components/button.tsx}`
 
 **Interfaces:**
+
 - Consumes: the built `dowel` package via workspace protocol.
 - Produces: a prerendered static site in `apps/docs/dist` ready for Task 14's deploy.
 
 - [ ] **Step 1: Scaffold the app package**
 
 `apps/docs/package.json`:
+
 ```json
 {
   "name": "@dowel/docs",
@@ -2780,6 +2854,7 @@ Expected: `{"latest": "0.1.0"}`.
 - [ ] **Step 2: Configure prerendering**
 
 `apps/docs/app.config.ts`:
+
 ```ts
 import { defineConfig } from "@tanstack/react-start/config";
 
@@ -2799,6 +2874,7 @@ export default defineConfig({
 - [ ] **Step 3: Write the root route importing dowel's stylesheet**
 
 `apps/docs/src/routes/__root.tsx`:
+
 ```tsx
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { Tooltip } from "dowel";
@@ -2821,6 +2897,7 @@ export const Route = createRootRoute({
 - [ ] **Step 4: Write the landing route**
 
 `apps/docs/src/routes/index.tsx`:
+
 ```tsx
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, Button, Kbd } from "dowel";
@@ -2848,6 +2925,7 @@ function Home() {
 - [ ] **Step 5: Write the Button docs route**
 
 `apps/docs/src/routes/components/button.tsx`:
+
 ```tsx
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "dowel";
@@ -2880,6 +2958,7 @@ pnpm --filter dowel build
 pnpm --filter @dowel/docs build
 test -f apps/docs/dist/index.html && echo "prerender OK"
 ```
+
 Expected: `prerender OK`. If the file is missing, the preset did not run static generation — check `app.config.ts`.
 
 - [ ] **Step 7: Commit and PR**
@@ -2897,16 +2976,19 @@ gh pr checks --watch
 ## Task 14: Cloudflare deploy
 
 **Files:**
+
 - Create: `apps/docs/wrangler.jsonc`
 - Create: `.github/workflows/deploy-docs.yml`
 
 **Interfaces:**
+
 - Consumes: `apps/docs/dist` from Task 13; the org secret `CLOUDFLARE_API_TOKEN`.
 - Produces: dowel.sh serving the docs.
 
 - [ ] **Step 1: Write the Worker config**
 
 `apps/docs/wrangler.jsonc`:
+
 ```jsonc
 // dowel.sh — the docs site, served as Cloudflare Worker static assets.
 // Assets-only: no worker script, because the site is fully prerendered.
@@ -2917,16 +2999,17 @@ gh pr checks --watch
   "name": "dowel-sh",
   "compatibility_date": "2026-08-09",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
   },
   "workers_dev": false,
-  "routes": [{ "pattern": "dowel.sh", "custom_domain": true }]
+  "routes": [{ "pattern": "dowel.sh", "custom_domain": true }],
 }
 ```
 
 - [ ] **Step 2: Write the deploy workflow**
 
 `.github/workflows/deploy-docs.yml`:
+
 ```yaml
 # Deploys dowel.sh when the docs or the library change on main.
 #
@@ -3008,6 +3091,7 @@ gh pr checks --watch
 gh run list --workflow=deploy-docs --limit 1
 curl -sS -o /dev/null -w "%{http_code}\n" https://dowel.sh
 ```
+
 Expected: workflow `completed success`, and HTTP `200` from dowel.sh.
 
 If the custom domain 522s or 404s on the first deploy, the route is still
@@ -3021,6 +3105,7 @@ curl -s https://registry.npmjs.org/dowel | python3 -c "import sys,json;print(jso
 curl -sS -o /dev/null -w "dowel.sh %{http_code}\n" https://dowel.sh
 gh run list --limit 5
 ```
+
 Expected: `dowel@0.1.0` on npm, `dowel.sh 200`, recent runs green.
 
 ---

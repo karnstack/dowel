@@ -1,0 +1,45 @@
+@layer dowel.components {
+  .dowel-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    inline-size: var(--dowel-h);
+    block-size: var(--dowel-h);
+    padding: 0;
+
+    color: var(--dowel-text-2);
+    background-color: transparent;
+    border: var(--dowel-hairline) solid transparent;
+    border-radius: var(--dowel-radius-pill);
+    transition: var(--dowel-transition);
+    cursor: default;
+  }
+
+  .dowel-icon-btn[data-size="sm"] {
+    inline-size: var(--dowel-h-sm);
+    block-size: var(--dowel-h-sm);
+  }
+
+  .dowel-icon-btn[data-variant="secondary"] {
+    background-color: var(--dowel-bg-2);
+    border-color: var(--dowel-border-2);
+  }
+
+  .dowel-icon-btn:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--dowel-bg-3);
+  }
+
+  .dowel-icon-btn:focus-visible {
+    outline: 1px solid var(--dowel-focus);
+    outline-offset: 1px;
+  }
+
+  /* :disabled only matches form controls; an IconButton rendered as an anchor
+     with nativeButton={false} is disabled via aria-disabled instead. */
+  .dowel-icon-btn:disabled,
+  .dowel-icon-btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

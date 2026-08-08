@@ -278,3 +278,61 @@ library is search-driven), React for live demos, same Router model as
 
 Per component: live demo, props table, keyboard map, light/dark toggle,
 copy-paste snippet.
+
+**Prerendered**, so deployment is an assets-only Cloudflare Worker — the same
+shape as `flue.sh`, no server runtime to operate.
+
+---
+
+## 9. Infrastructure
+
+`dowel.sh` is already on Cloudflare (nameservers `craig`/`wally.ns.cloudflare.com`,
+same account as `karnstack.com`).
+
+### Deploy
+
+`apps/docs` builds to static assets, served by an assets-only Worker:
+
+```jsonc
+// apps/docs/wrangler.jsonc
+{
+  "name": "dowel-sh",
+  "compatibility_date": "2026-08-09",
+  "assets": { "directory": "./dist" },
+  "workers_dev": false,
+  "routes": [{ "pattern": "dowel.sh", "custom_domain": true }]
+}
+```
+
+Workflow mirrors `flue/.github/workflows/deploy-site.yml`:
+`cloudflare/wrangler-action@v3` pinned to `wranglerVersion: "4"` (the action's
+bundled default predates v4 and cannot read an assets-only config), and the
+job **skips rather than fails** when the token is absent.
+
+`www.dowel.sh` cannot be redirected from an assets-only Worker — that is a
+dashboard Redirect Rule, same manual follow-up flue needed.
+
+### Shared credentials → org level
+
+Today the same credentials are duplicated per repo:
+
+| secret | currently in | needed by |
+|---|---|---|
+| `NPM_TOKEN` | kino, reins | + dowel |
+| `CLOUDFLARE_API_TOKEN` | flue | + dowel |
+
+Both move to **karnstack org secrets**, so a rotation is one update instead of
+N. New repos inherit them.
+
+**Precedence caveat:** a repo secret *shadows* an org secret of the same name.
+So after setting the org secrets, the per-repo duplicates in kino, reins and
+flue must be deleted — otherwise those repos keep silently using their old
+copies and a rotation appears to work while doing nothing.
+
+Token scopes:
+- `NPM_TOKEN` — npm **granular automation** token, write access to the
+  `dowel`, `@karnstack/*` packages
+- `CLOUDFLARE_API_TOKEN` — **Workers Scripts: Edit** on the karnstack account
+
+Setting org secrets requires `admin:org` on the `gh` token; the default
+`repo, read:org, gist` set returns 403.

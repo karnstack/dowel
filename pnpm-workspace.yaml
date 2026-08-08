@@ -1,0 +1,10 @@
+# pnpm 11 no longer reads the "pnpm" key in package.json, and it refuses to
+# finish an install that silently skipped a package's build script. Declaring
+# allowBuilds here is what keeps a clean checkout from exiting 1.
+packages:
+  - packages/*
+  - apps/*
+
+allowBuilds:
+  esbuild: true
+  lightningcss: true

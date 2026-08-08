@@ -1,5 +1,5 @@
 /* Light is the default theme. Every neutral is one hue at low chroma —
-   greys that are not grey. Changing --dowel-hue retints the entire library. */
+   greys that are not grey. The hue itself lives in scale.css. */
 @layer dowel.tokens {
   :root {
     /* surfaces */

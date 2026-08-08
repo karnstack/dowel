@@ -1,2 +1,3 @@
 // Components are appended here by each component task.
-export {};
+export { Button } from "./components/button";
+export type { ButtonProps } from "./components/button";

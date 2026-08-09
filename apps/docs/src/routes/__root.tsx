@@ -70,6 +70,17 @@ export const Route = createRootRoute({
           "dowel is an opinionated React component library. One look, well made.",
       },
     ],
+    // Declared on the root route so every prerendered page carries them.
+    // The order is the one browsers resolve best from: the ICO first for the
+    // ones that only read ICO, then the SVG, which anything modern prefers
+    // and which is the only file that follows the OS colour scheme. The
+    // assets themselves are static, so they live in public/ and are served
+    // from the site root. See public/icon.svg for the mark.
+    links: [
+      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+    ],
   }),
   component: RootDocument,
 });

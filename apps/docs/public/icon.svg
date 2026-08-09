@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="dowel">
+  <title>dowel</title>
+  <!--
+    The same pin as the header wordmark's mark (see routes/__root.tsx), set
+    into an accent tile. The bare pin is what the header wants: it sits on the
+    page background at 18px next to the word. A favicon is 16px on chrome the
+    site does not control, and there a lone diagonal capsule reads as a faint
+    slash. The tile carries its own contrast, so the mark holds on both light
+    and dark tab strips, and the pin knocks out of it at full width.
+
+    The teal is dowel's accent token rasterised: lch(52% 32 195) in light,
+    lch(68% 36 195) in dark, matching the dowel-accent variable under each
+    scheme. Browsers that ignore the media query get the light value, which
+    is the one that reads on either background.
+
+    favicon.ico and apple-touch-icon.png are rasterisations of this same
+    geometry at the light teal, kept for browsers that will not take an SVG
+    icon; regenerate them if the shape here changes.
+
+    Keep this comment free of double hyphens; they are illegal inside an XML
+    comment and a browser will refuse the whole file.
+  -->
+  <style>
+    .tile { fill: #198b89 }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #3eb7b5 }
+    }
+  </style>
+  <rect class="tile" width="16" height="16" rx="3.5" />
+  <rect
+    x="6.2"
+    y="2.2"
+    width="3.6"
+    height="11.6"
+    rx="1.8"
+    transform="rotate(-32 8 8)"
+    fill="#ffffff"
+  />
+</svg>

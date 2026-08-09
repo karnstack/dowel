@@ -17,6 +17,7 @@
 @import "./components/input/input.css";
 @import "./components/dialog/dialog.css";
 @import "./components/menu/menu.css";
+@import "./components/tooltip/tooltip.css";
 
 @layer dowel.base {
   .dowel-root,

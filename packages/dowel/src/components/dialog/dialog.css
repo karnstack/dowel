@@ -1,0 +1,54 @@
+@layer dowel.components {
+  .dowel-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: var(--dowel-overlay);
+    transition: opacity var(--dowel-dur) var(--dowel-ease);
+  }
+  .dowel-backdrop[data-starting-style],
+  .dowel-backdrop[data-ending-style] {
+    opacity: 0;
+  }
+
+  .dowel-dialog {
+    position: fixed;
+    inset-block-start: 13vh;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+
+    inline-size: min(480px, calc(100vw - 32px));
+    padding: var(--dowel-space-8);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--dowel-space-4);
+
+    background-color: var(--dowel-bg-elevated);
+    border: var(--dowel-hairline) solid var(--dowel-border-3);
+    border-radius: var(--dowel-radius-lg);
+    box-shadow: var(--dowel-shadow-modal);
+
+    transition:
+      opacity var(--dowel-dur) var(--dowel-ease),
+      translate var(--dowel-dur) var(--dowel-ease);
+  }
+  .dowel-dialog[data-starting-style],
+  .dowel-dialog[data-ending-style] {
+    opacity: 0;
+    translate: -50% -4px;
+  }
+
+  .dowel-dialog-title {
+    margin: 0;
+    font-size: var(--dowel-fs-base);
+    font-weight: var(--dowel-fw-semibold);
+    letter-spacing: var(--dowel-tracking-title);
+    color: var(--dowel-text-1);
+  }
+
+  .dowel-dialog-description {
+    margin: 0;
+    font-size: var(--dowel-fs-small);
+    color: var(--dowel-text-3);
+  }
+}

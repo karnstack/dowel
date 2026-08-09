@@ -9,3 +9,4 @@ export { Kbd } from "./components/kbd";
 export type { KbdProps } from "./components/kbd";
 export { Input, Field } from "./components/input";
 export type { InputProps } from "./components/input";
+export { Dialog } from "./components/dialog";

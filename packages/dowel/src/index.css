@@ -15,6 +15,7 @@
 @import "./components/badge/badge.css";
 @import "./components/kbd/kbd.css";
 @import "./components/input/input.css";
+@import "./components/dialog/dialog.css";
 
 @layer dowel.base {
   .dowel-root,

@@ -67,8 +67,15 @@ export const Tooltip = {
       // Everything after the spread stays AFTER it so props spread onto the
       // component cannot override appearance.
       <BaseTooltip.Popup
-        // Base UI 1.7 leaves the popup role-less. A dowel tooltip is a plain
-        // text label, so `role="tooltip"` is accurate; before the spread
+        // Base UI 1.7 ships the popup role-less by documented design (their
+        // docs/react/components/tooltip.md, "Usage guidelines"): a tooltip
+        // is a visual label only, not accessible to touch or screen reader
+        // users, and nothing associates this text with the trigger. The
+        // contract that does the accessibility work: the trigger must be
+        // independently labelled (IconButton's required `label`), and hover
+        // content that must reach assistive tech belongs in a Popover, not a
+        // Tooltip. `role="tooltip"` is still accurate for a plain text label
+        // and not harmful (no landmark, no rotor entry); before the spread
         // deliberately — a default, not a mandate.
         role="tooltip"
         {...props}

@@ -31,6 +31,22 @@ describe("Tooltip", () => {
     expect(screen.queryByRole("tooltip")).toBeNull();
   });
 
+  it("keeps the trigger independently labelled while the tooltip is hidden", () => {
+    // Base UI's documented design stance (their shipped
+    // docs/react/components/tooltip.md, "Usage guidelines"): a tooltip is a
+    // visual label only — not accessible to touch or screen reader users —
+    // so the TRIGGER must carry an accessible name closely matching the
+    // tooltip's content. In the canonical usage IconButton's required
+    // `label` guarantees that structurally; this pins the guarantee. The
+    // role+name query runs the full accessible-name computation and throws
+    // for an unlabelled trigger, so a regression fails here. Asserted with
+    // the tooltip closed deliberately: the name must exist without the
+    // popup, because assistive tech never sees the popup.
+    render(<Example />);
+    expect(screen.queryByRole("tooltip")).toBeNull();
+    expect(screen.getByRole("button", { name: "Copy link" })).toBeDefined();
+  });
+
   // Base UI opens the tooltip asynchronously (the trigger's hover delay runs
   // on a real timer; focus opens on the next tick). findByRole polls and its
   // timeout is a failure, so none of these can pass without the tooltip

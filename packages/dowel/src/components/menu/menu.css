@@ -1,0 +1,65 @@
+@layer dowel.components {
+  .dowel-menu {
+    min-inline-size: 180px;
+    padding-block: var(--dowel-space-2);
+
+    background-color: var(--dowel-bg-elevated);
+    border: var(--dowel-hairline) solid var(--dowel-border-3);
+    border-radius: var(--dowel-radius-lg);
+    box-shadow: var(--dowel-shadow-popover);
+
+    transition:
+      opacity var(--dowel-dur-fast) var(--dowel-ease),
+      translate var(--dowel-dur-fast) var(--dowel-ease);
+  }
+  .dowel-menu[data-starting-style],
+  .dowel-menu[data-ending-style] {
+    opacity: 0;
+    translate: 0 -2px;
+  }
+
+  .dowel-menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--dowel-space-4);
+
+    block-size: 32px;
+    padding-inline: var(--dowel-space-7) var(--dowel-space-8);
+
+    font-size: var(--dowel-fs-small);
+    font-weight: var(--dowel-fw-normal);
+    letter-spacing: var(--dowel-tracking);
+    color: var(--dowel-text-2);
+
+    cursor: default;
+    user-select: none;
+    outline: none;
+    transition: var(--dowel-transition);
+  }
+
+  /* Base UI marks the active descendant with data-highlighted; styling that
+     rather than :hover keeps mouse and keyboard states identical. */
+  .dowel-menu-item[data-highlighted] {
+    background-color: var(--dowel-bg-3);
+    color: var(--dowel-text-1);
+  }
+
+  .dowel-menu-item[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .dowel-menu-separator {
+    block-size: var(--dowel-hairline);
+    margin-block: var(--dowel-space-2);
+    background-color: var(--dowel-border-2);
+  }
+
+  .dowel-menu-label {
+    display: block;
+    padding: var(--dowel-space-4) var(--dowel-space-7) var(--dowel-space-2);
+    font-size: var(--dowel-fs-mini);
+    font-weight: var(--dowel-fw-medium);
+    color: var(--dowel-text-3);
+  }
+}

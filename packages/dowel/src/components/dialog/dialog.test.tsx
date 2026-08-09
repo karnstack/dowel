@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { expectNoA11yViolations } from "../../../test/setup";
@@ -72,31 +72,72 @@ describe("Dialog", () => {
       className: "evil",
       style: { color: "red" },
     });
+    // Trigger and Close are used bare (no `render`): that path renders Base
+    // UI's own native <button>, where a smuggled className/style would land
+    // directly — the render={<Button/>} path is already covered by Button's
+    // own after-spread discipline. Portal renders a real <div> whose inline
+    // style could create a containing block (transform/filter) and break the
+    // popup's position: fixed, so its channels matter structurally.
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
+        <Dialog.Trigger {...smuggle("s-trigger")}>Open</Dialog.Trigger>
+        <Dialog.Portal {...smuggle("s-portal")}>
           <Dialog.Backdrop {...smuggle("s-backdrop")} />
           <Dialog.Popup {...smuggle("s-popup")}>
             <Dialog.Title {...smuggle("s-title")}>Delete issue</Dialog.Title>
             <Dialog.Description {...smuggle("s-description")}>
               This cannot be undone.
             </Dialog.Description>
+            <Dialog.Close {...smuggle("s-close")}>Cancel</Dialog.Close>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>,
     );
-    for (const [selector, id] of [
-      [".dowel-backdrop", "s-backdrop"],
-      [".dowel-dialog", "s-popup"],
-      [".dowel-dialog-title", "s-title"],
-      [".dowel-dialog-description", "s-description"],
+    for (const [id, dowelClass] of [
+      ["s-trigger", null],
+      ["s-portal", null],
+      ["s-backdrop", "dowel-backdrop"],
+      ["s-popup", "dowel-dialog"],
+      ["s-title", "dowel-dialog-title"],
+      ["s-description", "dowel-dialog-description"],
+      ["s-close", null],
     ] as const) {
-      const el = document.querySelector<HTMLElement>(selector);
-      expect(el, selector).not.toBeNull();
-      expect(el!.id, selector).toBe(id);
-      expect(el!.className, selector).not.toContain("evil");
-      expect(el!.style.color, selector).toBe("");
+      // The surviving `id` is how each part is found: it proves functional
+      // props pass through while the appearance channels are stripped.
+      const el = document.getElementById(id);
+      expect(el, id).not.toBeNull();
+      if (dowelClass) {
+        expect(el!.className, id).toContain(dowelClass);
+      }
+      expect(el!.className, id).not.toContain("evil");
+      expect(el!.style.color, id).toBe("");
     }
+  });
+
+  // Full tab-cycle focus trapping is deliberately NOT tested: userEvent.tab()
+  // bypasses Base UI's focus guards, so such a test could not prove anything.
+  // Focus return is assertable and is a top-three dialog accessibility defect.
+  it("moves focus into the popup on open and returns it on Escape", async () => {
+    render(<Example />);
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await userEvent.click(trigger);
+    const dialog = screen.getByRole("dialog");
+    // Base UI moves initial focus asynchronously, so poll. The trigger sits
+    // outside the dialog, so containment failing (or timing out) means focus
+    // never left it — the assertion cannot pass vacuously.
+    await waitFor(() =>
+      expect(dialog.contains(document.activeElement)).toBe(true),
+    );
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
+  });
+
+  it("returns focus to the trigger when closed via the Close control", async () => {
+    render(<Example />);
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await userEvent.click(trigger);
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 
   it("opens without console errors or warnings", async () => {

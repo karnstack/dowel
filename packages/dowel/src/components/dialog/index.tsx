@@ -22,8 +22,26 @@ type Props<T extends (...args: never) => unknown> = T extends (
  */
 export const Dialog = {
   Root: BaseDialog.Root,
-  Trigger: BaseDialog.Trigger,
-  Portal: BaseDialog.Portal,
+
+  // Trigger, Portal and Close are structural — dowel gives them no class of
+  // their own — but they still render real elements (Portal a <div>, Trigger
+  // and Close a native <button> when no `render` is given), so their
+  // className/style channels must be neutralised like the styled parts'.
+  // Portal is the sharp edge: an inline `transform`/`filter` on its <div>
+  // creates a containing block that silently breaks the popup's
+  // `position: fixed`. An element passed via `render` still carries its own
+  // attributes — that escape hatch is by design.
+  Trigger: function DialogTrigger(props: Props<typeof BaseDialog.Trigger>) {
+    return (
+      <BaseDialog.Trigger {...props} className={undefined} style={undefined} />
+    );
+  },
+
+  Portal: function DialogPortal(props: Props<typeof BaseDialog.Portal>) {
+    return (
+      <BaseDialog.Portal {...props} className={undefined} style={undefined} />
+    );
+  },
 
   Backdrop: function DialogBackdrop(props: Props<typeof BaseDialog.Backdrop>) {
     return (
@@ -67,5 +85,9 @@ export const Dialog = {
     );
   },
 
-  Close: BaseDialog.Close,
+  Close: function DialogClose(props: Props<typeof BaseDialog.Close>) {
+    return (
+      <BaseDialog.Close {...props} className={undefined} style={undefined} />
+    );
+  },
 };

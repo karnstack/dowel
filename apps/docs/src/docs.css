@@ -28,6 +28,14 @@ body {
   color: var(--dowel-text-1);
 }
 
+/* Pushes the theme toggle to the trailing edge. dowel components accept no
+   className, so the layout hook lives on a wrapper the docs own. */
+.docs-nav-end {
+  display: flex;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
 .docs-main {
   max-width: 42rem;
   margin: 0 auto;

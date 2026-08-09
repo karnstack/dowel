@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
 import { expectNoA11yViolations } from "../../../test/setup";
 import { renderBoth } from "../../../test/render";
 import { IconButton } from "./index";
@@ -25,6 +26,19 @@ describe("IconButton", () => {
     const btn = screen.getByRole("button");
     expect(btn.className).toContain("dowel-icon-btn");
     expect(btn.dataset.size).toBe("md");
+  });
+
+  // The docs site's theme toggle is an IconButton, so onClick surviving the
+  // spread-then-override ordering is load-bearing, not incidental.
+  it("fires onClick", async () => {
+    const onClick = vi.fn();
+    render(
+      <IconButton label="Close" onClick={onClick}>
+        <Icon />
+      </IconButton>,
+    );
+    await userEvent.click(screen.getByRole("button"));
+    expect(onClick).toHaveBeenCalledOnce();
   });
 
   it("supports the sm size", () => {

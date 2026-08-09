@@ -1,4 +1,6 @@
-// Components are appended here by each component task.
+// dowel's public surface. Everything importable from "dowel" is listed here;
+// anything not exported below is internal and may change without a major bump.
+// The stylesheet is a separate entry point: import "dowel/dowel.css" once.
 export { Button } from "./components/button";
 export type { ButtonProps } from "./components/button";
 export { IconButton } from "./components/icon-button";

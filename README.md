@@ -26,20 +26,28 @@ import { Button } from "dowel";
 ```
 
 That is the whole setup. No Tailwind, no PostCSS config, no preset, no
-`components.json`, no copy-in generator.
+`components.json`, no copy-in generator. dowel is ESM-only.
 
 ## What dowel is
 
 - **A real package.** Import components, bump a version, get the fixes. Your
   UI does not drift across apps.
 - **Opinionated on purpose.** There is no per-component override API. Retheming
-  is three CSS variables: `--dowel-hue`, `--dowel-accent` and
-  `--dowel-accent-fg`. Hover states derive from the accent automatically.
-- **Light and dark from day one**, in one stylesheet, by class, data attribute
-  or system preference.
+  is three CSS variables declared on `:root`: `--dowel-hue`, `--dowel-accent`
+  and `--dowel-accent-fg`. Hover and focus derive from the accent
+  automatically.
+- **Light and dark from day one**, in one stylesheet. Dark comes on via
+  `.dowel-dark`, via `data-dowel-theme="dark"`, or from
+  `prefers-color-scheme` — and `.dowel-light` / `data-dowel-theme="light"` on
+  `<html>` pins light against a dark OS.
 - **Accessible by construction.** Behaviour comes from
   [Base UI](https://base-ui.com); every component is keyboard-tested and
   axe-checked.
+
+Wrap your app in `.dowel-root` for the type and surface defaults. The full
+theming reference — every selector, every knob — lives in
+[`packages/dowel/README.md`](packages/dowel/README.md), and
+[dowel.sh](https://dowel.sh) has a light/dark toggle in the nav.
 
 ## What dowel is not
 

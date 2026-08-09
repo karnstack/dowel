@@ -4,14 +4,25 @@ import { describe, expect, it } from "vitest";
 
 const DIST = resolve(import.meta.dirname, "..", "dist", "dowel.css");
 
+// This suite asserts against build output, not source. `pretest` builds first,
+// so a fresh clone cannot land here with dist/ missing; the message is the
+// backstop for anyone invoking vitest directly and bypassing the hook.
+const NOT_BUILT =
+  `${DIST} is missing. This suite asserts against build output.\n` +
+  `Run \`pnpm --filter dowel build\` first (\`pnpm --filter dowel test\` does it for you).`;
+
+function readDist(): string {
+  if (!existsSync(DIST)) throw new Error(NOT_BUILT);
+  return readFileSync(DIST, "utf8");
+}
+
 describe("dowel.css build contract", () => {
   it("has been built", () => {
-    // Run `pnpm --filter dowel build` before this suite.
-    expect(existsSync(DIST)).toBe(true);
+    expect(existsSync(DIST), NOT_BUILT).toBe(true);
   });
 
   it("resolves every var() it references", () => {
-    const css = readFileSync(DIST, "utf8");
+    const css = readDist();
     const defined = new Set(
       [...css.matchAll(/(--dowel-[\w-]+)\s*:/g)].map((m) => m[1]),
     );
@@ -24,10 +35,10 @@ describe("dowel.css build contract", () => {
   });
 
   it("inlines every @import", () => {
-    expect(readFileSync(DIST, "utf8")).not.toContain("@import");
+    expect(readDist()).not.toContain("@import");
   });
 
   it("keeps the cascade layer names", () => {
-    expect(readFileSync(DIST, "utf8")).toContain("@layer");
+    expect(readDist()).toContain("@layer");
   });
 });

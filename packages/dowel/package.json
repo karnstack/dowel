@@ -40,7 +40,9 @@
   },
   "scripts": {
     "build": "tsdown && node scripts/build-css.mjs",
+    "pretest": "pnpm build",
     "test": "vitest run",
+    "pretest:watch": "pnpm build",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },

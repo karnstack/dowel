@@ -33,7 +33,8 @@ That is the whole setup. No Tailwind, no PostCSS config, no preset, no
 - **A real package.** Import components, bump a version, get the fixes. Your
   UI does not drift across apps.
 - **Opinionated on purpose.** There is no per-component override API. Retheming
-  is two CSS variables: `--dowel-hue` and `--dowel-accent`.
+  is three CSS variables: `--dowel-hue`, `--dowel-accent` and
+  `--dowel-accent-fg`. Hover states derive from the accent automatically.
 - **Light and dark from day one**, in one stylesheet, by class, data attribute
   or system preference.
 - **Accessible by construction.** Behaviour comes from

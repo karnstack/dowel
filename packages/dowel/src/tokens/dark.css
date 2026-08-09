@@ -20,7 +20,9 @@
     --dowel-text-4: lch(36.975% 1.2 var(--dowel-hue));
 
     --dowel-accent: lch(58% 62 285);
-    --dowel-accent-hover: lch(64% 62 285);
+    /* Dark hovers LIGHTEN. Derived from the accent so overrides follow;
+       85% toward white matches the old hardcoded lch(64% 62 285). */
+    --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 85%, white);
     --dowel-accent-fg: lch(100% 0 0);
     --dowel-focus: var(--dowel-accent);
 
@@ -57,7 +59,9 @@
       --dowel-text-4: lch(36.975% 1.2 var(--dowel-hue));
 
       --dowel-accent: lch(58% 62 285);
-      --dowel-accent-hover: lch(64% 62 285);
+      /* Dark hovers LIGHTEN. Derived from the accent so overrides follow;
+         85% toward white matches the old hardcoded lch(64% 62 285). */
+      --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 85%, white);
       --dowel-accent-fg: lch(100% 0 0);
       --dowel-focus: var(--dowel-accent);
 

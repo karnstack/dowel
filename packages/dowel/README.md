@@ -33,9 +33,10 @@ keyboard-tested and axe-checked.
 
 ## Theming
 
-Two CSS variables — `--dowel-hue` and `--dowel-accent` — are the only
-supported knobs. There is no per-component `className` or `style` override
-API, by design. If you need a different button, dowel is the wrong library.
+Three CSS variables — `--dowel-hue`, `--dowel-accent` and `--dowel-accent-fg`
+— are the only supported knobs. Hover states derive from `--dowel-accent`
+automatically. There is no per-component `className` or `style` override API,
+by design. If you need a different button, dowel is the wrong library.
 
 ## Typeface
 

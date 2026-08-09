@@ -22,7 +22,9 @@
 
     /* accent — ours, deliberately not Linear's 295 brand hue */
     --dowel-accent: lch(49% 62 285);
-    --dowel-accent-hover: lch(44% 62 285);
+    /* Derived from the accent so a --dowel-accent override retheming stays
+       coherent on hover. 92% matches the old hardcoded lch(44% 62 285). */
+    --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 92%, black);
     --dowel-accent-fg: lch(100% 0 0);
     --dowel-focus: var(--dowel-accent);
 

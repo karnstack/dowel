@@ -1,0 +1,73 @@
+{
+  "name": "dowel",
+  "version": "0.0.0",
+  "description": "An opinionated React component library. One look, well made.",
+  "license": "MIT",
+  "author": "Karn Gyan",
+  "homepage": "https://dowel.sh",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karnstack/dowel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karnstack/dowel/issues"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "design-system",
+    "linear"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./dowel.css": "./dist/dowel.css"
+  },
+  "scripts": {
+    "build": "tsdown && node scripts/build-css.mjs",
+    "pretest": "pnpm build",
+    "test": "vitest run",
+    "pretest:watch": "pnpm build",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.7.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.5",
+    "axe-core": "^4.13.0",
+    "browserslist": "^4.28.7",
+    "jsdom": "^27.0.0",
+    "lightningcss": "^1.33.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tsdown": "^0.22.14",
+    "vitest": "^4.1.10"
+  }
+}

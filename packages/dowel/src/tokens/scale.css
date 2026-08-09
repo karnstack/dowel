@@ -1,0 +1,73 @@
+/* Non-colour tokens. Identical in light and dark — dark.css overrides colour
+   only, so this file must never contain a colour value. */
+@layer dowel.tokens {
+  :root {
+    /* hue — a number, not a colour. Both themes read it, so it lives with
+       the shared tokens; changing it retints the entire library. */
+    --dowel-hue: 272;
+
+    /* type */
+    --dowel-font:
+      "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --dowel-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+    --dowel-fs-micro: 0.6875rem; /* 11 */
+    --dowel-fs-mini: 0.75rem; /* 12 */
+    --dowel-fs-small: 0.8125rem; /* 13 — the workhorse */
+    --dowel-fs-base: 0.9375rem; /* 15 */
+    --dowel-fs-lg: 1.125rem; /* 18 */
+    --dowel-fs-title3: 1.25rem; /* 20 */
+    --dowel-fs-title2: 1.5rem; /* 24 */
+    --dowel-fs-title1: 2.25rem; /* 36 */
+
+    --dowel-fw-light: 300;
+    --dowel-fw-normal: 450; /* not 400 — this is the Linear signature */
+    --dowel-fw-medium: 500;
+    --dowel-fw-semibold: 600;
+    --dowel-fw-bold: 700;
+
+    --dowel-tracking: -0.02em;
+    --dowel-tracking-title: -0.004em;
+    --dowel-leading: 1.6;
+
+    /* shape */
+    --dowel-radius-sm: 4px;
+    --dowel-radius: 8px;
+    --dowel-radius-lg: 12px;
+    --dowel-radius-pill: 9999px;
+    --dowel-hairline: 0.5px;
+
+    /* size — every interactive control is 28px unless explicitly compact */
+    --dowel-h-sm: 24px;
+    --dowel-h: 28px;
+    --dowel-h-lg: 32px;
+    --dowel-h-field: 36px;
+
+    /* space */
+    --dowel-space-1: 2px;
+    --dowel-space-2: 4px;
+    --dowel-space-3: 6px;
+    --dowel-space-4: 8px;
+    --dowel-space-5: 10px;
+    --dowel-space-6: 12px;
+    --dowel-space-7: 14px;
+    --dowel-space-8: 18px;
+
+    /* motion — only border, background-color, color, opacity may transition */
+    --dowel-dur: 0.15s;
+    --dowel-dur-fast: 0.1s;
+    --dowel-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --dowel-transition:
+      border var(--dowel-dur) var(--dowel-ease),
+      background-color var(--dowel-dur) var(--dowel-ease),
+      color var(--dowel-dur) var(--dowel-ease),
+      opacity var(--dowel-dur) var(--dowel-ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dowel-dur: 0.01ms;
+      --dowel-dur-fast: 0.01ms;
+    }
+  }
+}

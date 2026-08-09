@@ -26,25 +26,51 @@ import { Button } from "dowel";
 ```
 
 That is the whole setup. No Tailwind, no PostCSS config, no preset, no
-`components.json`, no copy-in generator.
+`components.json`, no copy-in generator. dowel is ESM-only.
 
 ## What dowel is
 
 - **A real package.** Import components, bump a version, get the fixes. Your
   UI does not drift across apps.
 - **Opinionated on purpose.** There is no per-component override API. Retheming
-  is two CSS variables: `--dowel-hue` and `--dowel-accent`.
-- **Light and dark from day one**, in one stylesheet, by class, data attribute
-  or system preference.
+  is three CSS variables declared on `:root`: `--dowel-hue`, `--dowel-accent`
+  and `--dowel-accent-fg`. Hover and focus derive from the accent
+  automatically.
+- **Light and dark from day one**, in one stylesheet. Dark comes on via
+  `.dowel-dark`, via `data-dowel-theme="dark"`, or from
+  `prefers-color-scheme` — and `.dowel-light` / `data-dowel-theme="light"` on
+  `<html>` pins light against a dark OS.
 - **Accessible by construction.** Behaviour comes from
   [Base UI](https://base-ui.com); every component is keyboard-tested and
   axe-checked.
+
+Wrap your app in `.dowel-root` for the type and surface defaults. The full
+theming reference — every selector, every knob — lives in
+[`packages/dowel/README.md`](packages/dowel/README.md), and
+[dowel.sh](https://dowel.sh) has a light/dark toggle in the nav.
 
 ## What dowel is not
 
 Not headless, not framework-agnostic, not a Tailwind plugin, not customisable
 per component. If you need a different button, dowel is the wrong library —
 that is the point.
+
+## Typeface
+
+dowel is designed for Inter. It falls back to `system-ui`, which works but
+looks different. To match the docs:
+
+```bash
+pnpm add @fontsource-variable/inter
+```
+
+```ts
+import "@fontsource-variable/inter";
+import "dowel/dowel.css";
+```
+
+Inter is OFL-licensed. dowel does not bundle it, so you control whether it is
+self-hosted or served from a CDN.
 
 ## Credit
 

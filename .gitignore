@@ -3,3 +3,6 @@ dist/
 .DS_Store
 *.log
 .turbo/
+# TanStack Start's scratch directory: the SSR bundle it builds only to render
+# the prerendered HTML, plus the route generator's temp files.
+.tanstack/

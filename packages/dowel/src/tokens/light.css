@@ -1,0 +1,54 @@
+/* Light is the default theme. Every neutral is one hue at low chroma —
+   greys that are not grey. The hue itself lives in scale.css. */
+@layer dowel.tokens {
+  :root {
+    /* surfaces */
+    --dowel-bg-1: lch(99% 0.4 var(--dowel-hue));
+    --dowel-bg-2: lch(97% 0.85 var(--dowel-hue));
+    --dowel-bg-3: lch(94.5% 1.3 var(--dowel-hue));
+    --dowel-bg-4: lch(92% 0.85 var(--dowel-hue));
+    --dowel-bg-elevated: lch(100% 0 var(--dowel-hue));
+
+    /* borders */
+    --dowel-border-1: lch(91% 1.48 var(--dowel-hue));
+    --dowel-border-2: lch(87% 1.48 var(--dowel-hue));
+    --dowel-border-3: lch(82% 1.93 var(--dowel-hue));
+
+    /* text */
+    --dowel-text-1: lch(14% 0 var(--dowel-hue));
+    --dowel-text-2: lch(28% 1.2 var(--dowel-hue));
+    --dowel-text-3: lch(48% 1.2 var(--dowel-hue));
+    --dowel-text-4: lch(61.803% 1.2 var(--dowel-hue));
+
+    /* accent — teal, karnstack's house colour. Deliberately not Linear's 295
+       indigo: hue 195 at a restrained chroma reads as ours, not as a borrowed
+       brand. #198b89 in sRGB, comfortably inside the gamut. */
+    --dowel-accent: lch(52% 32 195);
+    /* Derived from the accent so a --dowel-accent override retheming stays
+       coherent on hover. Light hovers DARKEN: 92% toward black. */
+    --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 92%, black);
+    /* White on this teal is 4.12:1 at rest and 5.00:1 on hover. Black would
+       trade those round — 5.10:1 at rest, 4.20:1 on hover — so no single ink
+       clears 4.5:1 in both states against an L=52 background. White is the
+       one that reads clean at 13px and holds up on the state the pointer is
+       actually over. Dark mode inverts this; see dark.css. */
+    --dowel-accent-fg: lch(100% 0 0);
+    --dowel-focus: var(--dowel-accent);
+
+    /* status */
+    --dowel-danger: lch(52% 68 28);
+    --dowel-danger-fg: lch(100% 0 0);
+    --dowel-success: lch(58% 55 145);
+    --dowel-warning: lch(76% 78 82);
+
+    /* elevation — exactly two tiers */
+    --dowel-shadow-popover:
+      0 3px 8px lch(0 0 0 / 0.08), 0 2px 5px lch(0 0 0 / 0.08),
+      0 1px 1px lch(0 0 0 / 0.08);
+    --dowel-shadow-modal:
+      0 4px 40px lch(0 0 0 / 0.06), 0 3px 20px lch(0 0 0 / 0.08),
+      0 3px 12px lch(0 0 0 / 0.08), 0 2px 8px lch(0 0 0 / 0.08),
+      0 1px 1px lch(0 0 0 / 0.08);
+    --dowel-overlay: lch(0 0 0 / 0.4);
+  }
+}

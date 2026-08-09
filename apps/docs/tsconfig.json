@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    // Root `pnpm typecheck` runs before `pnpm build` in CI, so dowel's
+    // dist/index.d.ts does not exist yet. Point the docs at dowel's source
+    // instead: the docs then typecheck against what the library actually is,
+    // and the gate stops depending on build order. Vite still resolves the
+    // workspace link through the package's exports map at build time.
+    "paths": {
+      "dowel": ["../../packages/dowel/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

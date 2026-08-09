@@ -1,0 +1,95 @@
+/* Dark overrides colour only. Three activation paths, in precedence order:
+   explicit class, explicit attribute, then system preference — and the media
+   query is guarded so an explicit light choice always wins over the OS. */
+@layer dowel.tokens {
+  .dowel-dark,
+  [data-dowel-theme="dark"] {
+    --dowel-bg-1: lch(5.52% 0.4 var(--dowel-hue));
+    --dowel-bg-2: lch(7.32% 0.85 var(--dowel-hue));
+    --dowel-bg-3: lch(8.22% 1.3 var(--dowel-hue));
+    --dowel-bg-4: lch(9.345% 0.85 var(--dowel-hue));
+    --dowel-bg-elevated: lch(12.72% 0.85 var(--dowel-hue));
+
+    --dowel-border-1: lch(9.84% 1.48 var(--dowel-hue));
+    --dowel-border-2: lch(14.16% 1.48 var(--dowel-hue));
+    --dowel-border-3: lch(25.68% 1.93 var(--dowel-hue));
+
+    --dowel-text-1: lch(100% 0 var(--dowel-hue));
+    --dowel-text-2: lch(90.451% 1.2 var(--dowel-hue));
+    --dowel-text-3: lch(61.803% 1.2 var(--dowel-hue));
+    --dowel-text-4: lch(36.975% 1.2 var(--dowel-hue));
+
+    /* Same teal, lifted to sit on near-black surfaces: 7.71:1 against bg-1.
+       Chroma tops out around here — lch(64% 40 195) and anything more
+       saturated at this lightness clips the sRGB green channel. */
+    --dowel-accent: lch(68% 36 195);
+    /* Dark hovers LIGHTEN. Derived from the accent so overrides follow. */
+    --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 85%, white);
+    /* Inverted from light on purpose. Teal is luminous for its lightness, so
+       a teal bright enough to read on near-black leaves white at 2.43:1 —
+       unusable. A near-black ink from the accent's own hue gives 6.42:1 at
+       rest and 7.44:1 on hover. */
+    --dowel-accent-fg: lch(14% 6 195);
+    --dowel-focus: var(--dowel-accent);
+
+    --dowel-danger: lch(58% 68 28);
+    --dowel-danger-fg: lch(100% 0 0);
+    --dowel-success: lch(64% 55 145);
+    --dowel-warning: lch(80% 78 82);
+
+    --dowel-shadow-popover:
+      0 3px 8px lch(0 0 0 / 0.125), 0 2px 5px lch(0 0 0 / 0.125),
+      0 1px 1px lch(0 0 0 / 0.125);
+    --dowel-shadow-modal:
+      0 4px 40px lch(0 0 0 / 0.1), 0 3px 20px lch(0 0 0 / 0.125),
+      0 3px 12px lch(0 0 0 / 0.125), 0 2px 8px lch(0 0 0 / 0.125),
+      0 1px 1px lch(0 0 0 / 0.125);
+    --dowel-overlay: lch(0 0 0 / 0.6);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.dowel-light):not([data-dowel-theme="light"]) {
+      --dowel-bg-1: lch(5.52% 0.4 var(--dowel-hue));
+      --dowel-bg-2: lch(7.32% 0.85 var(--dowel-hue));
+      --dowel-bg-3: lch(8.22% 1.3 var(--dowel-hue));
+      --dowel-bg-4: lch(9.345% 0.85 var(--dowel-hue));
+      --dowel-bg-elevated: lch(12.72% 0.85 var(--dowel-hue));
+
+      --dowel-border-1: lch(9.84% 1.48 var(--dowel-hue));
+      --dowel-border-2: lch(14.16% 1.48 var(--dowel-hue));
+      --dowel-border-3: lch(25.68% 1.93 var(--dowel-hue));
+
+      --dowel-text-1: lch(100% 0 var(--dowel-hue));
+      --dowel-text-2: lch(90.451% 1.2 var(--dowel-hue));
+      --dowel-text-3: lch(61.803% 1.2 var(--dowel-hue));
+      --dowel-text-4: lch(36.975% 1.2 var(--dowel-hue));
+
+      /* Same teal, lifted to sit on near-black surfaces: 7.71:1 against bg-1.
+         Chroma tops out around here — lch(64% 40 195) and anything more
+         saturated at this lightness clips the sRGB green channel. */
+      --dowel-accent: lch(68% 36 195);
+      /* Dark hovers LIGHTEN. Derived from the accent so overrides follow. */
+      --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 85%, white);
+      /* Inverted from light on purpose. Teal is luminous for its lightness,
+         so a teal bright enough to read on near-black leaves white at
+         2.43:1 — unusable. A near-black ink from the accent's own hue gives
+         6.42:1 at rest and 7.44:1 on hover. */
+      --dowel-accent-fg: lch(14% 6 195);
+      --dowel-focus: var(--dowel-accent);
+
+      --dowel-danger: lch(58% 68 28);
+      --dowel-danger-fg: lch(100% 0 0);
+      --dowel-success: lch(64% 55 145);
+      --dowel-warning: lch(80% 78 82);
+
+      --dowel-shadow-popover:
+        0 3px 8px lch(0 0 0 / 0.125), 0 2px 5px lch(0 0 0 / 0.125),
+        0 1px 1px lch(0 0 0 / 0.125);
+      --dowel-shadow-modal:
+        0 4px 40px lch(0 0 0 / 0.1), 0 3px 20px lch(0 0 0 / 0.125),
+        0 3px 12px lch(0 0 0 / 0.125), 0 2px 8px lch(0 0 0 / 0.125),
+        0 1px 1px lch(0 0 0 / 0.125);
+      --dowel-overlay: lch(0 0 0 / 0.6);
+    }
+  }
+}

@@ -1,0 +1,76 @@
+/* The docs site's own layout. Deliberately not part of dowel: page chrome is
+   an application concern, and dowel ships components, not a shell. Colour and
+   type come from dowel's public tokens so the docs stay in step with the
+   library; page-scale spacing does not, because dowel's space scale tops out
+   at 18px — it is sized for the inside of a control, not for a page. */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.docs-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-8);
+  padding: var(--dowel-space-6) 1.5rem;
+  border-bottom: 1px solid var(--dowel-border-1);
+}
+
+.docs-nav a {
+  color: var(--dowel-text-3);
+  text-decoration: none;
+  transition: var(--dowel-transition);
+}
+
+.docs-nav a:hover,
+.docs-nav a[data-status="active"] {
+  color: var(--dowel-text-1);
+}
+
+.docs-main {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+.docs-main h1 {
+  font-size: var(--dowel-fs-title1);
+  font-weight: var(--dowel-fw-semibold);
+  letter-spacing: var(--dowel-tracking-title);
+  color: var(--dowel-text-1);
+  margin: 0 0 var(--dowel-space-6);
+}
+
+.docs-main h2 {
+  font-size: var(--dowel-fs-title3);
+  font-weight: var(--dowel-fw-semibold);
+  color: var(--dowel-text-1);
+  margin: 3rem 0 var(--dowel-space-6);
+}
+
+.docs-main p {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+}
+
+.docs-main code {
+  font-family: var(--dowel-mono);
+  font-size: var(--dowel-fs-mini);
+  color: var(--dowel-text-1);
+}
+
+/* A row of live components. */
+.docs-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dowel-space-4);
+}
+
+/* A constraint a consumer has to know about, not decoration. */
+.docs-note {
+  border-left: 2px solid var(--dowel-border-3);
+  padding-left: 1rem;
+  color: var(--dowel-text-3);
+}

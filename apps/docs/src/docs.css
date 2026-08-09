@@ -207,6 +207,14 @@ body {
   display: none;
 }
 
+/* A tooltip that ends in a Kbd: the label and the cap sit on one baseline
+   with a gap, instead of the cap hanging off the end of a text run. */
+.docs-tooltip-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dowel-space-3);
+}
+
 /* ------------------------------------------------------------ mobile nav */
 
 .docs-mobile-nav {

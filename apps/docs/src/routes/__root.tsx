@@ -5,8 +5,8 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { Badge, IconButton, Tooltip } from "dowel";
-import { useState } from "react";
+import { Badge, IconButton, Kbd, Tooltip } from "dowel";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   CloseIcon,
@@ -24,6 +24,39 @@ import "dowel/dowel.css";
 import "../docs.css";
 
 const REPO = "https://github.com/karnstack/dowel";
+
+/** The bare key that flips the theme. Matched case-insensitively. */
+const THEME_KEY = "d";
+
+/**
+ * True when the keystroke belongs to something the user is typing into. The
+ * docs are full of live Input and Field demos, so a bare-letter shortcut has
+ * to yield to them or it eats characters. `isContentEditable` is computed
+ * rather than read off the attribute, so it is also true for a node nested
+ * inside an editing host.
+ */
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+  if (target.isContentEditable) return true;
+  const tag = target.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+}
+
+/**
+ * True while a Dialog or Menu is open. An open overlay is its own keyboard
+ * context: Menu spends bare letters on typeahead, and a shortcut firing
+ * under a modal would restyle a page the user cannot see. Base UI carries
+ * `data-open` on the popup for exactly as long as it is open — it is gone
+ * again during the closing animation — so the attribute is the honest
+ * signal where the popup merely being in the DOM is not.
+ */
+function isOverlayOpen() {
+  return (
+    document.querySelector(
+      '[role="dialog"][data-open], [role="alertdialog"][data-open], [role="menu"][data-open]',
+    ) !== null
+  );
+}
 
 export const Route = createRootRoute({
   head: () => ({
@@ -97,7 +130,14 @@ function ThemeToggle({
       <Tooltip.Portal>
         <Tooltip.Positioner>
           <Tooltip.Popup>
-            {theme === null ? "Theme: system" : `Theme: ${theme}`}
+            {/* The shortcut is advertised where the control already
+                explains itself, rather than as a second thing in the
+                header. Kbd carries no className, so the row is a span
+                the docs own. */}
+            <span className="docs-tooltip-hint">
+              {theme === null ? "Theme: system" : `Theme: ${theme}`}
+              <Kbd keys={["D"]} />
+            </span>
           </Tooltip.Popup>
         </Tooltip.Positioner>
       </Tooltip.Portal>
@@ -114,14 +154,38 @@ function RootDocument() {
   const [theme, setTheme] = useState<"light" | "dark" | null>(null);
   const [navOpen, setNavOpen] = useState(false);
 
-  function toggleTheme() {
-    const resolved =
-      theme ??
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-    setTheme(resolved === "dark" ? "light" : "dark");
-  }
+  // The media query is read outside the updater so the updater stays pure,
+  // which leaves the toggle depending on nothing: the keydown listener below
+  // is attached once instead of being torn down and rebound on every flip.
+  const toggleTheme = useCallback(() => {
+    const systemDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    setTheme((current) => {
+      const resolved = current ?? (systemDark ? "dark" : "light");
+      return resolved === "dark" ? "light" : "dark";
+    });
+  }, []);
+
+  // `D` toggles the theme. The listener lives in an effect so it only ever
+  // exists in the browser — the site is prerendered, and there is no
+  // document to listen on while the HTML is being generated.
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      // Bare `D` only. A held Meta/Ctrl/Alt means the user is reaching for a
+      // browser or OS shortcut and this must never shadow one. Shift is not
+      // in the list: it is how a capital D gets typed.
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (event.key.toLowerCase() !== THEME_KEY) return;
+      // Someone closer to the keystroke already claimed it.
+      if (event.defaultPrevented) return;
+      if (isTypingTarget(event.target) || isOverlayOpen()) return;
+      toggleTheme();
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [toggleTheme]);
 
   return (
     // The theme hooks onto <html> rather than a wrapper div so the page

@@ -1,0 +1,20 @@
+// dowel.sh — the docs site, served as Cloudflare Worker static assets.
+// Assets-only: no worker script, because the site is fully prerendered.
+//
+// www.dowel.sh cannot be redirected from an assets-only worker; that is a
+// Cloudflare dashboard Redirect Rule (manual follow-up).
+{
+  "name": "dowel-sh",
+  "compatibility_date": "2026-08-09",
+  "assets": {
+    "directory": "./dist",
+    // The build emits sub-pages as directories (components/button/index.html),
+    // so /components/button must resolve to that file. auto-trailing-slash
+    // serves /components/button/ directly and 307s /components/button to it.
+    "html_handling": "auto-trailing-slash",
+    // No 404.html is emitted, so keep the plain null-body 404 for misses.
+    "not_found_handling": "none",
+  },
+  "workers_dev": false,
+  "routes": [{ "pattern": "dowel.sh", "custom_domain": true }],
+}

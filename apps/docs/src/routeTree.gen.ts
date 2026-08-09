@@ -10,7 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ComponentsRouteRouteImport } from './routes/components/route'
+import { Route as ComponentsIndexRouteImport } from './routes/components/index'
+import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
+import { Route as ComponentsIconButtonRouteImport } from './routes/components/icon-button'
+import { Route as ComponentsInputRouteImport } from './routes/components/input'
+import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
+import { Route as ComponentsMenuRouteImport } from './routes/components/menu'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,45 +26,140 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
-  id: '/components/button',
-  path: '/components/button',
+const ComponentsRouteRoute = ComponentsRouteRouteImport.update({
+  id: '/components',
+  path: '/components',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsIndexRoute = ComponentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
+  id: '/badge',
+  path: '/badge',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
+  id: '/button',
+  path: '/button',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
+  id: '/dialog',
+  path: '/dialog',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsIconButtonRoute = ComponentsIconButtonRouteImport.update({
+  id: '/icon-button',
+  path: '/icon-button',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsInputRoute = ComponentsInputRouteImport.update({
+  id: '/input',
+  path: '/input',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
+  id: '/kbd',
+  path: '/kbd',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsMenuRoute = ComponentsMenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
-  id: '/components/tooltip',
-  path: '/components/tooltip',
-  getParentRoute: () => rootRouteImport,
+  id: '/tooltip',
+  path: '/tooltip',
+  getParentRoute: () => ComponentsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/components': typeof ComponentsRouteRouteWithChildren
+  '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/dialog': typeof ComponentsDialogRoute
+  '/components/icon-button': typeof ComponentsIconButtonRoute
+  '/components/input': typeof ComponentsInputRoute
+  '/components/kbd': typeof ComponentsKbdRoute
+  '/components/menu': typeof ComponentsMenuRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/components/': typeof ComponentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/dialog': typeof ComponentsDialogRoute
+  '/components/icon-button': typeof ComponentsIconButtonRoute
+  '/components/input': typeof ComponentsInputRoute
+  '/components/kbd': typeof ComponentsKbdRoute
+  '/components/menu': typeof ComponentsMenuRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/components': typeof ComponentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/components': typeof ComponentsRouteRouteWithChildren
+  '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/dialog': typeof ComponentsDialogRoute
+  '/components/icon-button': typeof ComponentsIconButtonRoute
+  '/components/input': typeof ComponentsInputRoute
+  '/components/kbd': typeof ComponentsKbdRoute
+  '/components/menu': typeof ComponentsMenuRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/components/': typeof ComponentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/components/button' | '/components/tooltip'
+  fullPaths:
+    | '/'
+    | '/components'
+    | '/components/badge'
+    | '/components/button'
+    | '/components/dialog'
+    | '/components/icon-button'
+    | '/components/input'
+    | '/components/kbd'
+    | '/components/menu'
+    | '/components/tooltip'
+    | '/components/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/components/button' | '/components/tooltip'
-  id: '__root__' | '/' | '/components/button' | '/components/tooltip'
+  to:
+    | '/'
+    | '/components/badge'
+    | '/components/button'
+    | '/components/dialog'
+    | '/components/icon-button'
+    | '/components/input'
+    | '/components/kbd'
+    | '/components/menu'
+    | '/components/tooltip'
+    | '/components'
+  id:
+    | '__root__'
+    | '/'
+    | '/components'
+    | '/components/badge'
+    | '/components/button'
+    | '/components/dialog'
+    | '/components/icon-button'
+    | '/components/input'
+    | '/components/kbd'
+    | '/components/menu'
+    | '/components/tooltip'
+    | '/components/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ComponentsButtonRoute: typeof ComponentsButtonRoute
-  ComponentsTooltipRoute: typeof ComponentsTooltipRoute
+  ComponentsRouteRoute: typeof ComponentsRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -68,27 +171,110 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components': {
+      id: '/components'
+      path: '/components'
+      fullPath: '/components'
+      preLoaderRoute: typeof ComponentsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/': {
+      id: '/components/'
+      path: '/'
+      fullPath: '/components/'
+      preLoaderRoute: typeof ComponentsIndexRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/badge': {
+      id: '/components/badge'
+      path: '/badge'
+      fullPath: '/components/badge'
+      preLoaderRoute: typeof ComponentsBadgeRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/button': {
       id: '/components/button'
-      path: '/components/button'
+      path: '/button'
       fullPath: '/components/button'
       preLoaderRoute: typeof ComponentsButtonRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/dialog': {
+      id: '/components/dialog'
+      path: '/dialog'
+      fullPath: '/components/dialog'
+      preLoaderRoute: typeof ComponentsDialogRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/icon-button': {
+      id: '/components/icon-button'
+      path: '/icon-button'
+      fullPath: '/components/icon-button'
+      preLoaderRoute: typeof ComponentsIconButtonRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/input': {
+      id: '/components/input'
+      path: '/input'
+      fullPath: '/components/input'
+      preLoaderRoute: typeof ComponentsInputRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/kbd': {
+      id: '/components/kbd'
+      path: '/kbd'
+      fullPath: '/components/kbd'
+      preLoaderRoute: typeof ComponentsKbdRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/menu': {
+      id: '/components/menu'
+      path: '/menu'
+      fullPath: '/components/menu'
+      preLoaderRoute: typeof ComponentsMenuRouteImport
+      parentRoute: typeof ComponentsRouteRoute
     }
     '/components/tooltip': {
       id: '/components/tooltip'
-      path: '/components/tooltip'
+      path: '/tooltip'
       fullPath: '/components/tooltip'
       preLoaderRoute: typeof ComponentsTooltipRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ComponentsRouteRoute
     }
   }
 }
 
+interface ComponentsRouteRouteChildren {
+  ComponentsBadgeRoute: typeof ComponentsBadgeRoute
+  ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsDialogRoute: typeof ComponentsDialogRoute
+  ComponentsIconButtonRoute: typeof ComponentsIconButtonRoute
+  ComponentsInputRoute: typeof ComponentsInputRoute
+  ComponentsKbdRoute: typeof ComponentsKbdRoute
+  ComponentsMenuRoute: typeof ComponentsMenuRoute
+  ComponentsTooltipRoute: typeof ComponentsTooltipRoute
+  ComponentsIndexRoute: typeof ComponentsIndexRoute
+}
+
+const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
+  ComponentsBadgeRoute: ComponentsBadgeRoute,
+  ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsDialogRoute: ComponentsDialogRoute,
+  ComponentsIconButtonRoute: ComponentsIconButtonRoute,
+  ComponentsInputRoute: ComponentsInputRoute,
+  ComponentsKbdRoute: ComponentsKbdRoute,
+  ComponentsMenuRoute: ComponentsMenuRoute,
+  ComponentsTooltipRoute: ComponentsTooltipRoute,
+  ComponentsIndexRoute: ComponentsIndexRoute,
+}
+
+const ComponentsRouteRouteWithChildren = ComponentsRouteRoute._addFileChildren(
+  ComponentsRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ComponentsButtonRoute: ComponentsButtonRoute,
-  ComponentsTooltipRoute: ComponentsTooltipRoute,
+  ComponentsRouteRoute: ComponentsRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

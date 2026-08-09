@@ -5,14 +5,25 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { IconButton, Tooltip } from "dowel";
+import { Badge, IconButton, Tooltip } from "dowel";
 import { useState } from "react";
+
+import {
+  CloseIcon,
+  GitHubIcon,
+  MenuIcon,
+  MoonIcon,
+  SunIcon,
+} from "../components/icons";
+import { SidebarNav } from "../components/sidebar-nav";
 
 // The docs self-host Inter; dowel itself ships no typeface, it only names
 // "Inter Variable" first in --dowel-font.
 import "@fontsource-variable/inter";
 import "dowel/dowel.css";
 import "../docs.css";
+
+const REPO = "https://github.com/karnstack/dowel";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -30,46 +41,87 @@ export const Route = createRootRoute({
   component: RootDocument,
 });
 
-// Icons are the docs' own, not dowel's — dowel ships components, not an icon
-// set. Each shows the mode the button switches TO.
-const SunIcon = () => (
-  <svg
-    aria-hidden="true"
-    width="14"
-    height="14"
-    viewBox="0 0 14 14"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.2"
-    strokeLinecap="round"
-  >
-    <circle cx="7" cy="7" r="2.75" />
-    <path d="M7 .75v1.5M7 11.75v1.5M13.25 7h-1.5M2.25 7H.75M11.42 2.58l-1.06 1.06M3.64 10.36l-1.06 1.06M11.42 11.42l-1.06-1.06M3.64 3.64 2.58 2.58" />
-  </svg>
-);
+/** A dowel: the small turned pin that joins two pieces of wood. */
+function Wordmark() {
+  return (
+    <span className="docs-wordmark">
+      <svg
+        className="docs-mark"
+        aria-hidden="true"
+        width="18"
+        height="18"
+        viewBox="0 0 16 16"
+      >
+        <rect
+          x="6"
+          y="1"
+          width="4"
+          height="14"
+          rx="2"
+          transform="rotate(-32 8 8)"
+          fill="currentColor"
+        />
+      </svg>
+      dowel
+    </span>
+  );
+}
 
-const MoonIcon = () => (
-  <svg
-    aria-hidden="true"
-    width="14"
-    height="14"
-    viewBox="0 0 14 14"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.2"
-    strokeLinejoin="round"
-  >
-    <path d="M12.1 8.62A5.4 5.4 0 0 1 5.38 1.9a5.5 5.5 0 1 0 6.72 6.72Z" />
-  </svg>
-);
+function ThemeToggle({
+  theme,
+  onToggle,
+}: {
+  theme: "light" | "dark" | null;
+  onToggle: () => void;
+}) {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger
+        render={
+          // The label does not name the target mode: until the toggle has
+          // been pressed the theme is whatever the OS says, and the server
+          // cannot know which that is. "Toggle theme" is true in every state.
+          <IconButton label="Toggle theme" onClick={onToggle}>
+            {/* Both icons ship; CSS shows the one matching the resolved
+                theme. That keeps the prerendered markup correct under either
+                OS setting, which a JS-chosen icon could not be. */}
+            <span className="docs-theme-icon" data-icon="sun">
+              <SunIcon />
+            </span>
+            <span className="docs-theme-icon" data-icon="moon">
+              <MoonIcon />
+            </span>
+          </IconButton>
+        }
+      />
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            {theme === null ? "Theme: system" : `Theme: ${theme}`}
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  );
+}
 
 function RootDocument() {
-  // Purely declarative: React owns the attribute on <html>, so the toggle
-  // touches no DOM API and the prerender never reads `document`. The initial
-  // value is a constant, so the prerendered markup and the first client render
-  // agree and hydration is clean.
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const next = theme === "dark" ? "light" : "dark";
+  // `null` means "no explicit choice": the attribute is left off <html> and
+  // dowel's prefers-color-scheme rule decides. That is both the better
+  // default and the hydration-safe one — the server cannot read the OS
+  // setting, so the only initial value that always matches the client is the
+  // one that asserts nothing.
+  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+  const [navOpen, setNavOpen] = useState(false);
+
+  function toggleTheme() {
+    const resolved =
+      theme ??
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+    setTheme(resolved === "dark" ? "light" : "dark");
+  }
 
   return (
     // The theme hooks onto <html> rather than a wrapper div so the page
@@ -77,7 +129,12 @@ function RootDocument() {
     // content box. On :root the attribute also wins over the
     // prefers-color-scheme rule, which is guarded with
     // :not([data-dowel-theme="light"]).
-    <html lang="en" className="dowel-root" data-dowel-theme={theme}>
+    <html
+      lang="en"
+      className="dowel-root"
+      data-dowel-theme={theme ?? undefined}
+      data-nav-open={navOpen ? "" : undefined}
+    >
       <head>
         <HeadContent />
       </head>
@@ -88,21 +145,67 @@ function RootDocument() {
           reaches opens instantly instead of waiting again.
         */}
         <Tooltip.Provider>
-          <nav className="docs-nav">
-            <Link to="/">dowel</Link>
-            <Link to="/components/button">Button</Link>
-            <Link to="/components/tooltip">Tooltip</Link>
-            {/* dowel components take no className, so the layout hook is a
-                wrapper the docs own. */}
-            <div className="docs-nav-end">
-              <IconButton
-                label={`Switch to ${next} mode`}
-                onClick={() => setTheme(next)}
-              >
-                {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-              </IconButton>
+          <header className="docs-header">
+            <div className="docs-header-inner">
+              <div className="docs-header-mobile">
+                <IconButton
+                  label={navOpen ? "Close navigation" : "Open navigation"}
+                  aria-expanded={navOpen}
+                  aria-controls="docs-mobile-nav"
+                  onClick={() => setNavOpen((open) => !open)}
+                >
+                  {navOpen ? <CloseIcon /> : <MenuIcon />}
+                </IconButton>
+              </div>
+
+              <Link to="/" aria-label="Homepage" className="docs-brand">
+                <Wordmark />
+              </Link>
+              <Badge tone="accent">v0.1.0</Badge>
+
+              <nav className="docs-header-nav" aria-label="Main">
+                <Link to="/">Introduction</Link>
+                <Link to="/components">Components</Link>
+              </nav>
+
+              <div className="docs-header-end">
+                <Tooltip.Root>
+                  <Tooltip.Trigger
+                    render={
+                      <IconButton
+                        label="dowel on GitHub"
+                        nativeButton={false}
+                        render={
+                          <a
+                            href={REPO}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                          />
+                        }
+                      >
+                        <GitHubIcon />
+                      </IconButton>
+                    }
+                  />
+                  <Tooltip.Portal>
+                    <Tooltip.Positioner>
+                      <Tooltip.Popup>GitHub</Tooltip.Popup>
+                    </Tooltip.Positioner>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+
+                <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              </div>
             </div>
-          </nav>
+
+            {/* The mobile disclosure. It is always in the DOM so the
+                aria-controls reference always resolves; CSS hides it when
+                the header's toggle is not expanded. */}
+            <div className="docs-mobile-nav" id="docs-mobile-nav">
+              <SidebarNav onNavigate={() => setNavOpen(false)} />
+            </div>
+          </header>
+
           <Outlet />
         </Tooltip.Provider>
         <Scripts />

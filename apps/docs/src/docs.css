@@ -1,84 +1,975 @@
 /* The docs site's own layout. Deliberately not part of dowel: page chrome is
-   an application concern, and dowel ships components, not a shell. Colour and
-   type come from dowel's public tokens so the docs stay in step with the
-   library; page-scale spacing does not, because dowel's space scale tops out
-   at 18px — it is sized for the inside of a control, not for a page. */
+   an application concern, and dowel ships components, not a shell.
+
+   Everything here is plain CSS on dowel's public tokens — no Tailwind, no
+   preprocessor — because the docs are the library's first consumer, and a
+   consumer that needs a build pipeline to use dowel would be evidence against
+   the whole premise. Colour, type, radius and motion all come from
+   --dowel-*. The only values defined locally are the ones dowel has no token
+   for: page-scale spacing (dowel's space scale tops out at 18px — it is sized
+   for the inside of a control, not for a page), layout widths, and syntax
+   highlighting colours. Those live in --docs-*. */
+
+/* ---------------------------------------------------------------- tokens */
+
+:root {
+  /* Lets native scrollbars and form controls follow the theme. The explicit
+     overrides below mirror dowel's own precedence: an explicit choice on
+     :root beats the OS. */
+  color-scheme: light dark;
+
+  --docs-header-h: 3.5rem;
+  --docs-sidebar-w: 15rem;
+  --docs-toc-w: 14rem;
+  --docs-max: 88rem;
+  --docs-gutter: 1.25rem;
+
+  /* Elevation is a light-mode affordance; the dark block drops it. */
+  --docs-panel-shadow: var(--dowel-shadow-popover);
+
+  /* Syntax colours. Low chroma on purpose — a code block that out-colours
+     the components it documents is a code block competing with the page. */
+  --docs-code-bg: lch(97.5% 0.85 var(--dowel-hue));
+  --docs-code-comment: var(--dowel-text-4);
+  --docs-code-keyword: lch(46% 52 310);
+  --docs-code-string: lch(45% 42 145);
+  --docs-code-tag: lch(45% 34 195);
+  --docs-code-attr: lch(48% 42 55);
+}
+
+:root[data-dowel-theme="light"] {
+  color-scheme: light;
+}
+
+.dowel-dark,
+[data-dowel-theme="dark"] {
+  color-scheme: dark;
+
+  --docs-panel-shadow: none;
+
+  --docs-code-bg: lch(7.9% 1 var(--dowel-hue));
+  --docs-code-comment: var(--dowel-text-4);
+  --docs-code-keyword: lch(73% 38 310);
+  --docs-code-string: lch(73% 36 145);
+  --docs-code-tag: lch(72% 34 195);
+  --docs-code-attr: lch(77% 40 70);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.dowel-light):not([data-dowel-theme="light"]) {
+    color-scheme: dark;
+
+    --docs-panel-shadow: none;
+
+    --docs-code-bg: lch(7.9% 1 var(--dowel-hue));
+    --docs-code-comment: var(--dowel-text-4);
+    --docs-code-keyword: lch(73% 38 310);
+    --docs-code-string: lch(73% 36 145);
+    --docs-code-tag: lch(72% 34 195);
+    --docs-code-attr: lch(77% 40 70);
+  }
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --docs-gutter: 2rem;
+  }
+}
+
+/* ------------------------------------------------------------------ base */
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
 }
 
-.docs-nav {
+/* Anchor links jump to a heading that would otherwise land under the sticky
+   header. */
+:target,
+[id] {
+  scroll-margin-top: calc(var(--docs-header-h) + 1.5rem);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.docs-icon {
+  flex: none;
+  display: block;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.docs-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 40;
+  background-color: color-mix(in srgb, var(--dowel-bg-1) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-block-end: 1px solid var(--dowel-border-1);
+}
+
+.docs-header-inner {
   display: flex;
   align-items: center;
+  gap: var(--dowel-space-6);
+  block-size: var(--docs-header-h);
+  max-inline-size: var(--docs-max);
+  margin-inline: auto;
+  padding-inline: var(--docs-gutter);
+}
+
+.docs-header-mobile {
+  display: flex;
+}
+
+.docs-brand {
+  text-decoration: none;
+  color: var(--dowel-text-1);
+}
+
+.docs-wordmark {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-3);
+  font-size: var(--dowel-fs-lg);
+  font-weight: var(--dowel-fw-semibold);
+  letter-spacing: var(--dowel-tracking);
+  line-height: 1;
+}
+
+.docs-mark {
+  color: var(--dowel-accent);
+}
+
+.docs-header-nav {
+  display: none;
+  align-items: center;
   gap: var(--dowel-space-8);
-  padding: var(--dowel-space-6) 1.5rem;
-  border-bottom: 1px solid var(--dowel-border-1);
+  margin-inline-start: var(--dowel-space-6);
+}
+
+.docs-header-nav a {
+  color: var(--dowel-text-3);
+  text-decoration: none;
+  font-size: var(--dowel-fs-small);
+}
+
+.docs-header-nav a:hover,
+.docs-header-nav a[data-status="active"] {
+  color: var(--dowel-text-1);
+}
+
+/* dowel components accept no className, so every layout hook is a wrapper
+   the docs own. */
+.docs-header-end {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-2);
+  margin-inline-start: auto;
+}
+
+/* Both icons ship in the markup; CSS picks the one matching the resolved
+   theme, so the prerendered HTML is correct under either OS setting. The
+   selector chain mirrors dowel's: explicit attribute, then system. */
+.docs-theme-icon {
+  display: none;
+}
+.docs-theme-icon[data-icon="moon"] {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-dowel-theme="light"]) .docs-theme-icon[data-icon="moon"] {
+    display: none;
+  }
+  :root:not([data-dowel-theme="light"]) .docs-theme-icon[data-icon="sun"] {
+    display: block;
+  }
+}
+:root[data-dowel-theme="dark"] .docs-theme-icon[data-icon="moon"] {
+  display: none;
+}
+:root[data-dowel-theme="dark"] .docs-theme-icon[data-icon="sun"] {
+  display: block;
+}
+:root[data-dowel-theme="light"] .docs-theme-icon[data-icon="moon"] {
+  display: block;
+}
+:root[data-dowel-theme="light"] .docs-theme-icon[data-icon="sun"] {
+  display: none;
+}
+
+/* ------------------------------------------------------------ mobile nav */
+
+.docs-mobile-nav {
+  display: none;
+  max-block-size: calc(100dvh - var(--docs-header-h));
+  overflow-y: auto;
+  padding: var(--dowel-space-8) var(--docs-gutter) 2rem;
+  background-color: var(--dowel-bg-1);
+  border-block-start: 1px solid var(--dowel-border-1);
+}
+
+:root[data-nav-open] .docs-mobile-nav {
+  display: block;
+}
+
+/* ------------------------------------------------------------------- nav */
+
+.docs-nav-section {
+  margin-block-end: var(--dowel-space-8);
+}
+
+.docs-nav-heading {
+  margin: 0 0 var(--dowel-space-3);
+  padding-inline-start: var(--dowel-space-5);
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-semibold);
+  color: var(--dowel-text-1);
+}
+
+.docs-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .docs-nav a {
+  display: block;
+  padding: var(--dowel-space-3) var(--dowel-space-5);
+  border-radius: var(--dowel-radius-sm);
+  font-size: var(--dowel-fs-small);
   color: var(--dowel-text-3);
   text-decoration: none;
   transition: var(--dowel-transition);
 }
 
-.docs-nav a:hover,
+.docs-nav a:hover {
+  color: var(--dowel-text-2);
+  background-color: var(--dowel-bg-2);
+}
+
+/* The current page is marked with a muted surface and an accent rule, never
+   a filled accent background — and the weight never changes between states,
+   so the list does not reflow as you navigate. */
 .docs-nav a[data-status="active"] {
   color: var(--dowel-text-1);
+  background-color: var(--dowel-bg-3);
+  box-shadow: inset 2px 0 0 var(--dowel-accent);
 }
 
-/* Pushes the theme toggle to the trailing edge. dowel components accept no
-   className, so the layout hook lives on a wrapper the docs own. */
-.docs-nav-end {
-  display: flex;
-  align-items: center;
-  margin-inline-start: auto;
+/* ----------------------------------------------------------------- shell */
+
+.docs-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  max-inline-size: var(--docs-max);
+  margin-inline: auto;
+  padding-inline: var(--docs-gutter);
 }
 
-.docs-main {
-  max-width: 42rem;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 6rem;
+.docs-sidebar {
+  display: none;
 }
 
-.docs-main h1 {
-  font-size: var(--dowel-fs-title1);
+@media (min-width: 64rem) {
+  .docs-shell {
+    grid-template-columns: var(--docs-sidebar-w) minmax(0, 1fr);
+    gap: 3rem;
+  }
+
+  .docs-sidebar {
+    display: block;
+    position: sticky;
+    inset-block-start: var(--docs-header-h);
+    block-size: calc(100dvh - var(--docs-header-h));
+    overflow-y: auto;
+    margin-inline-start: calc(var(--docs-gutter) * -1);
+    padding: 2rem 1rem 3rem var(--docs-gutter);
+    border-inline-end: 1px solid var(--dowel-border-1);
+  }
+
+  :root[data-nav-open] .docs-mobile-nav {
+    display: none;
+  }
+
+  .docs-header-mobile {
+    display: none;
+  }
+
+  .docs-header-nav {
+    display: flex;
+  }
+}
+
+@media (min-width: 80rem) {
+  .docs-shell {
+    grid-template-columns:
+      var(--docs-sidebar-w) minmax(0, 1fr)
+      var(--docs-toc-w);
+  }
+}
+
+/* --------------------------------------------------------------- content */
+
+.docs-content {
+  /* Grid children default to min-width:auto and would refuse to shrink below
+     a long line of code, pushing the whole layout wide. */
+  min-inline-size: 0;
+  container-type: inline-size;
+  padding-block: 2.5rem 5rem;
+}
+
+.docs-article {
+  max-inline-size: 72ch;
+}
+
+.docs-article-head {
+  padding-block-end: 1.75rem;
+  border-block-end: 1px solid var(--dowel-border-1);
+}
+
+.docs-eyebrow {
+  margin: 0 0 var(--dowel-space-4);
+  font-family: var(--dowel-mono);
+  font-size: var(--dowel-fs-mini);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dowel-text-3);
+}
+
+.docs-content h1 {
+  margin: 0;
+  font-size: clamp(1.875rem, 1.4rem + 1.6vw, var(--dowel-fs-title1));
+  font-weight: var(--dowel-fw-semibold);
+  letter-spacing: var(--dowel-tracking-title);
+  line-height: 1.15;
+  color: var(--dowel-text-1);
+  text-wrap: balance;
+}
+
+.docs-lead {
+  margin: var(--dowel-space-7) 0 0;
+  max-inline-size: 62ch;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--dowel-text-3);
+  text-wrap: pretty;
+}
+
+.docs-section {
+  margin-block-start: 3.5rem;
+}
+
+.docs-section h2 {
+  margin: 0 0 var(--dowel-space-7);
+  font-size: var(--dowel-fs-title2);
   font-weight: var(--dowel-fw-semibold);
   letter-spacing: var(--dowel-tracking-title);
   color: var(--dowel-text-1);
-  margin: 0 0 var(--dowel-space-6);
 }
 
-.docs-main h2 {
-  font-size: var(--dowel-fs-title3);
-  font-weight: var(--dowel-fw-semibold);
+.docs-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+
+.docs-anchor::after {
+  content: "#";
+  margin-inline-start: var(--dowel-space-4);
+  color: var(--dowel-text-4);
+  opacity: 0;
+}
+
+.docs-anchor:hover::after {
+  opacity: 1;
+}
+
+.docs-article p {
+  margin: 0 0 var(--dowel-space-8);
+  /* 16px on mobile, dropping to dowel's own 15px base once there is room —
+     body copy below 16px on a phone is not readable. */
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--dowel-text-2);
+  text-wrap: pretty;
+}
+
+@media (min-width: 40rem) {
+  .docs-article p {
+    font-size: var(--dowel-fs-base);
+  }
+}
+
+/* Prose links only. The whole selector sits in :where() so it carries zero
+   specificity — a component with its own link styling (the card grid, which
+   renders <li><a>) then wins on a plain class rather than needing an
+   override chain. */
+:where(.docs-article :where(p, li, td) a) {
   color: var(--dowel-text-1);
-  margin: 3rem 0 var(--dowel-space-6);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--dowel-accent);
 }
 
-.docs-main p {
-  margin: 0 0 1rem;
-  line-height: 1.6;
+:where(.docs-article :where(p, li, td) a:hover) {
+  text-decoration-color: var(--dowel-text-1);
 }
 
-.docs-main code {
+/* Inline code only. `pre code` is scoped out so the block keeps its own
+   colours instead of turning into a row of chips. */
+.docs-article :where(p, li, td, th, .docs-note) code {
+  padding: 0.1em 0.35em;
   font-family: var(--dowel-mono);
-  font-size: var(--dowel-fs-mini);
+  font-size: 0.875em;
+  border-radius: var(--dowel-radius-sm);
+  background-color: var(--dowel-bg-3);
   color: var(--dowel-text-1);
 }
 
-/* A row of live components. */
-.docs-row {
+.docs-note {
+  margin: var(--dowel-space-8) 0;
+  padding: var(--dowel-space-7) var(--dowel-space-8);
+  border-radius: var(--dowel-radius);
+  background-color: var(--dowel-bg-2);
+  box-shadow: inset 2px 0 0 var(--dowel-accent);
+  font-size: var(--dowel-fs-small);
+  line-height: 1.65;
+  color: var(--dowel-text-3);
+}
+
+.docs-inline-sample {
+  margin: 0;
+  max-inline-size: 48ch;
+  font-size: var(--dowel-fs-base);
+  line-height: 1.7;
+  color: var(--dowel-text-2);
+}
+
+/* ------------------------------------------------------------------ demo */
+
+.docs-demo {
+  margin-block: var(--dowel-space-8) 0;
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius-lg);
+  overflow: hidden;
+  background-color: var(--dowel-bg-1);
+}
+
+.docs-demo-preview {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--dowel-space-4);
+  justify-content: center;
+  gap: var(--dowel-space-6);
+  min-block-size: 8.5rem;
+  padding: 2rem var(--dowel-space-8);
 }
 
-/* A constraint a consumer has to know about, not decoration. */
-.docs-note {
-  border-left: 2px solid var(--dowel-border-3);
-  padding-left: 1rem;
+.docs-demo-preview[data-layout="stack"] {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--dowel-space-8);
+  max-inline-size: 22rem;
+  margin-inline: auto;
+}
+
+.docs-demo-preview[data-layout="start"] {
+  justify-content: flex-start;
+}
+
+/* The code block is welded to the preview: no radius of its own, one shared
+   border. */
+.docs-demo .docs-code {
+  border: 0;
+  border-block-start: 1px solid var(--dowel-border-1);
+  border-radius: 0;
+}
+
+.docs-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--dowel-space-4);
+  margin-block-start: var(--dowel-space-2);
+}
+
+/* ------------------------------------------------------------------ code */
+
+.docs-code {
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius-lg);
+  overflow: hidden;
+  background-color: var(--docs-code-bg);
+}
+
+.docs-code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--dowel-space-2) var(--dowel-space-2) var(--dowel-space-2)
+    var(--dowel-space-7);
+  border-block-end: 1px solid var(--dowel-border-1);
+}
+
+.docs-code-lang {
+  font-family: var(--dowel-mono);
+  font-size: var(--dowel-fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--dowel-text-3);
+}
+
+.docs-code-pre {
+  margin: 0;
+  padding: var(--dowel-space-7) var(--dowel-space-8);
+  overflow-x: auto;
+  font-family: var(--dowel-mono);
+  font-size: var(--dowel-fs-mini);
+  line-height: 1.75;
+  letter-spacing: 0;
+  color: var(--dowel-text-2);
+  tab-size: 2;
+}
+
+.tk-comment {
+  color: var(--docs-code-comment);
+  font-style: italic;
+}
+.tk-string {
+  color: var(--docs-code-string);
+}
+.tk-number {
+  color: var(--docs-code-string);
+}
+.tk-keyword {
+  color: var(--docs-code-keyword);
+}
+.tk-tag,
+.tk-type {
+  color: var(--docs-code-tag);
+}
+.tk-attr {
+  color: var(--docs-code-attr);
+}
+
+/* ----------------------------------------------------------------- table */
+
+.docs-table-wrap {
+  margin-block: var(--dowel-space-8);
+  overflow-x: auto;
+}
+
+.docs-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--dowel-fs-small);
+}
+
+.docs-table th {
+  padding: var(--dowel-space-4) var(--dowel-space-6) var(--dowel-space-4) 0;
+  text-align: start;
+  font-weight: var(--dowel-fw-medium);
+  color: var(--dowel-text-3);
+  border-block-end: 1px solid var(--dowel-border-2);
+  white-space: nowrap;
+}
+
+.docs-table td {
+  padding: var(--dowel-space-6) var(--dowel-space-6) var(--dowel-space-6) 0;
+  vertical-align: top;
+  color: var(--dowel-text-2);
+  border-block-end: 1px solid var(--dowel-border-1);
+}
+
+/* ------------------------------------------------------------------- toc */
+
+.docs-toc {
+  display: none;
+}
+
+@media (min-width: 80rem) {
+  .docs-toc {
+    display: block;
+  }
+}
+
+.docs-toc-inner {
+  position: sticky;
+  inset-block-start: calc(var(--docs-header-h) + 2.5rem);
+  padding-block: 2.5rem 3rem;
+}
+
+.docs-toc-title {
+  margin: 0 0 var(--dowel-space-5);
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-semibold);
+  color: var(--dowel-text-1);
+}
+
+.docs-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-inline-start: 1px solid var(--dowel-border-1);
+}
+
+.docs-toc a {
+  display: block;
+  margin-inline-start: -1px;
+  padding: var(--dowel-space-3) 0 var(--dowel-space-3) var(--dowel-space-7);
+  border-inline-start: 1px solid transparent;
+  font-size: var(--dowel-fs-small);
+  line-height: 1.4;
+  color: var(--dowel-text-3);
+  text-decoration: none;
+}
+
+.docs-toc a:hover {
+  color: var(--dowel-text-2);
+}
+
+.docs-toc a[data-active] {
+  color: var(--dowel-text-1);
+  border-inline-start-color: var(--dowel-accent);
+}
+
+/* --------------------------------------------------------------- pagenav */
+
+.docs-pagenav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--dowel-space-8);
+  max-inline-size: 72ch;
+  margin-block-start: 4rem;
+}
+
+.docs-pagenav-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dowel-space-1);
+  padding: var(--dowel-space-6) var(--dowel-space-8);
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius);
+  text-decoration: none;
+  transition: var(--dowel-transition);
+}
+
+.docs-pagenav-link:hover {
+  background-color: var(--dowel-bg-2);
+  border-color: var(--dowel-border-2);
+}
+
+.docs-pagenav-link[data-dir="next"] {
+  text-align: end;
+  margin-inline-start: auto;
+}
+
+.docs-pagenav-label {
+  font-size: var(--dowel-fs-mini);
+  color: var(--dowel-text-4);
+}
+
+.docs-pagenav-title {
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-medium);
+  color: var(--dowel-text-1);
+}
+
+/* ----------------------------------------------------------------- cards */
+
+.docs-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dowel-space-6);
+  margin: var(--dowel-space-8) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Container queries, not viewport queries: this grid renders both inside the
+   narrow docs column and across the full-width landing page, and what it
+   needs to know is how much room it has, not how wide the window is. */
+@container (min-width: 34rem) {
+  .docs-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 58rem) {
+  .docs-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.docs-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dowel-space-3);
+  block-size: 100%;
+  padding: var(--dowel-space-8);
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius-lg);
+  text-decoration: none;
+  transition: var(--dowel-transition);
+}
+
+.docs-card:hover {
+  background-color: var(--dowel-bg-2);
+  border-color: var(--dowel-border-2);
+}
+
+.docs-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-3);
+  font-size: var(--dowel-fs-base);
+  font-weight: var(--dowel-fw-medium);
+  color: var(--dowel-text-1);
+}
+
+.docs-card-title .docs-icon {
+  color: var(--dowel-text-4);
+}
+
+.docs-card:hover .docs-card-title .docs-icon {
+  color: var(--dowel-accent);
+}
+
+.docs-card-summary {
+  font-size: var(--dowel-fs-small);
+  line-height: 1.55;
+  color: var(--dowel-text-3);
+}
+
+/* --------------------------------------------------------------- landing */
+
+.docs-landing {
+  max-inline-size: var(--docs-max);
+  margin-inline: auto;
+  padding-inline: var(--docs-gutter);
+}
+
+.docs-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  padding-block: 3.5rem 1rem;
+}
+
+@media (min-width: 64rem) {
+  .docs-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 4rem;
+    padding-block: 5.5rem 2rem;
+  }
+}
+
+.docs-hero-copy h1 {
+  margin: var(--dowel-space-7) 0 0;
+  max-inline-size: 18ch;
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.25rem);
+  font-weight: var(--dowel-fw-semibold);
+  letter-spacing: var(--dowel-tracking-title);
+  line-height: 1.05;
+  color: var(--dowel-text-1);
+  text-wrap: balance;
+}
+
+.docs-hero-copy .docs-lead {
+  max-inline-size: 52ch;
+}
+
+.docs-hero-copy code {
+  padding: 0.1em 0.35em;
+  font-family: var(--dowel-mono);
+  font-size: 0.875em;
+  border-radius: var(--dowel-radius-sm);
+  background-color: var(--dowel-bg-3);
+  color: var(--dowel-text-2);
+}
+
+.docs-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dowel-space-6);
+  margin-block-start: var(--dowel-space-8);
+}
+
+.docs-hero-panel {
+  border: 1px solid var(--dowel-border-2);
+  border-radius: var(--dowel-radius-lg);
+  background-color: var(--dowel-bg-elevated);
+  box-shadow: var(--docs-panel-shadow);
+  overflow: hidden;
+}
+
+.docs-hero-panel-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-3);
+  padding: var(--dowel-space-5) var(--dowel-space-7);
+  border-block-end: 1px solid var(--dowel-border-1);
+  background-color: var(--dowel-bg-2);
+}
+
+.docs-hero-dot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--dowel-radius-pill);
+  background-color: var(--dowel-border-3);
+}
+
+.docs-hero-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dowel-space-8);
+  padding: var(--dowel-space-8);
+}
+
+.docs-hero-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dowel-space-6);
+}
+
+.docs-section-block {
+  container-type: inline-size;
+  padding-block: 3.5rem;
+  border-block-start: 1px solid var(--dowel-border-1);
+}
+
+.docs-section-block h2 {
+  margin: 0;
+  font-size: var(--dowel-fs-title2);
+  font-weight: var(--dowel-fw-semibold);
+  letter-spacing: var(--dowel-tracking-title);
+  color: var(--dowel-text-1);
+}
+
+.docs-section-lead {
+  margin: var(--dowel-space-5) 0 0;
+  max-inline-size: 58ch;
+  font-size: var(--dowel-fs-base);
+  line-height: 1.6;
+  color: var(--dowel-text-3);
+}
+
+.docs-install {
+  display: grid;
+  gap: var(--dowel-space-6);
+  margin-block-start: var(--dowel-space-8);
+}
+
+@container (min-width: 52rem) {
+  .docs-install {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    align-items: start;
+  }
+}
+
+.docs-install-side {
+  display: grid;
+  align-content: start;
+  gap: var(--dowel-space-8);
+}
+
+.docs-fineprint {
+  margin: 0;
+  max-inline-size: 68ch;
+  font-size: var(--dowel-fs-small);
+  line-height: 1.6;
+  color: var(--dowel-text-3);
+}
+
+.docs-fineprint code {
+  font-family: var(--dowel-mono);
+  color: var(--dowel-text-2);
+}
+
+.docs-principles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dowel-space-8);
+  margin: var(--dowel-space-8) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@container (min-width: 52rem) {
+  .docs-principles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+}
+
+.docs-principles h3 {
+  margin: 0 0 var(--dowel-space-4);
+  font-size: var(--dowel-fs-base);
+  font-weight: var(--dowel-fw-semibold);
+  color: var(--dowel-text-1);
+}
+
+.docs-principles p {
+  margin: 0;
+  font-size: var(--dowel-fs-small);
+  line-height: 1.65;
+  color: var(--dowel-text-3);
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.docs-footer {
+  border-block-start: 1px solid var(--dowel-border-1);
+  padding-block: 2.5rem 4rem;
+}
+
+.docs-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dowel-space-8);
+}
+
+.docs-footer p {
+  margin: 0;
+  max-inline-size: 62ch;
+  font-size: var(--dowel-fs-small);
+  line-height: 1.6;
+  color: var(--dowel-text-3);
+}
+
+.docs-footer a {
+  color: var(--dowel-text-2);
+  font-weight: var(--dowel-fw-normal);
+}
+
+.docs-footer-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-3);
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-medium);
+  color: var(--dowel-text-1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.docs-footer-cta:hover {
+  color: var(--dowel-accent);
 }

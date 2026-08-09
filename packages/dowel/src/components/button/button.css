@@ -19,6 +19,10 @@
     transition: var(--dowel-transition);
     cursor: default;
     user-select: none;
+    /* `render={<a />}` is a supported escape hatch, and an anchor arrives
+       underlined from the UA sheet. A button that is a link still has to look
+       like a button. */
+    text-decoration: none;
   }
 
   .dowel-btn[data-size="sm"] {

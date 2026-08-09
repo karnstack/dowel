@@ -15,6 +15,9 @@
     transition: var(--dowel-transition);
     cursor: default;
     user-select: none;
+    /* `render={<a />}` is a supported escape hatch, and an anchor arrives
+       underlined from the UA sheet. */
+    text-decoration: none;
   }
 
   .dowel-icon-btn[data-size="sm"] {

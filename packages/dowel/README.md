@@ -84,7 +84,17 @@ Three custom properties, and **they must be declared on `:root`**:
 retint for free. Custom properties resolve on the element that declares them,
 which is why `:root` is the supported surface: override `--dowel-accent` on a
 nested wrapper and the inherited `--dowel-accent-hover` still resolves against
-the default accent, so buttons snap back to purple on hover.
+the default accent, so buttons snap back to teal on hover.
+
+`--dowel-accent-fg` is the one knob you have to think about, because dowel's
+own two themes do not agree on it. The default accent is teal —
+`lch(52% 32 195)` in light, lifted to `lch(68% 36 195)` in dark so it still
+carries on near-black surfaces. Teal is luminous for its lightness, so the
+dark accent leaves white text at 2.4:1; dark mode therefore draws a near-black
+ink (`lch(14% 6 195)`, 6.4:1) on the accent instead of white. If you retheme to
+a darker or less luminous hue, set `--dowel-accent-fg` to white and check the
+result in both themes — the value that works for one is not automatically
+right for the other.
 
 ## Typeface
 

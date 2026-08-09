@@ -20,11 +20,18 @@
     --dowel-text-3: lch(48% 1.2 var(--dowel-hue));
     --dowel-text-4: lch(61.803% 1.2 var(--dowel-hue));
 
-    /* accent — ours, deliberately not Linear's 295 brand hue */
-    --dowel-accent: lch(49% 62 285);
+    /* accent — teal, karnstack's house colour. Deliberately not Linear's 295
+       indigo: hue 195 at a restrained chroma reads as ours, not as a borrowed
+       brand. #198b89 in sRGB, comfortably inside the gamut. */
+    --dowel-accent: lch(52% 32 195);
     /* Derived from the accent so a --dowel-accent override retheming stays
-       coherent on hover. 92% matches the old hardcoded lch(44% 62 285). */
+       coherent on hover. Light hovers DARKEN: 92% toward black. */
     --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 92%, black);
+    /* White on this teal is 4.12:1 at rest and 5.00:1 on hover. Black would
+       trade those round — 5.10:1 at rest, 4.20:1 on hover — so no single ink
+       clears 4.5:1 in both states against an L=52 background. White is the
+       one that reads clean at 13px and holds up on the state the pointer is
+       actually over. Dark mode inverts this; see dark.css. */
     --dowel-accent-fg: lch(100% 0 0);
     --dowel-focus: var(--dowel-accent);
 

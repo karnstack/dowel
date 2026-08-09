@@ -8,3 +8,6 @@ packages:
 allowBuilds:
   esbuild: true
   lightningcss: true
+  # wrangler's runtime dependency. Its install script links the
+  # platform-specific binary; blocking it makes a clean install exit 1.
+  workerd: true

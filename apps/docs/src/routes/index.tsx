@@ -4,6 +4,7 @@ import { Badge, Button, Field, Input, Kbd, Tooltip, IconButton } from "dowel";
 import { CodeBlock } from "../components/code-block";
 import { ComponentGrid } from "../components/docs-page";
 import { ArrowRightIcon, CopyIcon, GitHubIcon } from "../components/icons";
+import { versionLabel } from "../lib/version";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -88,7 +89,7 @@ function Home() {
               <Input defaultValue="karnstack" />
             </Field.Root>
             <div className="docs-hero-row">
-              <Badge tone="accent">v0.1.0</Badge>
+              <Badge tone="accent">{versionLabel}</Badge>
               <Badge tone="success">Passing</Badge>
               <Kbd keys={["Meta", "K"]} />
               <Tooltip.Root>

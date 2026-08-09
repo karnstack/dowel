@@ -16,6 +16,7 @@ import {
   SunIcon,
 } from "../components/icons";
 import { SidebarNav } from "../components/sidebar-nav";
+import { versionLabel } from "../lib/version";
 
 // The docs self-host Inter; dowel itself ships no typeface, it only names
 // "Inter Variable" first in --dowel-font.
@@ -236,7 +237,7 @@ function RootDocument() {
               <Link to="/" aria-label="Homepage" className="docs-brand">
                 <Wordmark />
               </Link>
-              <Badge tone="accent">v0.1.0</Badge>
+              <Badge tone="accent">{versionLabel}</Badge>
 
               <nav className="docs-header-nav" aria-label="Main">
                 <Link to="/">Introduction</Link>

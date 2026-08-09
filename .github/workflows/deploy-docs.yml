@@ -56,7 +56,13 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: apps/docs
+          # The action picks a package manager by looking for a lockfile in
+          # workingDirectory. apps/docs has none (the lockfile is at the repo
+          # root), so it falls back to npm and npm chokes on the
+          # "dowel": "workspace:*" dependency. Say pnpm explicitly.
+          packageManager: pnpm
           # The action's bundled default predates wrangler v4 and cannot read
           # an assets-only config ("Missing entry-point"). Pin the major that
-          # wrangler.jsonc is written for.
+          # wrangler.jsonc is written for. wrangler ^4 is a devDependency of
+          # apps/docs, so the version probe finds it and no install runs.
           wranglerVersion: "4"

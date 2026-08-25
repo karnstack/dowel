@@ -73,8 +73,9 @@ function AlertDialogDocs() {
       <Section id="behavior" title="Behavior">
         <p>
           Opening traps focus and announces both title and description. Closing
-          returns focus to the trigger. Use Dialog for ordinary tasks and forms;
-          reserve Alert Dialog for a decision that requires explicit attention.
+          with Escape, the backdrop, or either action returns focus to the
+          trigger. Use Dialog for ordinary tasks and forms; reserve Alert Dialog
+          for a decision that requires explicit attention.
         </p>
       </Section>
     </DocsPage>

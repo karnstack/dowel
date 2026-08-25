@@ -437,7 +437,10 @@ body {
 .docs-shell-content {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  inline-size: 100%;
+  max-inline-size: var(--docs-max);
   min-inline-size: 0;
+  margin-inline: auto;
   padding-inline: var(--docs-gutter);
 }
 

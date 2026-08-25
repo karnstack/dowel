@@ -1,36 +1,32 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+import * as stylex from "@stylexjs/stylex";
+import { forwardRef, useContext } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
-/**
- * Public props for a Dialog part: the corresponding Base UI component's own
- * props (so `initialFocus`, `finalFocus`, `keepMounted`, … stay reachable)
- * minus appearance, which is not a consumer concern. Props are inferred from
- * the component's call signature — `ComponentProps<T>` rejects this loose
- * constraint (its own requires a `ReactNode` return), and the result is
- * identical.
- */
+import { DowelThemeContext, themeStyles } from "../../theme/theme-provider";
+import * as styles from "./dialog.stylex";
+
 type Props<T extends (...args: never) => unknown> = T extends (
   props: infer P,
 ) => unknown
   ? Omit<P, "className" | "style">
   : never;
 
-/**
- * A modal dialog on the modal elevation tier. Compound component: compose
- * `Root`, `Trigger`, `Portal`, `Backdrop`, `Popup`, `Title`, `Description`
- * and `Close`. `Title` labels the dialog for assistive tech automatically —
- * no hand-rolled `aria-labelledby`.
- */
+type DivProps = Omit<ComponentPropsWithoutRef<"div">, "className" | "style">;
+
+export type DialogPopupProps = Props<typeof BaseDialog.Popup> & {
+  /** Keep modal behavior and positioning while a composite owns the surface. */
+  variant?: "default" | "bare";
+};
+
+function partProps(style: stylex.StyleXStyles) {
+  const resolved = stylex.props(style);
+  return { className: resolved.className, style: resolved.style };
+}
+
 export const Dialog = {
   Root: BaseDialog.Root,
 
-  // Trigger, Portal and Close are structural — dowel gives them no class of
-  // their own — but they still render real elements (Portal a <div>, Trigger
-  // and Close a native <button> when no `render` is given), so their
-  // className/style channels must be neutralised like the styled parts'.
-  // Portal is the sharp edge: an inline `transform`/`filter` on its <div>
-  // creates a containing block that silently breaks the popup's
-  // `position: fixed`. An element passed via `render` still carries its own
-  // attributes — that escape hatch is by design.
   Trigger: function DialogTrigger(props: Props<typeof BaseDialog.Trigger>) {
     return (
       <BaseDialog.Trigger {...props} className={undefined} style={undefined} />
@@ -38,8 +34,16 @@ export const Dialog = {
   },
 
   Portal: function DialogPortal(props: Props<typeof BaseDialog.Portal>) {
+    const theme = useContext(DowelThemeContext);
+    const resolved = stylex.props(themeStyles[theme]);
+
     return (
-      <BaseDialog.Portal {...props} className={undefined} style={undefined} />
+      <BaseDialog.Portal
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-theme={theme}
+      />
     );
   },
 
@@ -47,28 +51,75 @@ export const Dialog = {
     return (
       <BaseDialog.Backdrop
         {...props}
-        // Everything below stays AFTER the spread so props spread onto the
-        // component cannot override appearance. An element passed via
-        // `render` still carries its own attributes — that escape hatch is
-        // by design.
-        className="dowel-backdrop"
-        style={undefined}
+        {...partProps(styles.backdrop.root)}
+        data-dowel-component="dialog-backdrop"
       />
     );
   },
 
-  Popup: function DialogPopup(props: Props<typeof BaseDialog.Popup>) {
+  Popup: function DialogPopup({
+    variant = "default",
+    ...props
+  }: DialogPopupProps) {
+    const resolved = stylex.props(
+      styles.popup.root,
+      variant === "bare" && styles.popup.bare,
+    );
+
     return (
-      <BaseDialog.Popup {...props} className="dowel-dialog" style={undefined} />
+      <BaseDialog.Popup
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-component="dialog-popup"
+        data-variant={variant}
+      />
     );
   },
+
+  Header: forwardRef<HTMLDivElement, DivProps>(
+    function DialogHeader(props, ref) {
+      return (
+        <div
+          ref={ref}
+          {...props}
+          {...partProps(styles.part.header)}
+          data-dowel-component="dialog-header"
+        />
+      );
+    },
+  ),
+
+  Body: forwardRef<HTMLDivElement, DivProps>(function DialogBody(props, ref) {
+    return (
+      <div
+        ref={ref}
+        {...props}
+        {...partProps(styles.part.body)}
+        data-dowel-component="dialog-body"
+      />
+    );
+  }),
+
+  Footer: forwardRef<HTMLDivElement, DivProps>(
+    function DialogFooter(props, ref) {
+      return (
+        <div
+          ref={ref}
+          {...props}
+          {...partProps(styles.part.footer)}
+          data-dowel-component="dialog-footer"
+        />
+      );
+    },
+  ),
 
   Title: function DialogTitle(props: Props<typeof BaseDialog.Title>) {
     return (
       <BaseDialog.Title
         {...props}
-        className="dowel-dialog-title"
-        style={undefined}
+        {...partProps(styles.part.title)}
+        data-dowel-component="dialog-title"
       />
     );
   },
@@ -79,8 +130,8 @@ export const Dialog = {
     return (
       <BaseDialog.Description
         {...props}
-        className="dowel-dialog-description"
-        style={undefined}
+        {...partProps(styles.part.description)}
+        data-dowel-component="dialog-description"
       />
     );
   },

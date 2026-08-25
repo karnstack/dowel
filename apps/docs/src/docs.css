@@ -516,13 +516,6 @@ body {
   border-radius: 0;
 }
 
-.docs-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--dowel-space-4);
-  margin-block-start: var(--dowel-space-2);
-}
-
 /* ------------------------------------------------------------------ code */
 
 .docs-code {

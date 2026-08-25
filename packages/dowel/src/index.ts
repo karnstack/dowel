@@ -28,5 +28,6 @@ export type {
   TextareaProps,
 } from "./components/input";
 export { Dialog } from "./components/dialog";
+export type { DialogPopupProps } from "./components/dialog";
 export { Menu } from "./components/menu";
 export { Tooltip } from "./components/tooltip";

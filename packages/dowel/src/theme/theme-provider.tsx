@@ -1,11 +1,13 @@
 import * as stylex from "@stylexjs/stylex";
-import { forwardRef } from "react";
+import { createContext, forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
 
 import { tokens } from "./tokens.stylex";
 import { darkTheme, lightTheme, systemTheme } from "./themes.stylex";
 
 export type DowelTheme = "light" | "dark" | "system";
+
+export const DowelThemeContext = createContext<DowelTheme>("system");
 
 export interface ThemeProviderProps
   extends Omit<ComponentPropsWithoutRef<"div">, "className" | "style"> {
@@ -35,7 +37,7 @@ const styles = stylex.create({
   },
 });
 
-const themes = {
+export const themeStyles = {
   light: lightTheme,
   dark: darkTheme,
   system: systemTheme,
@@ -43,16 +45,22 @@ const themes = {
 
 export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(
   function ThemeProvider({ theme = "system", ...props }, ref) {
-    const resolved = stylex.props(themes[theme], styles.root, styles[theme]);
+    const resolved = stylex.props(
+      themeStyles[theme],
+      styles.root,
+      styles[theme],
+    );
 
     return (
-      <div
-        ref={ref}
-        {...props}
-        className={resolved.className}
-        style={resolved.style}
-        data-dowel-theme={theme}
-      />
+      <DowelThemeContext.Provider value={theme}>
+        <div
+          ref={ref}
+          {...props}
+          className={resolved.className}
+          style={resolved.style}
+          data-dowel-theme={theme}
+        />
+      </DowelThemeContext.Provider>
     );
   },
 );

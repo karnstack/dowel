@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { expectNoA11yViolations } from "../../../test/setup";
+import { ThemeProvider } from "../../theme/theme-provider";
 import { Button } from "../button";
 import { Dialog } from "./index";
 
@@ -12,9 +13,13 @@ function Example() {
       <Dialog.Portal>
         <Dialog.Backdrop />
         <Dialog.Popup>
-          <Dialog.Title>Delete issue</Dialog.Title>
-          <Dialog.Description>This cannot be undone.</Dialog.Description>
-          <Dialog.Close render={<Button>Cancel</Button>} />
+          <Dialog.Header>
+            <Dialog.Title>Delete issue</Dialog.Title>
+            <Dialog.Description>This cannot be undone.</Dialog.Description>
+          </Dialog.Header>
+          <Dialog.Footer>
+            <Dialog.Close render={<Button>Cancel</Button>} />
+          </Dialog.Footer>
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
@@ -47,14 +52,55 @@ describe("Dialog", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
-  it("carries the dowel classes on every styled part", async () => {
+  it("carries StyleX classes and anatomy markers on every styled part", async () => {
     render(<Example />);
     await userEvent.click(screen.getByRole("button", { name: "Open" }));
     const dialog = screen.getByRole("dialog");
-    expect(dialog.className).toContain("dowel-dialog");
-    expect(document.querySelector(".dowel-backdrop")).not.toBeNull();
-    expect(dialog.querySelector(".dowel-dialog-title")).not.toBeNull();
-    expect(dialog.querySelector(".dowel-dialog-description")).not.toBeNull();
+    for (const part of [
+      "dialog-backdrop",
+      "dialog-popup",
+      "dialog-header",
+      "dialog-footer",
+      "dialog-title",
+      "dialog-description",
+    ]) {
+      const element = document.querySelector(
+        `[data-dowel-component="${part}"]`,
+      );
+      expect(element, part).not.toBeNull();
+      expect(element?.className, part).not.toBe("");
+    }
+    expect(dialog.dataset.variant).toBe("default");
+  });
+
+  it("offers a bare popup host for composite surfaces", () => {
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Portal>
+          <Dialog.Backdrop />
+          <Dialog.Popup variant="bare">
+            <Dialog.Title>Composite</Dialog.Title>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>,
+    );
+    expect(screen.getByRole("dialog").dataset.variant).toBe("bare");
+  });
+
+  it("carries the active theme into its body-level portal", () => {
+    render(
+      <ThemeProvider theme="dark">
+        <Dialog.Root defaultOpen>
+          <Dialog.Portal data-testid="portal">
+            <Dialog.Backdrop />
+            <Dialog.Popup>
+              <Dialog.Title>Themed dialog</Dialog.Title>
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </ThemeProvider>,
+    );
+    expect(screen.getByTestId("portal").dataset.dowelTheme).toBe("dark");
   });
 
   it("ignores className and style smuggled through a spread", async () => {
@@ -84,30 +130,37 @@ describe("Dialog", () => {
         <Dialog.Portal {...smuggle("s-portal")}>
           <Dialog.Backdrop {...smuggle("s-backdrop")} />
           <Dialog.Popup {...smuggle("s-popup")}>
-            <Dialog.Title {...smuggle("s-title")}>Delete issue</Dialog.Title>
-            <Dialog.Description {...smuggle("s-description")}>
-              This cannot be undone.
-            </Dialog.Description>
+            <Dialog.Header {...smuggle("s-header")}>
+              <Dialog.Title {...smuggle("s-title")}>Delete issue</Dialog.Title>
+              <Dialog.Description {...smuggle("s-description")}>
+                This cannot be undone.
+              </Dialog.Description>
+            </Dialog.Header>
+            <Dialog.Body {...smuggle("s-body")}>Body</Dialog.Body>
+            <Dialog.Footer {...smuggle("s-footer")}>Footer</Dialog.Footer>
             <Dialog.Close {...smuggle("s-close")}>Cancel</Dialog.Close>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>,
     );
-    for (const [id, dowelClass] of [
+    for (const [id, styled] of [
       ["s-trigger", null],
-      ["s-portal", null],
-      ["s-backdrop", "dowel-backdrop"],
-      ["s-popup", "dowel-dialog"],
-      ["s-title", "dowel-dialog-title"],
-      ["s-description", "dowel-dialog-description"],
+      ["s-portal", true],
+      ["s-backdrop", true],
+      ["s-popup", true],
+      ["s-header", true],
+      ["s-body", true],
+      ["s-footer", true],
+      ["s-title", true],
+      ["s-description", true],
       ["s-close", null],
     ] as const) {
       // The surviving `id` is how each part is found: it proves functional
       // props pass through while the appearance channels are stripped.
       const el = document.getElementById(id);
       expect(el, id).not.toBeNull();
-      if (dowelClass) {
-        expect(el!.className, id).toContain(dowelClass);
+      if (styled) {
+        expect(el!.className, id).not.toBe("");
       }
       expect(el!.className, id).not.toContain("evil");
       expect(el!.style.color, id).toBe("");

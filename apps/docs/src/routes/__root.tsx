@@ -11,7 +11,7 @@ import { useCallback, useMemo, useState } from "react";
 import { CommandSearch } from "../components/command-search";
 import { DocsContext } from "../components/docs-context";
 
-import "@fontsource-variable/inter";
+import "@fontsource-variable/host-grotesk";
 import "dowel/dowel.css";
 import "../docs.css";
 

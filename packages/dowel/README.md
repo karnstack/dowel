@@ -36,7 +36,7 @@ See [dowel.sh](https://dowel.sh) for live examples and API details.
 
 - ESM only
 - React 19
-- Inter Variable recommended
+- Host Grotesk Variable recommended
 - Pre-1.0, with no compatibility promises yet
 
 Inspired by Linear's craft and restraint. Not affiliated with Linear.

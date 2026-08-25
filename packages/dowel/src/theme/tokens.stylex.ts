@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 
 export const tokens = stylex.defineVars({
   "--dowel-font-sans":
-    '"Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    '"Host Grotesk Variable", "Host Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   "--dowel-font-mono":
     '"JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace',
 

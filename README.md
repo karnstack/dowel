@@ -33,4 +33,4 @@ Every component is keyboard tested and accessibility checked. Visual controls ow
 
 For the complete API and theme tokens, see the [package reference](packages/dowel/README.md).
 
-Designed for Inter Variable. Inspired by the craft and restraint of Linear. Not affiliated with Linear.
+Designed for Host Grotesk Variable. Inspired by the craft and restraint of Linear. Not affiliated with Linear.

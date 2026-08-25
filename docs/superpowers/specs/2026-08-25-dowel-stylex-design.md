@@ -114,9 +114,10 @@ theme variables use stable `--dowel-*` names.
 
 ### Type
 
-Inter Variable is the default UI face and may be self-hosted under its license.
-The system stack remains a supported fallback. Dowel does not ship licensed
-Linear fonts.
+Host Grotesk Variable is the default UI face and may be self-hosted under its
+OFL license. Its uniwidth metrics keep compact navigation, tabs, and controls
+stable across weight changes. The system stack remains a supported fallback.
+Dowel does not ship licensed Linear fonts.
 
 ```text
 11px: micro metadata

@@ -15,6 +15,7 @@ import {
   PropertyPill,
   Sidebar,
   Tabs,
+  Textarea,
   Tooltip,
   createDataTableColumnHelper,
 } from "dowel";
@@ -79,12 +80,7 @@ function GalleryItem({
 
 export function ComponentGallery() {
   return (
-    <section className="docs-gallery" aria-labelledby="components-title">
-      <div className="docs-gallery-heading">
-        <h2 id="components-title">Components</h2>
-        <p>Live, interactive, and shown in the current theme.</p>
-      </div>
-
+    <section className="docs-gallery" aria-label="Live component catalog">
       <ul className="docs-gallery-grid" role="list">
         <GalleryItem title="Button" to="/components/button">
           <Button variant="primary">Create</Button>
@@ -106,6 +102,17 @@ export function ComponentGallery() {
           <Field.Root>
             <Field.Label>Project name</Field.Label>
             <Input name="project" defaultValue="New workspace" />
+          </Field.Root>
+        </GalleryItem>
+
+        <GalleryItem title="Textarea" to="/components/input" layout="stack">
+          <Field.Root>
+            <Field.Label>Description</Field.Label>
+            <Textarea
+              name="description"
+              defaultValue="A compact interface for focused work."
+              rows={2}
+            />
           </Field.Root>
         </GalleryItem>
 

@@ -21,7 +21,7 @@ const styles = stylex.create({
     fontFamily: tokens["--dowel-font-sans"],
     fontSize: "0.8125rem",
     fontWeight: 450,
-    letterSpacing: "-0.0125rem",
+    letterSpacing: "-0.00625rem",
     minHeight: "100dvh",
     minWidth: 0,
     WebkitFontSmoothing: "antialiased",

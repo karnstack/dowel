@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { ComponentGrid, DocsPage } from "../../components/docs-page";
+import { ComponentGallery } from "../../components/component-gallery";
 import { componentNav } from "../../lib/nav";
 
 export const Route = createFileRoute("/components/")({
@@ -9,12 +9,21 @@ export const Route = createFileRoute("/components/")({
 
 function ComponentsIndex() {
   return (
-    <DocsPage
-      eyebrow="Library"
-      title="Components"
-      lead={`${componentNav.length} components. Open one for live examples and API details.`}
-    >
-      <ComponentGrid />
-    </DocsPage>
+    <main className="docs-home docs-components-index">
+      <header className="docs-intro">
+        <div className="docs-intro-copy">
+          <p className="docs-intro-meta">Library / {componentNav.length}</p>
+          <h1>Components</h1>
+          <p>Compact primitives for dense, keyboard-first interfaces.</p>
+        </div>
+
+        <div className="docs-install-command" aria-label="Install dowel">
+          <span aria-hidden="true">$</span>
+          <code>pnpm add dowel</code>
+        </div>
+      </header>
+
+      <ComponentGallery />
+    </main>
   );
 }

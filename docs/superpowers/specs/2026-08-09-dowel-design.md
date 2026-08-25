@@ -1,7 +1,11 @@
 # dowel — design spec
 
 **Date:** 2026-08-09
-**Status:** approved 2026-08-09
+**Status:** superseded 2026-08-25
+
+> This document is historical. The StyleX architecture, new Linear audit, and
+> expanded component catalog supersede it. See
+> `2026-08-25-dowel-stylex-design.md`.
 
 ---
 

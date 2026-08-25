@@ -121,7 +121,7 @@ function ComponentsLayout() {
           <div className="docs-workspace-bar">
             <WorkspaceTitle />
             <div className="docs-workspace-search">
-              <SearchTrigger onClick={openSearch} />
+              <SearchTrigger size="sm" onClick={openSearch} />
             </div>
           </div>
 

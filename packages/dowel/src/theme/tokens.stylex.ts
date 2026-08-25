@@ -6,10 +6,10 @@ export const tokens = stylex.defineVars({
   "--dowel-font-mono":
     '"JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace',
 
-  "--dowel-bg-canvas": "#f7f7f6",
+  "--dowel-bg-canvas": "#f7f7f8",
   "--dowel-bg-surface-1": "#ffffff",
-  "--dowel-bg-surface-2": "#f2f1ef",
-  "--dowel-bg-surface-3": "#e9e8e5",
+  "--dowel-bg-surface-2": "#f4f4f5",
+  "--dowel-bg-surface-3": "#e4e4e7",
   "--dowel-bg-elevated": "#ffffff",
   "--dowel-bg-hover": "#0000000a",
   "--dowel-bg-active": "#00000010",
@@ -18,10 +18,10 @@ export const tokens = stylex.defineVars({
   "--dowel-border-default": "#00000014",
   "--dowel-border-strong": "#00000024",
 
-  "--dowel-text-primary": "#20201f",
-  "--dowel-text-secondary": "#5f5e5a",
-  "--dowel-text-tertiary": "#85837d",
-  "--dowel-text-disabled": "#aaa8a2",
+  "--dowel-text-primary": "#18181b",
+  "--dowel-text-secondary": "#52525b",
+  "--dowel-text-tertiary": "#71717a",
+  "--dowel-text-disabled": "#a1a1aa",
 
   "--dowel-accent": "#287d73",
   "--dowel-accent-hover": "#226c64",

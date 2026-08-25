@@ -29,9 +29,20 @@ export function Wordmark() {
   );
 }
 
-export function SearchTrigger({ onClick }: { onClick: () => void }) {
+export function SearchTrigger({
+  onClick,
+  size = "md",
+}: {
+  onClick: () => void;
+  size?: "sm" | "md";
+}) {
   return (
-    <button className="docs-search-trigger" type="button" onClick={onClick}>
+    <button
+      className="docs-search-trigger"
+      data-size={size}
+      type="button"
+      onClick={onClick}
+    >
       <SearchIcon />
       <span>Search</span>
       <Kbd keys={["⌘", "K"]} />

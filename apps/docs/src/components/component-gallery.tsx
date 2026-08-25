@@ -12,6 +12,7 @@ import {
   Menu,
   PropertyPicker,
   PropertyPill,
+  Sidebar,
   Tooltip,
 } from "dowel";
 import type { ReactNode } from "react";
@@ -165,6 +166,31 @@ export function ComponentGallery() {
         <GalleryItem title="Kbd" to="/components/kbd">
           <Kbd keys={["Meta", "K"]} />
           <Kbd keys={["Shift", "P"]} />
+        </GalleryItem>
+
+        <GalleryItem title="Sidebar" to="/components/sidebar">
+          <Sidebar.Root
+            className="docs-gallery-sidebar"
+            defaultWidth={104}
+            minWidth={88}
+            maxWidth={136}
+          >
+            <Sidebar.Panel aria-label="Sidebar preview">
+              <Sidebar.Body>
+                <span className="docs-gallery-sidebar-title">Workspace</span>
+                <span data-active="">Inbox</span>
+                <span>Projects</span>
+              </Sidebar.Body>
+            </Sidebar.Panel>
+            <Sidebar.ResizeHandle aria-label="Resize sidebar preview" />
+            <Sidebar.Content>
+              <div className="docs-gallery-sidebar-lines">
+                <span />
+                <span />
+                <span />
+              </div>
+            </Sidebar.Content>
+          </Sidebar.Root>
         </GalleryItem>
 
         <GalleryItem title="Composer" to="/components/composer" layout="wide">

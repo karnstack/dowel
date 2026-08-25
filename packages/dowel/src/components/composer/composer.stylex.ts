@@ -43,8 +43,8 @@ export const parts = stylex.create({
     minWidth: 0,
     overflowY: "auto",
     padding: {
-      default: "0.5rem 1.5rem 1.25rem",
-      [MOBILE]: "0.5rem 1rem 1rem",
+      default: "1.25rem 1.5rem 1.5rem",
+      [MOBILE]: "1rem",
     },
   },
   divider: {

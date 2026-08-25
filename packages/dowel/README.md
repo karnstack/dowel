@@ -26,16 +26,15 @@ That is the whole setup. dowel is **ESM-only** — the `exports` map has no
 ## Components
 
 `Button` · `IconButton` · `Badge` · `Kbd` · `Input` (with `Field`) ·
-`Dialog` · `Menu` · `Tooltip`
+`Dialog` · `Menu` · `Sidebar` · `Tooltip`
 
 Behaviour comes from [Base UI](https://base-ui.com); every component is
 keyboard-tested and axe-checked.
 
 ## Theming
 
-There is no per-component `className` or `style` override API, by design. If
-you need a different button, dowel is the wrong library. What you do get is a
-root class, a theme switch and three variables.
+Visual controls do not expose `className` or `style` overrides. Layout
+primitives accept application shell hooks. The theme surface stays shared.
 
 ### `.dowel-root`
 

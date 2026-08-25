@@ -11,7 +11,7 @@ function ComponentsIndex() {
     <DocsPage
       eyebrow="Library"
       title="Components"
-      lead="Ten components. Open one for live examples and API details."
+      lead="Eleven components. Open one for live examples and API details."
     >
       <ComponentGrid />
     </DocsPage>

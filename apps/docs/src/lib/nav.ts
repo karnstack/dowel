@@ -67,6 +67,11 @@ export const componentNav: NavItem[] = [
       "Searchable grouped metadata selection with a compact pill trigger.",
   },
   {
+    title: "Sidebar",
+    to: "/components/sidebar",
+    summary: "A responsive application rail with pointer and keyboard resize.",
+  },
+  {
     title: "Tooltip",
     to: "/components/tooltip",
     summary: "A hover and focus label on the popover elevation tier.",

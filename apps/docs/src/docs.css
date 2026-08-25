@@ -19,7 +19,6 @@
   color-scheme: light dark;
 
   --docs-header-h: 3.5rem;
-  --docs-sidebar-w: 15rem;
   --docs-toc-w: 14rem;
   --docs-max: 88rem;
   --docs-gutter: 1.25rem;
@@ -242,15 +241,15 @@ body {
 /* ------------------------------------------------------------------- nav */
 
 .docs-nav-section {
-  margin-block-end: var(--dowel-space-8);
+  margin-block-end: var(--dowel-space-7);
 }
 
 .docs-nav-heading {
-  margin: 0 0 var(--dowel-space-3);
-  padding-inline-start: var(--dowel-space-5);
-  font-size: var(--dowel-fs-small);
-  font-weight: var(--dowel-fw-semibold);
-  color: var(--dowel-text-1);
+  margin: 0 0 var(--dowel-space-2);
+  padding-inline: var(--dowel-space-4);
+  font-size: var(--dowel-fs-mini);
+  font-weight: var(--dowel-fw-medium);
+  color: var(--dowel-text-4);
 }
 
 .docs-nav ul {
@@ -263,59 +262,52 @@ body {
 }
 
 .docs-nav a {
-  display: block;
-  padding: var(--dowel-space-3) var(--dowel-space-5);
-  border-radius: var(--dowel-radius-sm);
+  display: flex;
+  align-items: center;
+  min-block-size: 1.875rem;
+  padding: var(--dowel-space-3) var(--dowel-space-4);
+  border-radius: 6px;
   font-size: var(--dowel-fs-small);
-  color: var(--dowel-text-3);
+  color: var(--dowel-text-2);
   text-decoration: none;
-  transition: var(--dowel-transition);
 }
 
 .docs-nav a:hover {
-  color: var(--dowel-text-2);
+  color: var(--dowel-text-1);
   background-color: var(--dowel-bg-2);
 }
 
-/* The current page is marked with a muted surface and an accent rule, never
-   a filled accent background — and the weight never changes between states,
-   so the list does not reflow as you navigate. */
+/* The current page uses only a quiet surface and text contrast. */
 .docs-nav a[data-status="active"] {
   color: var(--dowel-text-1);
-  background-color: var(--dowel-bg-3);
-  box-shadow: inset 2px 0 0 var(--dowel-accent);
+  background-color: var(--dowel-bg-2);
 }
 
 /* ----------------------------------------------------------------- shell */
 
 .docs-shell {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
   max-inline-size: var(--docs-max);
   margin-inline: auto;
   padding-inline: var(--docs-gutter);
 }
 
-.docs-sidebar {
-  display: none;
+.docs-shell-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
 }
 
 @media (min-width: 64rem) {
-  .docs-shell {
-    grid-template-columns: var(--docs-sidebar-w) minmax(0, 1fr);
-    gap: 3rem;
+  .docs-shell > [data-dowel-component="sidebar"] {
+    min-block-size: calc(100dvh - var(--docs-header-h));
   }
 
-  .docs-sidebar {
-    display: block;
-    position: sticky;
-    inset-block-start: var(--docs-header-h);
-    block-size: calc(100dvh - var(--docs-header-h));
-    overflow-y: auto;
-    margin-inline-start: calc(var(--docs-gutter) * -1);
-    padding: 2rem 1rem 3rem var(--docs-gutter);
-    border-inline-end: 1px solid var(--dowel-border-1);
+  .docs-sidebar-inner {
+    padding-block: var(--dowel-space-5) 2rem;
+  }
+
+  .docs-shell-content {
+    padding-inline-start: 3rem;
   }
 
   :root[data-nav-open] .docs-mobile-nav {
@@ -332,10 +324,9 @@ body {
 }
 
 @media (min-width: 80rem) {
-  .docs-shell {
-    grid-template-columns:
-      var(--docs-sidebar-w) minmax(0, 1fr)
-      var(--docs-toc-w);
+  .docs-shell-content {
+    grid-template-columns: minmax(0, 1fr) var(--docs-toc-w);
+    column-gap: 3rem;
   }
 }
 
@@ -1169,6 +1160,53 @@ body {
   inline-size: min(100%, 44rem);
 }
 
+.docs-gallery-sidebar {
+  block-size: 7rem;
+  max-inline-size: 20rem;
+  overflow: hidden;
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius);
+}
+
+.docs-gallery-sidebar [data-dowel-part="sidebar-body"] {
+  gap: 2px;
+  padding: var(--dowel-space-4);
+  font-size: var(--dowel-fs-mini);
+  color: var(--dowel-text-3);
+}
+
+.docs-gallery-sidebar [data-dowel-part="sidebar-body"] > span {
+  padding: var(--dowel-space-2) var(--dowel-space-3);
+  border-radius: var(--dowel-radius-sm);
+}
+
+.docs-gallery-sidebar [data-dowel-part="sidebar-body"] > span[data-active] {
+  color: var(--dowel-text-1);
+  background-color: var(--dowel-bg-2);
+}
+
+.docs-gallery-sidebar .docs-gallery-sidebar-title {
+  color: var(--dowel-text-4);
+}
+
+.docs-gallery-sidebar-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dowel-space-5);
+  padding: var(--dowel-space-7);
+}
+
+.docs-gallery-sidebar-lines span {
+  display: block;
+  block-size: 5px;
+  border-radius: var(--dowel-radius-pill);
+  background-color: var(--dowel-bg-3);
+}
+
+.docs-gallery-sidebar-lines span:nth-child(2) {
+  inline-size: 72%;
+}
+
 @media (min-width: 48rem) {
   .docs-gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1257,7 +1295,6 @@ body {
 .docs-content .docs-cards {
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
-  border-block-start: 1px solid var(--dowel-border-1);
 }
 
 .docs-content .docs-card {
@@ -1273,6 +1310,67 @@ body {
 .docs-content .docs-card:hover {
   background-color: transparent;
   border-color: var(--dowel-border-1);
+}
+
+.docs-sidebar-example {
+  block-size: 18rem;
+  overflow: hidden;
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius-lg);
+  background-color: var(--dowel-bg-1);
+}
+
+.docs-sidebar-example [data-dowel-part="sidebar-header"] {
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-semibold);
+  color: var(--dowel-text-1);
+}
+
+.docs-sidebar-example [data-dowel-part="sidebar-footer"] {
+  min-inline-size: 0;
+  overflow: hidden;
+  font-size: var(--dowel-fs-mini);
+  color: var(--dowel-text-3);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-sidebar-example-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.docs-sidebar-example-nav a {
+  padding: var(--dowel-space-3) var(--dowel-space-4);
+  border-radius: 6px;
+  font-size: var(--dowel-fs-small);
+  color: var(--dowel-text-2);
+  text-decoration: none;
+}
+
+.docs-sidebar-example-nav a:hover,
+.docs-sidebar-example-nav a[data-active] {
+  color: var(--dowel-text-1);
+  background-color: var(--dowel-bg-2);
+}
+
+.docs-sidebar-example-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dowel-space-7);
+  padding: 2rem;
+}
+
+.docs-sidebar-example-content span {
+  display: block;
+  block-size: 0.5rem;
+  border-radius: var(--dowel-radius-pill);
+  background-color: var(--dowel-bg-2);
+}
+
+.docs-sidebar-example-content span:nth-child(2) {
+  inline-size: 72%;
 }
 
 @container (min-width: 34rem) {

@@ -411,8 +411,12 @@ body {
   flex: 1;
   min-block-size: 0;
   min-inline-size: 0;
+  margin-inline: 0.25rem;
   overflow-x: hidden;
   overflow-y: auto;
+  border: 1px solid var(--dowel-border-1);
+  border-radius: 0.625rem;
+  background: var(--dowel-bg-surface-1);
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
 }
@@ -431,7 +435,6 @@ body {
   gap: var(--dowel-space-4);
   block-size: var(--docs-mobile-bar-h);
   padding-inline: var(--dowel-space-4);
-  border-block-end: 1px solid var(--dowel-border-1);
   background: var(--dowel-bg-1);
 }
 
@@ -452,7 +455,6 @@ body {
   align-items: center;
   min-block-size: 2.75rem;
   padding-inline: var(--dowel-space-7);
-  border-block-end: 1px solid var(--dowel-border-1);
   background: var(--dowel-bg-1);
 }
 
@@ -487,7 +489,6 @@ body {
   gap: var(--dowel-space-6);
   min-block-size: 1.75rem;
   padding-inline: var(--dowel-space-6);
-  border-block-start: 1px solid var(--dowel-border-1);
   background: var(--dowel-bg-1);
   color: var(--dowel-text-4);
   font-size: var(--dowel-fs-mini);
@@ -521,6 +522,14 @@ body {
 
 :root[data-nav-open] .docs-mobile-nav {
   display: flex;
+}
+
+@media (max-width: 63.999rem) {
+  .docs-shell-scroll {
+    margin-inline: 0;
+    border-inline: 0;
+    border-radius: 0;
+  }
 }
 
 @media (min-width: 64rem) {

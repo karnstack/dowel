@@ -83,7 +83,14 @@ function ComponentsLayout() {
 
         <Sidebar.ResizeHandle aria-label="Resize component navigation" />
 
-        <Sidebar.Content>
+        <Sidebar.Content
+          style={{
+            margin: 0,
+            borderColor: "transparent",
+            borderRadius: 0,
+            background: "var(--dowel-bg-1)",
+          }}
+        >
           <div className="docs-mobile-bar">
             <IconButton
               label={navOpen ? "Close navigation" : "Open navigation"}

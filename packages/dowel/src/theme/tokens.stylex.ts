@@ -58,4 +58,32 @@ export const tokens = stylex.defineVars({
   "--dowel-duration-fast": "120ms",
   "--dowel-duration-normal": "150ms",
   "--dowel-ease-out": "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+
+  // Transitional aliases for the remaining pre-StyleX components and docs.
+  // They resolve through the active StyleX theme, so nested and explicit
+  // themes stay coherent while those consumers move to the new names.
+  "--dowel-font": "var(--dowel-font-sans)",
+  "--dowel-mono": "var(--dowel-font-mono)",
+  "--dowel-bg-1": "var(--dowel-bg-canvas)",
+  "--dowel-bg-2": "var(--dowel-bg-surface-2)",
+  "--dowel-bg-3": "var(--dowel-bg-surface-3)",
+  "--dowel-bg-4": "var(--dowel-bg-active)",
+  "--dowel-border-1": "var(--dowel-border-default)",
+  "--dowel-border-2": "var(--dowel-border-strong)",
+  "--dowel-border-3": "var(--dowel-border-strong)",
+  "--dowel-text-1": "var(--dowel-text-primary)",
+  "--dowel-text-2": "var(--dowel-text-secondary)",
+  "--dowel-text-3": "var(--dowel-text-tertiary)",
+  "--dowel-text-4": "var(--dowel-text-disabled)",
+  "--dowel-accent-fg": "var(--dowel-on-accent)",
+  "--dowel-focus": "var(--dowel-focus-ring)",
+  "--dowel-danger-fg": "var(--dowel-on-danger)",
+  "--dowel-overlay": "var(--dowel-scrim)",
+  "--dowel-radius": "var(--dowel-radius-md)",
+  "--dowel-h-sm": "var(--dowel-control-sm)",
+  "--dowel-h": "var(--dowel-control-md)",
+  "--dowel-h-field": "var(--dowel-control-lg)",
+  "--dowel-dur": "var(--dowel-duration-normal)",
+  "--dowel-dur-fast": "var(--dowel-duration-fast)",
+  "--dowel-ease": "var(--dowel-ease-out)",
 });

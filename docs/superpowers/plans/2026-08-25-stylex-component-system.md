@@ -8,7 +8,7 @@
 ## Goal
 
 Replace the current plain CSS package with a precompiled StyleX component
-system, then build the complete 113-component target catalog in dependency
+system, then build the complete 114-component target catalog in dependency
 order. Preserve no unreleased APIs unless they independently pass the new
 design and accessibility contracts.
 
@@ -147,15 +147,16 @@ Linear-shaped domain types.
 
 ## Phase 7: collaboration and content composites
 
-1. RichTextEditor
-2. EditorToolbar
-3. AttachmentList
-4. LinkPreview
-5. ReactionPicker
-6. Comment
-7. CommentComposer
-8. ActivityFeed
-9. Board
+1. Composer
+2. RichTextEditor
+3. EditorToolbar
+4. AttachmentList
+5. LinkPreview
+6. ReactionPicker
+7. Comment
+8. CommentComposer
+9. ActivityFeed
+10. Board
 
 Select an editor engine through a dedicated architecture decision. The public
 RichTextEditor contract must not expose engine-specific node types unless Dowel
@@ -210,6 +211,6 @@ a phase needs multiple reviewable pull requests.
 
 ## Definition of complete
 
-The program is complete when all 113 documented components meet their API,
+The program is complete when all 114 documented components meet their API,
 interaction, accessibility, theme, responsive, package, and documentation
 contracts. An export with one demo does not count as a completed component.

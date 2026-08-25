@@ -31,6 +31,11 @@ export const componentNav: NavItem[] = [
     summary: "The default action control. Five hierarchy levels, two sizes.",
   },
   {
+    title: "Composer",
+    to: "/components/composer",
+    summary: "A borderless creation shell with metadata and action regions.",
+  },
+  {
     title: "Dialog",
     to: "/components/dialog",
     summary: "A modal on the modal elevation tier, labelled by its title.",

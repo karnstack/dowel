@@ -221,8 +221,8 @@ anatomy remain opinionated.
 
 ## Component scope
 
-The target catalog is the 113 components in
-`docs/component-inventory.md`: 94 foundation or primitive components and 19
+The target catalog is the 114 components in
+`docs/component-inventory.md`: 94 foundation or primitive components and 20
 product-grade composites.
 
 Delivery is dependency ordered. A high count does not permit shallow

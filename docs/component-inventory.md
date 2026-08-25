@@ -3,7 +3,7 @@
 **Date:** 2026-08-25
 
 **Status:** target catalog
-**Total:** 113 public components
+**Total:** 114 public components
 
 ## How to read this catalog
 
@@ -165,7 +165,7 @@ task progress.
 | FloatingPanel | M | movable or anchored nonmodal utility panel |
 | QuickView | M | temporary detail view without navigation loss |
 
-## Product-grade composites, 19
+## Product-grade composites, 20
 
 These are first-class components, not copy-paste examples. They compose the
 primitives above and own higher-level keyboard, responsive, and accessibility
@@ -177,6 +177,7 @@ contracts.
 | SettingsSection | R, P | heading, description, grouped rows |
 | SettingsRow | R, P | label, help, control, action, destructive state |
 | ThemeSelector | R, P | light, dark, system, and visual theme choice |
+| Composer | R, P | creation shell, borderless editing, properties, and actions |
 | FilterBuilder | R, P | searchable nested filters, values, and active summary |
 | ViewOptions | R, M | layout, grouping, ordering, visibility, and filters |
 | PropertyPicker | R, P | property search, options, create or clear actions |

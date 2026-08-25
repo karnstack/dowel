@@ -14,6 +14,7 @@ import { Route as ComponentsRouteRouteImport } from './routes/components/route'
 import { Route as ComponentsIndexRouteImport } from './routes/components/index'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsComposerRouteImport } from './routes/components/composer'
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsIconButtonRouteImport } from './routes/components/icon-button'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
@@ -44,6 +45,11 @@ const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsComposerRoute = ComponentsComposerRouteImport.update({
+  id: '/composer',
+  path: '/composer',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRouteRouteWithChildren
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/composer': typeof ComponentsComposerRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/composer': typeof ComponentsComposerRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRouteRouteWithChildren
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/composer': typeof ComponentsComposerRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/components/badge'
     | '/components/button'
+    | '/components/composer'
     | '/components/dialog'
     | '/components/icon-button'
     | '/components/input'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/'
     | '/components/badge'
     | '/components/button'
+    | '/components/composer'
     | '/components/dialog'
     | '/components/icon-button'
     | '/components/input'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/components/badge'
     | '/components/button'
+    | '/components/composer'
     | '/components/dialog'
     | '/components/icon-button'
     | '/components/input'
@@ -199,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsButtonRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/composer': {
+      id: '/components/composer'
+      path: '/composer'
+      fullPath: '/components/composer'
+      preLoaderRoute: typeof ComponentsComposerRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/dialog': {
       id: '/components/dialog'
       path: '/dialog'
@@ -247,6 +266,7 @@ declare module '@tanstack/react-router' {
 interface ComponentsRouteRouteChildren {
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsComposerRoute: typeof ComponentsComposerRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
   ComponentsIconButtonRoute: typeof ComponentsIconButtonRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
@@ -259,6 +279,7 @@ interface ComponentsRouteRouteChildren {
 const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsComposerRoute: ComponentsComposerRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
   ComponentsIconButtonRoute: ComponentsIconButtonRoute,
   ComponentsInputRoute: ComponentsInputRoute,

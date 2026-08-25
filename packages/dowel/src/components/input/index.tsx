@@ -80,6 +80,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const resolved = stylex.props(
       styles.control.root,
       styles.textarea.root,
+      styles.textarea[variant],
       styles.variant[variant],
       invalid && styles.invalid.root,
     );

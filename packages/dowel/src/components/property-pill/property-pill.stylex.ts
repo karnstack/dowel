@@ -18,13 +18,13 @@ export const root = stylex.create({
     fontFamily: tokens["--dowel-font-sans"],
     fontSize: "0.8125rem",
     fontWeight: 500,
-    gap: "0.375rem",
-    height: tokens["--dowel-control-md"],
+    gap: "0.3125rem",
+    height: "1.625rem",
     letterSpacing: "-0.0125rem",
     lineHeight: 1,
     maxWidth: "100%",
     minWidth: 0,
-    paddingInline: "0.625rem",
+    paddingInline: "0.5625rem",
     transitionDuration: tokens["--dowel-duration-normal"],
     transitionProperty: "border-color, background-color, color, opacity",
     transitionTimingFunction: tokens["--dowel-ease-out"],
@@ -39,9 +39,9 @@ export const root = stylex.create({
     },
     ":focus-visible": {
       outlineColor: tokens["--dowel-focus-ring"],
-      outlineOffset: "2px",
+      outlineOffset: "0px",
       outlineStyle: "solid",
-      outlineWidth: "2px",
+      outlineWidth: "1px",
     },
     ":disabled": {
       cursor: "not-allowed",
@@ -49,7 +49,7 @@ export const root = stylex.create({
     },
   },
   withIcon: {
-    paddingLeft: "0.375rem",
+    paddingLeft: "0.3125rem",
   },
   active: {
     backgroundColor: tokens["--dowel-bg-surface-3"],
@@ -62,6 +62,7 @@ export const root = stylex.create({
     flexShrink: 0,
     height: "1rem",
     justifyContent: "center",
+    lineHeight: 0,
     width: "1rem",
   },
   label: {

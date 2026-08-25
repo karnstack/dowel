@@ -7,13 +7,6 @@
 @import "./tokens/light.css";
 @import "./tokens/dark.css";
 
-/* Component sheets. CSS requires every @import before the first style rule,
-   and each sheet declares its own @layer, so listing them here cannot change
-   the cascade — the @layer statement above pins the order. */
-@import "./components/badge/badge.css";
-@import "./components/kbd/kbd.css";
-@import "./components/tooltip/tooltip.css";
-
 @layer dowel.base {
   .dowel-root,
   [data-dowel-theme] {

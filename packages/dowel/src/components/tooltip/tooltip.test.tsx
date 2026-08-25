@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { ThemeProvider } from "../../theme/theme-provider";
 import { IconButton } from "../icon-button";
 import { Tooltip } from "./index";
 
@@ -77,6 +78,24 @@ describe("Tooltip", () => {
     await waitFor(() => expect(screen.queryByRole("tooltip")).toBeNull());
   });
 
+  it("carries the active theme into its portal", async () => {
+    render(
+      <ThemeProvider theme="light">
+        <Tooltip.Provider>
+          <Tooltip.Root defaultOpen>
+            <Tooltip.Portal data-testid="portal">
+              <Tooltip.Positioner>
+                <Tooltip.Popup>Copy link</Tooltip.Popup>
+              </Tooltip.Positioner>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
+      </ThemeProvider>,
+    );
+    await screen.findByRole("tooltip");
+    expect(screen.getByTestId("portal").dataset.dowelTheme).toBe("light");
+  });
+
   it("ignores className and style smuggled through a spread", async () => {
     // Part props Omit className/style, but JSX spreads skip excess-property
     // checks, so a wider object typechecks. The runtime must hold the line.
@@ -113,14 +132,14 @@ describe("Tooltip", () => {
       ["s-trigger", null],
       ["s-portal", null],
       ["s-positioner", null],
-      ["s-popup", "dowel-tooltip"],
+      ["s-popup", "tooltip-popup"],
     ] as const) {
       // The surviving `id` is how each part is found: it proves functional
       // props pass through while the appearance channels are stripped.
       const el = document.getElementById(id);
       expect(el, id).not.toBeNull();
       if (dowelClass) {
-        expect(el!.className, id).toContain(dowelClass);
+        expect(el!.dataset.dowelComponent, id).toBe(dowelClass);
       }
       expect(el!.className, id).not.toContain("evil");
       expect(el!.style.color, id).toBe("");

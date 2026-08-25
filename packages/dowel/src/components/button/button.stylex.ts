@@ -54,16 +54,16 @@ const shared = {
   },
   ":focus-visible": {
     outlineColor: tokens["--dowel-focus-ring"],
-    outlineOffset: "2px",
+    outlineOffset: "0px",
     outlineStyle: "solid",
-    outlineWidth: "2px",
+    outlineWidth: "1px",
   },
 } as const;
 
 export const button = stylex.create({
   root: {
     ...shared,
-    borderRadius: tokens["--dowel-radius-md"],
+    borderRadius: tokens["--dowel-radius-pill"],
     gap: "0.375rem",
     paddingInline: "0.625rem",
   },
@@ -74,6 +74,18 @@ export const iconButton = stylex.create({
     ...shared,
     borderRadius: tokens["--dowel-radius-pill"],
     padding: 0,
+  },
+});
+
+export const iconSlot = stylex.create({
+  root: {
+    alignItems: "center",
+    display: "inline-flex",
+    flexShrink: 0,
+    height: "1rem",
+    justifyContent: "center",
+    lineHeight: 0,
+    width: "1rem",
   },
 });
 

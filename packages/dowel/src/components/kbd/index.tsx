@@ -1,5 +1,8 @@
+import * as stylex from "@stylexjs/stylex";
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef } from "react";
+
+import * as styles from "./kbd.stylex";
 
 export interface KbdProps
   extends Omit<
@@ -16,6 +19,8 @@ export const Kbd = forwardRef<HTMLSpanElement, KbdProps>(function Kbd(
   { keys, ...props },
   ref,
 ) {
+  const resolved = stylex.props(styles.kbd.root);
+
   return (
     <span
       ref={ref}
@@ -24,11 +29,18 @@ export const Kbd = forwardRef<HTMLSpanElement, KbdProps>(function Kbd(
       // component can never override appearance. JSX children also beat any
       // `children` smuggled through the spread, keeping `keys` the only
       // content source.
-      className="dowel-kbd"
-      style={undefined}
+      className={resolved.className}
+      style={resolved.style}
+      data-dowel-component="kbd"
     >
       {keys.map((key, i) => (
-        <kbd key={`${key}-${i}`}>{key}</kbd>
+        <kbd
+          key={`${key}-${i}`}
+          {...stylex.props(styles.kbd.key)}
+          data-dowel-part="kbd-key"
+        >
+          {key}
+        </kbd>
       ))}
     </span>
   );

@@ -1,4 +1,9 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
+import * as stylex from "@stylexjs/stylex";
+import { useContext } from "react";
+
+import { DowelThemeContext, themeStyles } from "../../theme/theme-provider";
+import * as styles from "./tooltip.stylex";
 
 /**
  * Public props for a Tooltip part: the corresponding Base UI component's own
@@ -43,8 +48,16 @@ export const Tooltip = {
   },
 
   Portal: function TooltipPortal(props: Props<typeof BaseTooltip.Portal>) {
+    const theme = useContext(DowelThemeContext);
+    const resolved = stylex.props(themeStyles[theme]);
+
     return (
-      <BaseTooltip.Portal {...props} className={undefined} style={undefined} />
+      <BaseTooltip.Portal
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-theme={theme}
+      />
     );
   },
 
@@ -63,6 +76,8 @@ export const Tooltip = {
   },
 
   Popup: function TooltipPopup(props: Props<typeof BaseTooltip.Popup>) {
+    const resolved = stylex.props(styles.popup.root);
+
     return (
       // Everything after the spread stays AFTER it so props spread onto the
       // component cannot override appearance.
@@ -79,8 +94,9 @@ export const Tooltip = {
         // deliberately — a default, not a mandate.
         role="tooltip"
         {...props}
-        className="dowel-tooltip"
-        style={undefined}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-component="tooltip-popup"
       />
     );
   },

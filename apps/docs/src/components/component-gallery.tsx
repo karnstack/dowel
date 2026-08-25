@@ -64,9 +64,13 @@ export function ComponentGallery() {
         </GalleryItem>
 
         <GalleryItem title="Badge" to="/components/badge">
-          <Badge tone="accent">Beta</Badge>
-          <Badge tone="success">Active</Badge>
-          <Badge>Draft</Badge>
+          <Badge dot tone="accent">
+            Beta
+          </Badge>
+          <Badge dot tone="success">
+            Active
+          </Badge>
+          <Badge dot>Draft</Badge>
         </GalleryItem>
 
         <GalleryItem title="Input" to="/components/input" layout="stack">

@@ -9,7 +9,7 @@ export const popup = stylex.create({
   root: {
     backgroundColor: tokens["--dowel-bg-elevated"],
     borderColor: tokens["--dowel-border-default"],
-    borderRadius: tokens["--dowel-radius-lg"],
+    borderRadius: "10px",
     borderStyle: "solid",
     borderWidth: tokens["--dowel-hairline"],
     boxShadow: tokens["--dowel-shadow-popover"],

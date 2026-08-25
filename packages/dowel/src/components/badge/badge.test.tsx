@@ -12,17 +12,29 @@ describe("Badge", () => {
 
   it("defaults to the neutral tone", () => {
     render(<Badge>Backlog</Badge>);
-    expect(screen.getByText("Backlog").dataset.tone).toBe("neutral");
+    expect(
+      screen
+        .getByText("Backlog")
+        .closest('[data-dowel-component="badge"]')
+        ?.getAttribute("data-tone"),
+    ).toBe("neutral");
   });
 
   it("exposes the tone as a data attribute", () => {
     render(<Badge tone="success">Done</Badge>);
-    expect(screen.getByText("Done").dataset.tone).toBe("success");
+    expect(
+      screen
+        .getByText("Done")
+        .closest('[data-dowel-component="badge"]')
+        ?.getAttribute("data-tone"),
+    ).toBe("success");
   });
 
-  it("carries the dowel-badge class", () => {
+  it("carries compiled StyleX styles", () => {
     render(<Badge>Backlog</Badge>);
-    expect(screen.getByText("Backlog").className).toContain("dowel-badge");
+    const badge = screen.getByText("Backlog").closest("[data-dowel-component]");
+    expect(badge?.className).toBeTruthy();
+    expect(badge?.getAttribute("data-dowel-component")).toBe("badge");
   });
 
   it("ignores className and style smuggled through a spread", () => {
@@ -30,16 +42,27 @@ describe("Badge", () => {
     // checks, so a wider object typechecks. The runtime must hold the line.
     const smuggled = { className: "evil", style: { color: "red" } };
     render(<Badge {...smuggled}>Go</Badge>);
-    const badge = screen.getByText("Go");
-    expect(badge.className).toContain("dowel-badge");
+    const badge = screen.getByText("Go").closest("[data-dowel-component]")!;
+    expect(badge.className).toBeTruthy();
     expect(badge.className).not.toContain("evil");
     expect(badge.getAttribute("style")).toBeNull();
   });
 
   it("renders in both themes", () => {
     const { light, dark } = renderBoth(<Badge>Backlog</Badge>);
-    expect(light.querySelector(".dowel-badge")).not.toBeNull();
-    expect(dark.querySelector(".dowel-badge")).not.toBeNull();
+    expect(
+      light.querySelector('[data-dowel-component="badge"]'),
+    ).not.toBeNull();
+    expect(dark.querySelector('[data-dowel-component="badge"]')).not.toBeNull();
+  });
+
+  it("supports a decorative semantic dot", () => {
+    render(
+      <Badge dot tone="success">
+        Active
+      </Badge>,
+    );
+    expect(screen.getByText("Active").previousElementSibling).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {

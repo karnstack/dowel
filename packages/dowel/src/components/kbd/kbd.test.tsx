@@ -28,7 +28,7 @@ describe("Kbd", () => {
       children: "hijacked",
     };
     const { container } = render(<Kbd keys={["S"]} {...smuggled} />);
-    const kbd = container.querySelector(".dowel-kbd");
+    const kbd = container.querySelector('[data-dowel-component="kbd"]');
     expect(kbd).not.toBeNull();
     expect(kbd?.className).not.toContain("evil");
     expect(kbd?.getAttribute("style")).toBeNull();
@@ -37,8 +37,8 @@ describe("Kbd", () => {
 
   it("renders in both themes", () => {
     const { light, dark } = renderBoth(<Kbd keys={["S"]} />);
-    expect(light.querySelector(".dowel-kbd")).not.toBeNull();
-    expect(dark.querySelector(".dowel-kbd")).not.toBeNull();
+    expect(light.querySelector('[data-dowel-component="kbd"]')).not.toBeNull();
+    expect(dark.querySelector('[data-dowel-component="kbd"]')).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {

@@ -3,7 +3,12 @@ import * as stylex from "@stylexjs/stylex";
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef, ReactElement } from "react";
 
-import { iconButton, iconButtonVariant, size } from "../button/button.stylex";
+import {
+  iconButton,
+  iconButtonVariant,
+  iconSlot,
+  size,
+} from "../button/button.stylex";
 
 type NativeButtonProps = Omit<
   ComponentPropsWithoutRef<"button">,
@@ -66,7 +71,15 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         data-dowel-component="icon-button"
         data-variant={variant}
         data-size={controlSize}
-      />
+      >
+        <span
+          {...stylex.props(iconSlot.root)}
+          aria-hidden="true"
+          data-dowel-part="icon-button-icon"
+        >
+          {props.children}
+        </span>
+      </BaseButton>
     );
   },
 );

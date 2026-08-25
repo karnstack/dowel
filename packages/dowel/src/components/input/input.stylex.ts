@@ -50,7 +50,7 @@ export const variant = stylex.create({
     },
     ":focus-visible": {
       borderColor: tokens["--dowel-focus-ring"],
-      boxShadow: `inset 0 0 0 1px ${tokens["--dowel-focus-ring"]}`,
+      boxShadow: "none",
     },
   },
   bare: {
@@ -59,11 +59,9 @@ export const variant = stylex.create({
     borderRadius: tokens["--dowel-radius-sm"],
     boxShadow: "none",
     paddingInline: 0,
-    ":hover": {
-      backgroundColor: tokens["--dowel-bg-hover"],
-    },
+    ":hover": { backgroundColor: "transparent" },
     ":focus-visible": {
-      backgroundColor: tokens["--dowel-bg-hover"],
+      backgroundColor: "transparent",
     },
   },
 });
@@ -93,7 +91,12 @@ export const textarea = stylex.create({
   root: {
     minHeight: "6rem",
     paddingBlock: "0.5rem",
+  },
+  surface: {
     resize: "vertical",
+  },
+  bare: {
+    resize: "none",
   },
 });
 
@@ -102,7 +105,7 @@ export const invalid = stylex.create({
     borderColor: tokens["--dowel-danger"],
     ":focus-visible": {
       borderColor: tokens["--dowel-danger"],
-      boxShadow: `inset 0 0 0 1px ${tokens["--dowel-danger"]}`,
+      boxShadow: "none",
     },
   },
 });

@@ -1,4 +1,5 @@
 import { Input as BaseInput } from "@base-ui/react/input";
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import type {
@@ -93,17 +94,11 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
         data-size={size}
         data-variant={variant}
       >
-        <svg
+        <MagnifyingGlassIcon
           {...stylex.props(styles.part.icon)}
-          aria-hidden="true"
-          width="14"
-          height="14"
-          viewBox="0 0 16 16"
-          fill="none"
-        >
-          <circle cx="7" cy="7" r="4.5" stroke="currentColor" />
-          <path d="m10.5 10.5 3 3" stroke="currentColor" />
-        </svg>
+          width={16}
+          height={16}
+        />
         <BaseInput
           ref={inputRef}
           {...safeProps}
@@ -122,15 +117,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
             disabled={disabled}
             onClick={clear}
           >
-            <svg
-              aria-hidden="true"
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-            >
-              <path d="m3 3 6 6M9 3 3 9" stroke="currentColor" />
-            </svg>
+            <XMarkIcon width={16} height={16} />
           </button>
         ) : shortcut ? (
           <span {...stylex.props(styles.part.shortcut)} aria-hidden="true">

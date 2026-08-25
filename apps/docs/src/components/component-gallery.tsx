@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
 import {
   AlertDialog,
+  Avatar,
   Badge,
   Button,
   Callout,
@@ -10,18 +11,24 @@ import {
   Composer,
   DataTable,
   Dialog,
+  EmptyState,
   Field,
   IconButton,
   Input,
   Kbd,
   Menu,
   NativeSelect,
+  Popover,
   PropertyPicker,
   PropertyPill,
   RadioGroup,
   SearchField,
+  Separator,
   Select,
   Sidebar,
+  Skeleton,
+  Spinner,
+  Status,
   Switch,
   Tabs,
   Textarea,
@@ -30,7 +37,13 @@ import {
 } from "@karnstack/dowel";
 import type { ReactNode } from "react";
 
-import { ArrowRightIcon, CheckIcon, CopyIcon, MenuIcon } from "./icons";
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  CopyIcon,
+  MenuIcon,
+  SearchIcon,
+} from "./icons";
 
 type GalleryItemProps = {
   title: string;
@@ -44,6 +57,9 @@ const statusOptions = [
   { value: "started", label: "In progress", group: "Active" },
   { value: "done", label: "Done", group: "Closed" },
 ];
+
+const avatarPhoto =
+  "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?auto=format&crop=faces&fit=crop&h=96&q=80&w=96";
 
 type GalleryIssue = { id: string; title: string; updated: string };
 const tableColumn = createDataTableColumnHelper<GalleryIssue>();
@@ -80,7 +96,7 @@ function GalleryItem({
     <li className="docs-gallery-item" data-layout={layout}>
       <Link className="docs-gallery-link" to={to}>
         {title}
-        <ArrowRightIcon size={14} />
+        <ArrowRightIcon />
       </Link>
       <div className="docs-gallery-preview">{children}</div>
     </li>
@@ -116,6 +132,12 @@ export function ComponentGallery() {
           </AlertDialog.Root>
         </GalleryItem>
 
+        <GalleryItem title="Avatar" to="/components/avatar">
+          <Avatar name="Maya Chen" src={avatarPhoto} status="online" />
+          <Avatar name="Grace Hopper" status="away" />
+          <Avatar name="Lin Chen" shape="square" />
+        </GalleryItem>
+
         <GalleryItem title="Button" to="/components/button">
           <Button variant="primary">Create</Button>
           <Button>Cancel</Button>
@@ -136,6 +158,12 @@ export function ComponentGallery() {
             Active
           </Badge>
           <Badge dot>Draft</Badge>
+        </GalleryItem>
+
+        <GalleryItem title="Status" to="/components/status">
+          <Status tone="success">Passed</Status>
+          <Status tone="warning">Degraded</Status>
+          <Status tone="danger">Failed</Status>
         </GalleryItem>
 
         <GalleryItem title="Input" to="/components/input" layout="stack">
@@ -278,6 +306,23 @@ export function ComponentGallery() {
           </Dialog.Root>
         </GalleryItem>
 
+        <GalleryItem title="Popover" to="/components/popover">
+          <Popover.Root>
+            <Popover.Trigger render={<Button>Repository access</Button>} />
+            <Popover.Portal>
+              <Popover.Positioner>
+                <Popover.Popup>
+                  <Popover.Arrow />
+                  <Popover.Title>Repository access</Popover.Title>
+                  <Popover.Description>
+                    Visible to organization members.
+                  </Popover.Description>
+                </Popover.Popup>
+              </Popover.Positioner>
+            </Popover.Portal>
+          </Popover.Root>
+        </GalleryItem>
+
         <GalleryItem title="Icon Button" to="/components/icon-button">
           <IconButton label="Copy">
             <CopyIcon />
@@ -310,6 +355,42 @@ export function ComponentGallery() {
         <GalleryItem title="Kbd" to="/components/kbd">
           <Kbd keys={["Meta", "K"]} />
           <Kbd keys={["Shift", "P"]} />
+        </GalleryItem>
+
+        <GalleryItem
+          title="Separator"
+          to="/components/separator"
+          layout="stack"
+        >
+          <Status tone="success">Checks passed</Status>
+          <Separator />
+          <Status>Updated two minutes ago</Status>
+        </GalleryItem>
+
+        <GalleryItem title="Spinner" to="/components/spinner">
+          <Spinner size="sm" />
+          <Spinner />
+          <Spinner size="lg" />
+        </GalleryItem>
+
+        <GalleryItem title="Skeleton" to="/components/skeleton" layout="stack">
+          <Skeleton />
+          <Skeleton size="sm" />
+          <Skeleton variant="block" size="sm" />
+        </GalleryItem>
+
+        <GalleryItem
+          title="Empty State"
+          to="/components/empty-state"
+          layout="wide"
+        >
+          <EmptyState
+            size="compact"
+            icon={<SearchIcon />}
+            title="No matching repositories"
+            description="Try a different name or clear the active filters."
+            actions={<Button size="sm">Clear filters</Button>}
+          />
         </GalleryItem>
 
         <GalleryItem title="Tabs" to="/components/tabs" layout="stack">

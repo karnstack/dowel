@@ -1,4 +1,5 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import { useContext, useMemo } from "react";
 
@@ -100,15 +101,7 @@ export function Select({
           placeholder={placeholder}
         />
         <BaseSelect.Icon {...stylex.props(styles.trigger.icon)}>
-          <svg
-            aria-hidden="true"
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-          >
-            <path d="m3 4.5 3 3 3-3" stroke="currentColor" />
-          </svg>
+          <ChevronDownIcon width={16} height={16} />
         </BaseSelect.Icon>
       </BaseSelect.Trigger>
       <BaseSelect.Portal
@@ -159,7 +152,7 @@ export function Select({
                       <BaseSelect.ItemIndicator
                         {...stylex.props(styles.item.indicator)}
                       >
-                        ✓
+                        <CheckIcon width={16} height={16} />
                       </BaseSelect.ItemIndicator>
                     </BaseSelect.Item>
                   ))}

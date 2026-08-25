@@ -10,10 +10,19 @@ import { useCallback, useMemo, useState } from "react";
 
 import { CommandSearch } from "../components/command-search";
 import { DocsContext } from "../components/docs-context";
+import { DocsShell } from "../components/docs-shell";
 
 import "@fontsource-variable/host-grotesk";
 import "@karnstack/dowel/dowel.css";
 import "../docs.css";
+
+const faviconLinks = import.meta.env.DEV
+  ? [{ rel: "icon", href: "/dev-icon.svg", type: "image/svg+xml" }]
+  : [
+      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+    ];
 
 function isOverlayOpen() {
   return (
@@ -34,11 +43,7 @@ export const Route = createRootRoute({
         content: "Compact, accessible React components for product interfaces.",
       },
     ],
-    links: [
-      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
-      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-    ],
+    links: faviconLinks,
   }),
   component: RootDocument,
 });
@@ -94,7 +99,9 @@ function RootDocument() {
         <ThemeProvider theme={theme ?? "system"}>
           <Tooltip.Provider>
             <DocsContext.Provider value={context}>
-              <Outlet />
+              <DocsShell>
+                <Outlet />
+              </DocsShell>
               <CommandSearch open={searchOpen} onOpenChange={setSearchOpen} />
             </DocsContext.Provider>
           </Tooltip.Provider>

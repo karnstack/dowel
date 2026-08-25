@@ -174,7 +174,7 @@ export function ComponentGrid() {
           <Link className="docs-card" to={item.to}>
             <span className="docs-card-title">
               {item.title}
-              <ArrowRightIcon size={14} />
+              <ArrowRightIcon />
             </span>
             <span className="docs-card-summary">{item.summary}</span>
           </Link>

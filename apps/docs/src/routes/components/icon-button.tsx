@@ -70,7 +70,7 @@ function IconButtonDocs() {
             <CopyIcon />
           </IconButton>
           <IconButton label="Confirm" variant="muted" size="sm">
-            <CheckIcon size={14} />
+            <CheckIcon />
           </IconButton>
           <IconButton label="Unavailable" variant="secondary" disabled>
             <CopyIcon />

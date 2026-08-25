@@ -76,3 +76,25 @@ export type { SelectOption, SelectProps } from "./components/select";
 export { Callout } from "./components/callout";
 export type { CalloutProps, CalloutTone } from "./components/callout";
 export { AlertDialog } from "./components/alert-dialog";
+export { Popover } from "./components/popover";
+export { Separator } from "./components/separator";
+export type { SeparatorProps } from "./components/separator";
+export { Avatar } from "./components/avatar";
+export type {
+  AvatarProps,
+  AvatarShape,
+  AvatarSize,
+  AvatarStatus,
+} from "./components/avatar";
+export { Status } from "./components/status";
+export type { StatusProps, StatusTone } from "./components/status";
+export { Spinner } from "./components/spinner";
+export type { SpinnerProps } from "./components/spinner";
+export { Skeleton } from "./components/skeleton";
+export type {
+  SkeletonProps,
+  SkeletonSize,
+  SkeletonVariant,
+} from "./components/skeleton";
+export { EmptyState } from "./components/empty-state";
+export type { EmptyStateProps } from "./components/empty-state";

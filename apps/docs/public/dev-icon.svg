@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="dowel local development">
+  <title>dowel local development</title>
+  <!-- Development keeps the production pin geometry but uses an amber tile. -->
+  <rect width="16" height="16" rx="3.5" fill="#d97706" />
+  <rect
+    x="6.2"
+    y="2.2"
+    width="3.6"
+    height="11.6"
+    rx="1.8"
+    transform="rotate(-32 8 8)"
+    fill="#ffffff"
+  />
+</svg>

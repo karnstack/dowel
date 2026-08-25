@@ -1,95 +1,37 @@
-/**
- * The docs' own icon set. dowel ships components, not icons, and the docs
- * deliberately take no icon dependency — so these are hand-authored at a
- * single 16px grid with one stroke weight, which is what keeps them looking
- * like one set rather than a pile of clip art.
- *
- * All of them inherit `currentColor` and carry `aria-hidden`: every icon here
- * sits inside a control that already has a text label or an IconButton
- * `label`, so none of them is ever the accessible name.
- */
+import {
+  ArrowRightIcon as HeroArrowRightIcon,
+  Bars3Icon,
+  CheckIcon as HeroCheckIcon,
+  MagnifyingGlassIcon,
+  MoonIcon as HeroMoonIcon,
+  Square2StackIcon,
+  SunIcon as HeroSunIcon,
+  XMarkIcon,
+} from "@heroicons/react/16/solid";
+import type { ComponentType, SVGProps } from "react";
 
-type IconProps = { size?: number };
+type HeroIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
-const stroke = {
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 1.25,
-  strokeLinecap: "round",
-  strokeLinejoin: "round",
-} as const;
-
-function Svg({
-  size = 16,
-  children,
-}: IconProps & { children: React.ReactNode }) {
-  return (
-    <svg
-      className="docs-icon"
-      aria-hidden="true"
-      width={size}
-      height={size}
-      viewBox="0 0 16 16"
-      {...stroke}
-    >
-      {children}
-    </svg>
-  );
+/** Keep every general UI glyph on Heroicons' native 16px Micro grid. */
+function docsIcon(Icon: HeroIcon) {
+  return function DocsIcon() {
+    return (
+      <Icon className="docs-icon" aria-hidden="true" width={16} height={16} />
+    );
+  };
 }
 
-export const SunIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="8" cy="8" r="3" />
-    <path d="M8 1v1.5M8 13.5V15M15 8h-1.5M2.5 8H1M12.95 3.05l-1.06 1.06M4.11 11.89l-1.06 1.06M12.95 12.95l-1.06-1.06M4.11 4.11 3.05 3.05" />
-  </Svg>
-);
+export const SunIcon = docsIcon(HeroSunIcon);
+export const MoonIcon = docsIcon(HeroMoonIcon);
+export const MenuIcon = docsIcon(Bars3Icon);
+export const CloseIcon = docsIcon(XMarkIcon);
+export const SearchIcon = docsIcon(MagnifyingGlassIcon);
+export const CopyIcon = docsIcon(Square2StackIcon);
+export const CheckIcon = docsIcon(HeroCheckIcon);
+export const ArrowRightIcon = docsIcon(HeroArrowRightIcon);
 
-export const MoonIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M13.8 9.85A6.17 6.17 0 0 1 6.15 2.2a6.29 6.29 0 1 0 7.65 7.65Z" />
-  </Svg>
-);
-
-export const MenuIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" />
-  </Svg>
-);
-
-export const CloseIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 4l8 8M12 4l-8 8" />
-  </Svg>
-);
-
-export const SearchIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="7" cy="7" r="4.25" />
-    <path d="m10.2 10.2 3.3 3.3" />
-  </Svg>
-);
-
-export const CopyIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="6" y="6" width="8.5" height="8.5" rx="1.75" />
-    <path d="M10.5 3.75v-1.5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h1.5" />
-  </Svg>
-);
-
-export const CheckIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="m3 8.5 3.5 3.5L13 4.5" />
-  </Svg>
-);
-
-export const ArrowRightIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M3 8h10m-4-4 4 4-4 4" />
-  </Svg>
-);
-
-/** The GitHub mark is a filled glyph, so it opts out of the stroke preset. */
-export const GitHubIcon = ({ size = 16 }: IconProps) => (
+/** Heroicons excludes brand logos, so the GitHub mark remains local. */
+export const GitHubIcon = ({ size = 16 }: { size?: number }) => (
   <svg
     className="docs-icon"
     aria-hidden="true"

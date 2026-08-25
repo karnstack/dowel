@@ -15,6 +15,7 @@ import { Route as ComponentsIndexRouteImport } from './routes/components/index'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsComposerRouteImport } from './routes/components/composer'
+import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsIconButtonRouteImport } from './routes/components/icon-button'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
@@ -52,6 +53,11 @@ const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
 const ComponentsComposerRoute = ComponentsComposerRouteImport.update({
   id: '/composer',
   path: '/composer',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsDataTableRoute = ComponentsDataTableRouteImport.update({
+  id: '/data-table',
+  path: '/data-table',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/composer': typeof ComponentsComposerRoute
+  '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/composer': typeof ComponentsComposerRoute
+  '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/composer': typeof ComponentsComposerRoute
+  '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/components/badge'
     | '/components/button'
     | '/components/composer'
+    | '/components/data-table'
     | '/components/dialog'
     | '/components/icon-button'
     | '/components/input'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/components/badge'
     | '/components/button'
     | '/components/composer'
+    | '/components/data-table'
     | '/components/dialog'
     | '/components/icon-button'
     | '/components/input'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/components/badge'
     | '/components/button'
     | '/components/composer'
+    | '/components/data-table'
     | '/components/dialog'
     | '/components/icon-button'
     | '/components/input'
@@ -241,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/composer'
       fullPath: '/components/composer'
       preLoaderRoute: typeof ComponentsComposerRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/data-table': {
+      id: '/components/data-table'
+      path: '/data-table'
+      fullPath: '/components/data-table'
+      preLoaderRoute: typeof ComponentsDataTableRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/dialog': {
@@ -306,6 +325,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsComposerRoute: typeof ComponentsComposerRoute
+  ComponentsDataTableRoute: typeof ComponentsDataTableRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
   ComponentsIconButtonRoute: typeof ComponentsIconButtonRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
@@ -321,6 +341,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsComposerRoute: ComponentsComposerRoute,
+  ComponentsDataTableRoute: ComponentsDataTableRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
   ComponentsIconButtonRoute: ComponentsIconButtonRoute,
   ComponentsInputRoute: ComponentsInputRoute,

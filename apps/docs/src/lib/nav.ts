@@ -36,6 +36,11 @@ export const componentNav: NavItem[] = [
     summary: "A borderless creation shell with metadata and action regions.",
   },
   {
+    title: "Data Table",
+    to: "/components/data-table",
+    summary: "A borderless, sortable, selectable, and resizable data table.",
+  },
+  {
     title: "Dialog",
     to: "/components/dialog",
     summary: "A modal on the modal elevation tier, labelled by its title.",

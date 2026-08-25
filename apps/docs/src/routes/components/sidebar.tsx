@@ -51,14 +51,15 @@ function SidebarDocs() {
   return (
     <DocsPage
       title="Sidebar"
-      lead="A compact application rail with responsive collapse and accessible resizing."
+      lead="An inset application rail with responsive collapse and accessible resizing."
       toc={toc}
     >
       <Section id="layout" title="Layout">
         <p>
-          Panel, resize handle, and content form one grid. The panel collapses
-          below desktop width so the application can provide its own mobile
-          disclosure.
+          The default inset layout places content on a rounded workspace surface
+          over the navigation canvas. The panel collapses below desktop width so
+          the application can provide its own mobile disclosure. Use the split
+          variant when content should meet the rail.
         </p>
         <Demo
           layout="start"

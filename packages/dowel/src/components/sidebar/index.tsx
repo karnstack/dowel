@@ -27,8 +27,11 @@ type SidebarContextValue = {
   setResizing: (resizing: boolean) => void;
   setWidth: (width: number) => void;
   sticky: boolean;
+  variant: SidebarVariant;
   width: number;
 };
+
+export type SidebarVariant = "inset" | "split";
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
@@ -58,6 +61,8 @@ type SidebarVariables = CSSProperties & {
 };
 
 export interface SidebarRootProps extends DivProps {
+  /** `inset` places content on Linear-style rounded workspace surface. */
+  variant?: SidebarVariant;
   /** Initial width in pixels when the sidebar is uncontrolled. */
   defaultWidth?: number;
   /** Controlled width in pixels. */
@@ -79,6 +84,7 @@ const Root = forwardRef<HTMLDivElement, SidebarRootProps>(function SidebarRoot(
     minWidth = 192,
     maxWidth = 320,
     stickyOffset,
+    variant = "inset",
     onWidthChange,
     className,
     style,
@@ -112,11 +118,15 @@ const Root = forwardRef<HTMLDivElement, SidebarRootProps>(function SidebarRoot(
       setResizing,
       setWidth,
       sticky: stickyOffset !== undefined,
+      variant,
       width,
     }),
-    [initial, lower, resizing, setWidth, stickyOffset, upper, width],
+    [initial, lower, resizing, setWidth, stickyOffset, upper, variant, width],
   );
-  const resolved = stylex.props(styles.parts.root);
+  const resolved = stylex.props(
+    styles.parts.root,
+    variant === "split" && styles.parts.splitRoot,
+  );
   const variables: SidebarVariables = {
     ...resolved.style,
     ...style,
@@ -133,6 +143,7 @@ const Root = forwardRef<HTMLDivElement, SidebarRootProps>(function SidebarRoot(
         style={variables}
         data-dowel-component="sidebar"
         data-resizing={resizing ? "" : undefined}
+        data-variant={variant}
       >
         {children}
       </div>
@@ -161,7 +172,7 @@ const Panel = forwardRef<HTMLElement, AsideProps>(function SidebarPanel(
   );
 });
 
-function createPart(name: "header" | "body" | "footer" | "content") {
+function createPart(name: "header" | "body" | "footer") {
   return forwardRef<HTMLDivElement, DivProps>(function SidebarPart(
     { className, style, ...props },
     ref,
@@ -182,7 +193,27 @@ function createPart(name: "header" | "body" | "footer" | "content") {
 const Header = createPart("header");
 const Body = createPart("body");
 const Footer = createPart("footer");
-const Content = createPart("content");
+
+const Content = forwardRef<HTMLDivElement, DivProps>(function SidebarContent(
+  { className, style, ...props },
+  ref,
+) {
+  const { variant } = useSidebar();
+  const resolved = stylex.props(
+    styles.parts.content,
+    variant === "split" && styles.parts.splitContent,
+  );
+
+  return (
+    <div
+      ref={ref}
+      {...props}
+      className={mergeClassName(resolved.className, className)}
+      style={{ ...resolved.style, ...style }}
+      data-dowel-part="sidebar-content"
+    />
+  );
+});
 
 export interface SidebarResizeHandleProps
   extends Omit<DivProps, "role" | "tabIndex"> {
@@ -215,9 +246,13 @@ const ResizeHandle = forwardRef<HTMLDivElement, SidebarResizeHandleProps>(
       setResizing,
       setWidth,
       width,
+      variant,
     } = useSidebar();
     const drag = useRef<{ startX: number; startWidth: number } | null>(null);
-    const resolved = stylex.props(styles.parts.handle);
+    const resolved = stylex.props(
+      styles.parts.handle,
+      variant === "split" && styles.parts.splitHandle,
+    );
 
     const endResize = useCallback(
       (event: ReactPointerEvent<HTMLDivElement>) => {

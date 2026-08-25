@@ -1,0 +1,306 @@
+import * as stylex from "@stylexjs/stylex";
+
+import { tokens } from "../../theme/tokens.stylex";
+
+const pulse = stylex.keyframes({
+  "0%, 100%": { opacity: 0.45 },
+  "50%": { opacity: 0.9 },
+});
+
+const REDUCED_MOTION = "@media (prefers-reduced-motion: reduce)";
+
+export const parts = stylex.create({
+  root: {
+    color: tokens["--dowel-text-primary"],
+    fontFamily: tokens["--dowel-font-sans"],
+    minWidth: 0,
+    overflowX: "auto",
+    overscrollBehaviorInline: "contain",
+    scrollbarGutter: "stable",
+    width: "100%",
+  },
+  table: {
+    borderCollapse: "separate",
+    borderSpacing: "0 1px",
+    tableLayout: "fixed",
+  },
+  headerRow: {
+    backgroundColor: "transparent",
+  },
+  headerCell: {
+    boxSizing: "border-box",
+    color: tokens["--dowel-text-tertiary"],
+    fontSize: "0.6875rem",
+    fontWeight: 500,
+    height: "1.875rem",
+    letterSpacing: "0.01em",
+    paddingBlock: 0,
+    paddingInline: "0.5rem",
+    position: "relative",
+    textAlign: "left",
+    verticalAlign: "middle",
+    whiteSpace: "nowrap",
+  },
+  headerButton: {
+    alignItems: "center",
+    appearance: "none",
+    backgroundColor: "transparent",
+    border: 0,
+    borderRadius: tokens["--dowel-radius-sm"],
+    color: "inherit",
+    cursor: "pointer",
+    display: "flex",
+    font: "inherit",
+    gap: "0.25rem",
+    height: "1.5rem",
+    justifyContent: "inherit",
+    marginInline: "-0.25rem",
+    maxWidth: "calc(100% + 0.5rem)",
+    outline: "none",
+    overflow: "hidden",
+    paddingInline: "0.25rem",
+    textAlign: "inherit",
+    whiteSpace: "nowrap",
+    ":hover": {
+      color: tokens["--dowel-text-secondary"],
+      backgroundColor: tokens["--dowel-bg-hover"],
+    },
+    ":focus-visible": {
+      boxShadow: `inset 0 0 0 1px ${tokens["--dowel-focus-ring"]}`,
+      color: tokens["--dowel-text-primary"],
+    },
+  },
+  headerLabel: {
+    minWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+  sortIcon: {
+    alignItems: "center",
+    display: "inline-flex",
+    flexShrink: 0,
+    height: "0.875rem",
+    justifyContent: "center",
+    opacity: 0,
+    transitionDuration: tokens["--dowel-duration-fast"],
+    transitionProperty: "opacity, transform",
+    transitionTimingFunction: tokens["--dowel-ease-out"],
+    width: "0.875rem",
+  },
+  sorted: {
+    opacity: 1,
+  },
+  descending: {
+    transform: "rotate(180deg)",
+  },
+  resizeHandle: {
+    backgroundColor: "transparent",
+    border: 0,
+    cursor: "col-resize",
+    height: "1.25rem",
+    outline: "none",
+    padding: 0,
+    position: "absolute",
+    right: "-0.25rem",
+    top: "50%",
+    touchAction: "none",
+    transform: "translateY(-50%)",
+    userSelect: "none",
+    width: "0.5rem",
+    zIndex: 1,
+    "::after": {
+      backgroundColor: "transparent",
+      content: '""',
+      height: "0.875rem",
+      left: "50%",
+      position: "absolute",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+      width: tokens["--dowel-hairline"],
+    },
+    ":hover": {
+      "::after": {
+        backgroundColor: tokens["--dowel-border-strong"],
+      },
+    },
+    ":focus-visible": {
+      "::after": {
+        backgroundColor: tokens["--dowel-focus-ring"],
+        width: "1px",
+      },
+    },
+    "[data-resizing]": {
+      "::after": {
+        backgroundColor: tokens["--dowel-focus-ring"],
+        width: "1px",
+      },
+    },
+  },
+  row: {
+    backgroundColor: "transparent",
+    borderRadius: tokens["--dowel-radius-md"],
+    outline: "none",
+    transitionDuration: tokens["--dowel-duration-fast"],
+    transitionProperty: "background-color",
+    transitionTimingFunction: tokens["--dowel-ease-out"],
+    ":hover": {
+      backgroundColor: tokens["--dowel-bg-hover"],
+    },
+    ":focus-visible": {
+      backgroundColor: tokens["--dowel-bg-hover"],
+      boxShadow: `inset 0 0 0 1px ${tokens["--dowel-focus-ring"]}`,
+    },
+    "[data-selected]": {
+      backgroundColor: tokens["--dowel-bg-active"],
+    },
+    "[data-actionable]": {
+      cursor: "pointer",
+    },
+  },
+  cell: {
+    backgroundColor: "inherit",
+    boxSizing: "border-box",
+    color: tokens["--dowel-text-primary"],
+    fontSize: "0.8125rem",
+    fontWeight: 450,
+    letterSpacing: "-0.0075rem",
+    lineHeight: 1.35,
+    paddingBlock: 0,
+    paddingInline: "0.5rem",
+    textAlign: "left",
+    verticalAlign: "middle",
+    ":first-child": {
+      borderBottomLeftRadius: tokens["--dowel-radius-md"],
+      borderTopLeftRadius: tokens["--dowel-radius-md"],
+    },
+    ":last-child": {
+      borderBottomRightRadius: tokens["--dowel-radius-md"],
+      borderTopRightRadius: tokens["--dowel-radius-md"],
+    },
+  },
+  compactCell: {
+    height: tokens["--dowel-row-md"],
+  },
+  comfortableCell: {
+    height: "3.25rem",
+  },
+  cellContent: {
+    alignItems: "center",
+    display: "flex",
+    minWidth: 0,
+    width: "100%",
+  },
+  truncate: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  selectionCell: {
+    paddingInline: "0.375rem",
+  },
+  alignCenter: {
+    justifyContent: "center",
+    textAlign: "center",
+  },
+  alignEnd: {
+    justifyContent: "flex-end",
+    textAlign: "right",
+  },
+  secondary: {
+    color: tokens["--dowel-text-secondary"],
+  },
+  tertiary: {
+    color: tokens["--dowel-text-tertiary"],
+  },
+  mono: {
+    fontFamily: tokens["--dowel-font-mono"],
+    fontSize: "0.75rem",
+    letterSpacing: "-0.01em",
+  },
+  checkboxLabel: {
+    alignItems: "center",
+    cursor: "pointer",
+    display: "inline-flex",
+    height: "1.5rem",
+    justifyContent: "center",
+    position: "relative",
+    width: "1.5rem",
+  },
+  checkboxInput: {
+    height: "1px",
+    margin: 0,
+    opacity: 0,
+    overflow: "hidden",
+    position: "absolute",
+    width: "1px",
+  },
+  checkboxVisual: {
+    alignItems: "center",
+    backgroundColor: "transparent",
+    borderColor: tokens["--dowel-border-strong"],
+    borderRadius: tokens["--dowel-radius-sm"],
+    borderStyle: "solid",
+    borderWidth: "1px",
+    boxSizing: "border-box",
+    color: tokens["--dowel-on-accent"],
+    display: "inline-flex",
+    height: "0.875rem",
+    justifyContent: "center",
+    transitionDuration: tokens["--dowel-duration-fast"],
+    transitionProperty: "background-color, border-color, box-shadow",
+    transitionTimingFunction: tokens["--dowel-ease-out"],
+    width: "0.875rem",
+  },
+  checkboxChecked: {
+    backgroundColor: tokens["--dowel-accent"],
+    borderColor: tokens["--dowel-accent"],
+  },
+  checkboxDisabled: {
+    cursor: "not-allowed",
+    opacity: 0.5,
+  },
+  checkboxFocus: {
+    boxShadow: `0 0 0 2px ${tokens["--dowel-bg-surface-1"]}, 0 0 0 3px ${tokens["--dowel-focus-ring"]}`,
+  },
+  emptyCell: {
+    color: tokens["--dowel-text-secondary"],
+    padding: "3.5rem 1rem",
+    textAlign: "center",
+  },
+  emptyTitle: {
+    color: tokens["--dowel-text-primary"],
+    fontSize: "0.8125rem",
+    fontWeight: 500,
+    margin: 0,
+  },
+  emptyDescription: {
+    color: tokens["--dowel-text-tertiary"],
+    fontSize: "0.75rem",
+    lineHeight: 1.5,
+    margin: "0.25rem auto 0",
+    maxWidth: "28rem",
+  },
+  skeleton: {
+    animationDuration: "1.5s",
+    animationIterationCount: "infinite",
+    animationName: pulse,
+    animationTimingFunction: "ease-in-out",
+    backgroundColor: tokens["--dowel-bg-surface-3"],
+    borderRadius: tokens["--dowel-radius-pill"],
+    height: "0.375rem",
+    maxWidth: "12rem",
+    width: "68%",
+    [REDUCED_MOTION]: {
+      animationName: "none",
+    },
+  },
+  visuallyHidden: {
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: "1px",
+    overflow: "hidden",
+    position: "absolute",
+    whiteSpace: "nowrap",
+    width: "1px",
+  },
+});

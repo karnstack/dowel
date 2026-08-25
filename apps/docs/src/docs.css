@@ -1164,7 +1164,6 @@ body {
   block-size: 7rem;
   max-inline-size: 20rem;
   overflow: hidden;
-  border: 1px solid var(--dowel-border-1);
   border-radius: var(--dowel-radius);
 }
 
@@ -1315,9 +1314,8 @@ body {
 .docs-sidebar-example {
   block-size: 18rem;
   overflow: hidden;
-  border: 1px solid var(--dowel-border-1);
   border-radius: var(--dowel-radius-lg);
-  background-color: var(--dowel-bg-1);
+  background-color: var(--dowel-bg-canvas);
 }
 
 .docs-sidebar-example [data-dowel-part="sidebar-header"] {
@@ -1371,6 +1369,80 @@ body {
 
 .docs-sidebar-example-content span:nth-child(2) {
   inline-size: 72%;
+}
+
+/* ---------------------------------------------------------- data table */
+
+.docs-data-table-demo {
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: var(--dowel-space-3);
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius-lg);
+  background-color: var(--dowel-bg-1);
+}
+
+.docs-demo-preview .docs-data-table-demo {
+  inline-size: min(100%, 64rem);
+  padding: 0;
+  border: 0;
+}
+
+.docs-data-table-header-demo {
+  margin-block-start: var(--dowel-space-8);
+}
+
+.docs-data-table-states {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dowel-space-6);
+  margin-block-start: var(--dowel-space-8);
+}
+
+.docs-data-table-states > [data-dowel-component="data-table"] {
+  padding: var(--dowel-space-3);
+  border: 1px solid var(--dowel-border-1);
+  border-radius: var(--dowel-radius-lg);
+  background-color: var(--dowel-bg-1);
+}
+
+.docs-issue-title {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-4);
+  min-inline-size: 0;
+}
+
+.docs-issue-title > :last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-status-dot {
+  display: inline-block;
+  flex: none;
+  inline-size: 0.625rem;
+  block-size: 0.625rem;
+  border: 1.5px solid var(--dowel-text-4);
+  border-radius: 50%;
+}
+
+.docs-status-dot[data-status="started"] {
+  border-color: var(--dowel-warning);
+  box-shadow: inset 3px 0 0 var(--dowel-warning);
+}
+
+.docs-status-dot[data-status="done"] {
+  border-color: var(--dowel-accent);
+  background-color: var(--dowel-accent);
+  box-shadow: inset 0 0 0 2px var(--dowel-bg-1);
+}
+
+@container (min-width: 40rem) {
+  .docs-data-table-states {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @container (min-width: 34rem) {

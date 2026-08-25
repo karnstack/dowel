@@ -41,4 +41,17 @@ export { Sidebar } from "./components/sidebar";
 export type {
   SidebarResizeHandleProps,
   SidebarRootProps,
+  SidebarVariant,
 } from "./components/sidebar";
+export {
+  DataTable,
+  createDataTableColumnHelper,
+} from "./components/data-table";
+export type {
+  DataTableAlign,
+  DataTableCellTone,
+  DataTableColumnDef,
+  DataTableColumnMeta,
+  DataTableDensity,
+  DataTableProps,
+} from "./components/data-table";

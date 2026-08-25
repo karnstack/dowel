@@ -9,12 +9,19 @@ export const parts = stylex.create({
     "--dowel-sidebar-offset": "0px",
     "--dowel-sidebar-width": "232px",
     display: "grid",
+    backgroundColor: tokens["--dowel-bg-canvas"],
     gridTemplateColumns: {
-      default: `var(--dowel-sidebar-width) ${tokens["--dowel-hairline"]} minmax(0, 1fr)`,
+      default: "var(--dowel-sidebar-width) 0 minmax(0, 1fr)",
       [COMPACT]: "minmax(0, 1fr)",
     },
     minWidth: 0,
     width: "100%",
+  },
+  splitRoot: {
+    gridTemplateColumns: {
+      default: `var(--dowel-sidebar-width) ${tokens["--dowel-hairline"]} minmax(0, 1fr)`,
+      [COMPACT]: "minmax(0, 1fr)",
+    },
   },
   panel: {
     backgroundColor: tokens["--dowel-bg-canvas"],
@@ -63,7 +70,7 @@ export const parts = stylex.create({
     padding: "0.625rem 0.75rem",
   },
   handle: {
-    backgroundColor: tokens["--dowel-border-default"],
+    backgroundColor: "transparent",
     cursor: "col-resize",
     display: {
       default: "block",
@@ -72,17 +79,41 @@ export const parts = stylex.create({
     gridColumn: 2,
     outline: "none",
     position: "relative",
+    transform: "translateX(-50%)",
+    width: "0.75rem",
     touchAction: "none",
     userSelect: "none",
     zIndex: 1,
     "::after": {
       content: '\"\"',
-      insetBlock: 0,
+      backgroundColor: "transparent",
+      insetBlock: "0.25rem",
       left: "50%",
       position: "absolute",
       transform: "translateX(-50%)",
-      width: "0.75rem",
+      width: tokens["--dowel-hairline"],
     },
+    ":hover": {
+      backgroundColor: "transparent",
+      "::after": {
+        backgroundColor: tokens["--dowel-border-strong"],
+      },
+    },
+    ":focus-visible": {
+      "::after": {
+        backgroundColor: tokens["--dowel-focus-ring"],
+      },
+    },
+    "[data-resizing]": {
+      "::after": {
+        backgroundColor: tokens["--dowel-focus-ring"],
+      },
+    },
+  },
+  splitHandle: {
+    backgroundColor: tokens["--dowel-border-default"],
+    transform: "none",
+    width: "auto",
     ":hover": {
       backgroundColor: tokens["--dowel-border-strong"],
     },
@@ -94,10 +125,33 @@ export const parts = stylex.create({
     },
   },
   content: {
+    backgroundColor: tokens["--dowel-bg-surface-1"],
+    borderColor: {
+      default: tokens["--dowel-border-default"],
+      [COMPACT]: "transparent",
+    },
+    borderRadius: {
+      default: "0.625rem",
+      [COMPACT]: 0,
+    },
+    borderStyle: "solid",
+    borderWidth: tokens["--dowel-hairline"],
     gridColumn: {
       default: 3,
       [COMPACT]: 1,
     },
+    margin: {
+      default: "0.25rem 0.25rem 0.25rem 0",
+      [COMPACT]: 0,
+    },
     minWidth: 0,
+    overflow: "hidden",
+  },
+  splitContent: {
+    backgroundColor: "transparent",
+    borderColor: "transparent",
+    borderRadius: 0,
+    margin: 0,
+    overflow: "visible",
   },
 });

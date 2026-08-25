@@ -4,7 +4,7 @@ Opinionated React components for product interfaces.
 
 [Website](https://dowel.sh) · [Components](https://dowel.sh/components) · [MIT](LICENSE)
 
-Styled with StyleX. Built on Base UI. Light and dark included.
+Styled with StyleX. Built on Base UI and TanStack Table. Light and dark included.
 
 ## Install
 
@@ -27,7 +27,7 @@ The system theme is the default. Pass `light` or `dark` to pin a theme.
 
 ## Components
 
-Badge · Button · Composer · Dialog · Icon Button · Input · Kbd · Menu · Property Picker · Sidebar · Tooltip
+Badge · Button · Composer · Data Table · Dialog · Icon Button · Input · Kbd · Menu · Property Picker · Sidebar · Tooltip
 
 Every component is keyboard tested and accessibility checked. Visual controls own their appearance. Layout primitives accept application shell hooks.
 

@@ -89,6 +89,25 @@ describe("Sidebar", () => {
     expect(root?.className.length).toBeGreaterThan("app-shell".length);
   });
 
+  it("uses the inset workspace shell by default and supports a split variant", () => {
+    const { rerender } = render(<Example />);
+    const root = document.querySelector('[data-dowel-component="sidebar"]');
+    expect(root?.getAttribute("data-variant")).toBe("inset");
+
+    rerender(
+      <Sidebar.Root variant="split">
+        <Sidebar.Panel>Navigation</Sidebar.Panel>
+        <Sidebar.ResizeHandle />
+        <Sidebar.Content>Main content</Sidebar.Content>
+      </Sidebar.Root>,
+    );
+    expect(
+      document
+        .querySelector('[data-dowel-component="sidebar"]')
+        ?.getAttribute("data-variant"),
+    ).toBe("split");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<Example />);
     await expectNoA11yViolations(container);

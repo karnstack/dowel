@@ -4,6 +4,7 @@ import {
   Badge,
   Button,
   Composer,
+  DataTable,
   Dialog,
   Field,
   IconButton,
@@ -14,6 +15,7 @@ import {
   PropertyPill,
   Sidebar,
   Tooltip,
+  createDataTableColumnHelper,
 } from "dowel";
 import type { ReactNode } from "react";
 
@@ -30,6 +32,31 @@ const statusOptions = [
   { value: "triage", label: "Triage", group: "Active" },
   { value: "started", label: "In progress", group: "Active" },
   { value: "done", label: "Done", group: "Closed" },
+];
+
+type GalleryIssue = { id: string; title: string; updated: string };
+const tableColumn = createDataTableColumnHelper<GalleryIssue>();
+const tableColumns = tableColumn.columns([
+  tableColumn.accessor("id", {
+    header: "Issue",
+    size: 84,
+    meta: { mono: true, tone: "tertiary" },
+  }),
+  tableColumn.accessor("title", {
+    header: "Title",
+    size: 280,
+    meta: { grow: true },
+  }),
+  tableColumn.accessor("updated", {
+    header: "Updated",
+    size: 76,
+    meta: { align: "end", tone: "tertiary" },
+  }),
+]);
+const tableIssues: GalleryIssue[] = [
+  { id: "ACM-318", title: "Refine keyboard navigation", updated: "Today" },
+  { id: "ACM-294", title: "Add usage summary", updated: "Yesterday" },
+  { id: "ACM-271", title: "Reduce dashboard render time", updated: "Aug 21" },
 ];
 
 function GalleryItem({
@@ -191,6 +218,21 @@ export function ComponentGallery() {
               </div>
             </Sidebar.Content>
           </Sidebar.Root>
+        </GalleryItem>
+
+        <GalleryItem
+          title="Data Table"
+          to="/components/data-table"
+          layout="wide"
+        >
+          <DataTable
+            aria-label="Issue table preview"
+            columns={tableColumns}
+            data={tableIssues}
+            getRowId={(issue) => issue.id}
+            selectable
+            showHeader={false}
+          />
         </GalleryItem>
 
         <GalleryItem title="Composer" to="/components/composer" layout="wide">

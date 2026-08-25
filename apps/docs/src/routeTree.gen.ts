@@ -19,16 +19,21 @@ import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsCalloutRouteImport } from './routes/components/callout'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
+import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
+import { Route as ComponentsCommandMenuRouteImport } from './routes/components/command-menu'
 import { Route as ComponentsComposerRouteImport } from './routes/components/composer'
 import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
+import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsIconButtonRouteImport } from './routes/components/icon-button'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
+import { Route as ComponentsListRouteImport } from './routes/components/list'
 import { Route as ComponentsMenuRouteImport } from './routes/components/menu'
 import { Route as ComponentsNativeSelectRouteImport } from './routes/components/native-select'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
+import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsPropertyPickerRouteImport } from './routes/components/property-picker'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsSearchFieldRouteImport } from './routes/components/search-field'
@@ -40,6 +45,7 @@ import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinn
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
+import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 
 const IndexRoute = IndexRouteImport.update({
@@ -92,6 +98,16 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   path: '/checkbox',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
+  id: '/combobox',
+  path: '/combobox',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsCommandMenuRoute = ComponentsCommandMenuRouteImport.update({
+  id: '/command-menu',
+  path: '/command-menu',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsComposerRoute = ComponentsComposerRouteImport.update({
   id: '/composer',
   path: '/composer',
@@ -105,6 +121,11 @@ const ComponentsDataTableRoute = ComponentsDataTableRouteImport.update({
 const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
   id: '/dialog',
   path: '/dialog',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsDrawerRoute = ComponentsDrawerRouteImport.update({
+  id: '/drawer',
+  path: '/drawer',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
@@ -127,6 +148,11 @@ const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
   path: '/kbd',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsListRoute = ComponentsListRouteImport.update({
+  id: '/list',
+  path: '/list',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsMenuRoute = ComponentsMenuRouteImport.update({
   id: '/menu',
   path: '/menu',
@@ -140,6 +166,11 @@ const ComponentsNativeSelectRoute = ComponentsNativeSelectRouteImport.update({
 const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
   id: '/popover',
   path: '/popover',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsPropertyPickerRoute =
@@ -198,6 +229,11 @@ const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
   path: '/tabs',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsToastRoute = ComponentsToastRouteImport.update({
+  id: '/toast',
+  path: '/toast',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
   id: '/tooltip',
   path: '/tooltip',
@@ -214,16 +250,21 @@ export interface FileRoutesByFullPath {
   '/components/button': typeof ComponentsButtonRoute
   '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/command-menu': typeof ComponentsCommandMenuRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
+  '/components/drawer': typeof ComponentsDrawerRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
+  '/components/list': typeof ComponentsListRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/native-select': typeof ComponentsNativeSelectRoute
   '/components/popover': typeof ComponentsPopoverRoute
+  '/components/progress': typeof ComponentsProgressRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/search-field': typeof ComponentsSearchFieldRoute
@@ -235,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/components/status': typeof ComponentsStatusRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/toast': typeof ComponentsToastRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components/': typeof ComponentsIndexRoute
 }
@@ -247,16 +289,21 @@ export interface FileRoutesByTo {
   '/components/button': typeof ComponentsButtonRoute
   '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/command-menu': typeof ComponentsCommandMenuRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
+  '/components/drawer': typeof ComponentsDrawerRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
+  '/components/list': typeof ComponentsListRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/native-select': typeof ComponentsNativeSelectRoute
   '/components/popover': typeof ComponentsPopoverRoute
+  '/components/progress': typeof ComponentsProgressRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/search-field': typeof ComponentsSearchFieldRoute
@@ -268,6 +315,7 @@ export interface FileRoutesByTo {
   '/components/status': typeof ComponentsStatusRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/toast': typeof ComponentsToastRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components': typeof ComponentsIndexRoute
 }
@@ -282,16 +330,21 @@ export interface FileRoutesById {
   '/components/button': typeof ComponentsButtonRoute
   '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/command-menu': typeof ComponentsCommandMenuRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
+  '/components/drawer': typeof ComponentsDrawerRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
+  '/components/list': typeof ComponentsListRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/native-select': typeof ComponentsNativeSelectRoute
   '/components/popover': typeof ComponentsPopoverRoute
+  '/components/progress': typeof ComponentsProgressRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/search-field': typeof ComponentsSearchFieldRoute
@@ -303,6 +356,7 @@ export interface FileRoutesById {
   '/components/status': typeof ComponentsStatusRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/toast': typeof ComponentsToastRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components/': typeof ComponentsIndexRoute
 }
@@ -318,16 +372,21 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/callout'
     | '/components/checkbox'
+    | '/components/combobox'
+    | '/components/command-menu'
     | '/components/composer'
     | '/components/data-table'
     | '/components/dialog'
+    | '/components/drawer'
     | '/components/empty-state'
     | '/components/icon-button'
     | '/components/input'
     | '/components/kbd'
+    | '/components/list'
     | '/components/menu'
     | '/components/native-select'
     | '/components/popover'
+    | '/components/progress'
     | '/components/property-picker'
     | '/components/radio-group'
     | '/components/search-field'
@@ -339,6 +398,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/toast'
     | '/components/tooltip'
     | '/components/'
   fileRoutesByTo: FileRoutesByTo
@@ -351,16 +411,21 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/callout'
     | '/components/checkbox'
+    | '/components/combobox'
+    | '/components/command-menu'
     | '/components/composer'
     | '/components/data-table'
     | '/components/dialog'
+    | '/components/drawer'
     | '/components/empty-state'
     | '/components/icon-button'
     | '/components/input'
     | '/components/kbd'
+    | '/components/list'
     | '/components/menu'
     | '/components/native-select'
     | '/components/popover'
+    | '/components/progress'
     | '/components/property-picker'
     | '/components/radio-group'
     | '/components/search-field'
@@ -372,6 +437,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/toast'
     | '/components/tooltip'
     | '/components'
   id:
@@ -385,16 +451,21 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/callout'
     | '/components/checkbox'
+    | '/components/combobox'
+    | '/components/command-menu'
     | '/components/composer'
     | '/components/data-table'
     | '/components/dialog'
+    | '/components/drawer'
     | '/components/empty-state'
     | '/components/icon-button'
     | '/components/input'
     | '/components/kbd'
+    | '/components/list'
     | '/components/menu'
     | '/components/native-select'
     | '/components/popover'
+    | '/components/progress'
     | '/components/property-picker'
     | '/components/radio-group'
     | '/components/search-field'
@@ -406,6 +477,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/toast'
     | '/components/tooltip'
     | '/components/'
   fileRoutesById: FileRoutesById
@@ -488,6 +560,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/combobox': {
+      id: '/components/combobox'
+      path: '/combobox'
+      fullPath: '/components/combobox'
+      preLoaderRoute: typeof ComponentsComboboxRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/command-menu': {
+      id: '/components/command-menu'
+      path: '/command-menu'
+      fullPath: '/components/command-menu'
+      preLoaderRoute: typeof ComponentsCommandMenuRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/composer': {
       id: '/components/composer'
       path: '/composer'
@@ -507,6 +593,13 @@ declare module '@tanstack/react-router' {
       path: '/dialog'
       fullPath: '/components/dialog'
       preLoaderRoute: typeof ComponentsDialogRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/drawer': {
+      id: '/components/drawer'
+      path: '/drawer'
+      fullPath: '/components/drawer'
+      preLoaderRoute: typeof ComponentsDrawerRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/empty-state': {
@@ -537,6 +630,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsKbdRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/list': {
+      id: '/components/list'
+      path: '/list'
+      fullPath: '/components/list'
+      preLoaderRoute: typeof ComponentsListRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/menu': {
       id: '/components/menu'
       path: '/menu'
@@ -556,6 +656,13 @@ declare module '@tanstack/react-router' {
       path: '/popover'
       fullPath: '/components/popover'
       preLoaderRoute: typeof ComponentsPopoverRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/progress': {
+      id: '/components/progress'
+      path: '/progress'
+      fullPath: '/components/progress'
+      preLoaderRoute: typeof ComponentsProgressRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/property-picker': {
@@ -635,6 +742,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTabsRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/toast': {
+      id: '/components/toast'
+      path: '/toast'
+      fullPath: '/components/toast'
+      preLoaderRoute: typeof ComponentsToastRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/tooltip': {
       id: '/components/tooltip'
       path: '/tooltip'
@@ -652,16 +766,21 @@ interface ComponentsRouteRouteChildren {
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCalloutRoute: typeof ComponentsCalloutRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
+  ComponentsComboboxRoute: typeof ComponentsComboboxRoute
+  ComponentsCommandMenuRoute: typeof ComponentsCommandMenuRoute
   ComponentsComposerRoute: typeof ComponentsComposerRoute
   ComponentsDataTableRoute: typeof ComponentsDataTableRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
+  ComponentsDrawerRoute: typeof ComponentsDrawerRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsIconButtonRoute: typeof ComponentsIconButtonRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsKbdRoute: typeof ComponentsKbdRoute
+  ComponentsListRoute: typeof ComponentsListRoute
   ComponentsMenuRoute: typeof ComponentsMenuRoute
   ComponentsNativeSelectRoute: typeof ComponentsNativeSelectRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
+  ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsPropertyPickerRoute: typeof ComponentsPropertyPickerRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSearchFieldRoute: typeof ComponentsSearchFieldRoute
@@ -673,6 +792,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
+  ComponentsToastRoute: typeof ComponentsToastRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
   ComponentsIndexRoute: typeof ComponentsIndexRoute
 }
@@ -684,16 +804,21 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCalloutRoute: ComponentsCalloutRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
+  ComponentsComboboxRoute: ComponentsComboboxRoute,
+  ComponentsCommandMenuRoute: ComponentsCommandMenuRoute,
   ComponentsComposerRoute: ComponentsComposerRoute,
   ComponentsDataTableRoute: ComponentsDataTableRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
+  ComponentsDrawerRoute: ComponentsDrawerRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsIconButtonRoute: ComponentsIconButtonRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsKbdRoute: ComponentsKbdRoute,
+  ComponentsListRoute: ComponentsListRoute,
   ComponentsMenuRoute: ComponentsMenuRoute,
   ComponentsNativeSelectRoute: ComponentsNativeSelectRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
+  ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsPropertyPickerRoute: ComponentsPropertyPickerRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSearchFieldRoute: ComponentsSearchFieldRoute,
@@ -705,6 +830,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
+  ComponentsToastRoute: ComponentsToastRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,
   ComponentsIndexRoute: ComponentsIndexRoute,
 }

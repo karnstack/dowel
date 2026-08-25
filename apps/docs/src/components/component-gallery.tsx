@@ -8,17 +8,24 @@ import {
   Callout,
   Checkbox,
   CheckboxGroup,
+  Combobox,
+  CommandMenu,
   Composer,
   DataTable,
   Dialog,
+  Drawer,
   EmptyState,
   Field,
   IconButton,
   Input,
   Kbd,
+  List,
+  ListCell,
+  ListRow,
   Menu,
   NativeSelect,
   Popover,
+  Progress,
   PropertyPicker,
   PropertyPill,
   RadioGroup,
@@ -32,8 +39,10 @@ import {
   Switch,
   Tabs,
   Textarea,
+  ToastProvider,
   Tooltip,
   createDataTableColumnHelper,
+  toast,
 } from "@karnstack/dowel";
 import type { ReactNode } from "react";
 
@@ -207,6 +216,17 @@ export function ComponentGallery() {
           />
         </GalleryItem>
 
+        <GalleryItem title="Combobox" to="/components/combobox" layout="stack">
+          <Combobox
+            label="Organization"
+            options={[
+              { value: "acme", label: "Acme" },
+              { value: "northstar", label: "Northstar" },
+            ]}
+            placeholder="Find an organization"
+          />
+        </GalleryItem>
+
         <GalleryItem title="Textarea" to="/components/input" layout="stack">
           <Field.Root>
             <Field.Label>Description</Field.Label>
@@ -306,6 +326,50 @@ export function ComponentGallery() {
           </Dialog.Root>
         </GalleryItem>
 
+        <GalleryItem title="Drawer" to="/components/drawer">
+          <Drawer.Root side="right">
+            <Drawer.Trigger render={<Button>Open details</Button>} />
+            <Drawer.Portal>
+              <Drawer.Backdrop />
+              <Drawer.Viewport>
+                <Drawer.Popup>
+                  <Drawer.Content>
+                    <Drawer.Header>
+                      <Drawer.Title>Repository details</Drawer.Title>
+                      <Drawer.Description>
+                        Metadata for dowel.
+                      </Drawer.Description>
+                    </Drawer.Header>
+                    <Drawer.Footer>
+                      <Drawer.Close render={<Button>Close</Button>} />
+                    </Drawer.Footer>
+                  </Drawer.Content>
+                </Drawer.Popup>
+              </Drawer.Viewport>
+            </Drawer.Portal>
+          </Drawer.Root>
+        </GalleryItem>
+
+        <GalleryItem title="Command Menu" to="/components/command-menu">
+          <CommandMenu
+            trigger={<Button>Open commands</Button>}
+            items={[
+              {
+                id: "repo",
+                label: "Open repository",
+                group: "Navigation",
+                onSelect: () => {},
+              },
+              {
+                id: "settings",
+                label: "Open settings",
+                group: "Navigation",
+                onSelect: () => {},
+              },
+            ]}
+          />
+        </GalleryItem>
+
         <GalleryItem title="Popover" to="/components/popover">
           <Popover.Root>
             <Popover.Trigger render={<Button>Repository access</Button>} />
@@ -371,6 +435,18 @@ export function ComponentGallery() {
           <Spinner size="sm" />
           <Spinner />
           <Spinner size="lg" />
+        </GalleryItem>
+
+        <GalleryItem title="Progress" to="/components/progress" layout="stack">
+          <Progress label="Upload artifacts" value={64} />
+        </GalleryItem>
+
+        <GalleryItem title="Toast" to="/components/toast">
+          <ToastProvider>
+            <Button onClick={() => toast.success("Repository created")}>
+              Show toast
+            </Button>
+          </ToastProvider>
         </GalleryItem>
 
         <GalleryItem title="Skeleton" to="/components/skeleton" layout="stack">
@@ -444,6 +520,19 @@ export function ComponentGallery() {
             selectable
             showHeader={false}
           />
+        </GalleryItem>
+
+        <GalleryItem title="List" to="/components/list" layout="wide">
+          <List aria-label="Repositories" divided>
+            <ListRow selected>
+              <ListCell grow>dowel</ListCell>
+              <ListCell tone="tertiary">Synced</ListCell>
+            </ListRow>
+            <ListRow>
+              <ListCell grow>sourcetown</ListCell>
+              <ListCell tone="tertiary">Updated yesterday</ListCell>
+            </ListRow>
+          </List>
         </GalleryItem>
 
         <GalleryItem title="Composer" to="/components/composer" layout="wide">

@@ -51,6 +51,16 @@ export const componentNav: NavItem[] = [
     summary: "Checked, unchecked, and mixed selection with native form values.",
   },
   {
+    title: "Combobox",
+    to: "/components/combobox",
+    summary: "A filterable single-choice field for larger collections.",
+  },
+  {
+    title: "Command Menu",
+    to: "/components/command-menu",
+    summary: "A modal search surface for grouped application commands.",
+  },
+  {
     title: "Composer",
     to: "/components/composer",
     summary: "A borderless creation shell with metadata and action regions.",
@@ -64,6 +74,11 @@ export const componentNav: NavItem[] = [
     title: "Dialog",
     to: "/components/dialog",
     summary: "A modal on the modal elevation tier, labelled by its title.",
+  },
+  {
+    title: "Drawer",
+    to: "/components/drawer",
+    summary: "A swipe-dismissable edge panel for navigation and detail.",
   },
   {
     title: "Empty State",
@@ -86,6 +101,11 @@ export const componentNav: NavItem[] = [
     summary: "A keyboard shortcut rendered one key per cap.",
   },
   {
+    title: "List",
+    to: "/components/list",
+    summary: "Semantic grouped rows with cells, density, and selection.",
+  },
+  {
     title: "Menu",
     to: "/components/menu",
     summary: "A dropdown with keyboard navigation and typeahead.",
@@ -105,6 +125,11 @@ export const componentNav: NavItem[] = [
     to: "/components/property-picker",
     summary:
       "Searchable grouped metadata selection with a compact pill trigger.",
+  },
+  {
+    title: "Progress",
+    to: "/components/progress",
+    summary: "Determinate and indeterminate progress for long tasks.",
   },
   {
     title: "Radio Group",
@@ -161,6 +186,86 @@ export const componentNav: NavItem[] = [
     to: "/components/tooltip",
     summary: "A hover and focus label on the popover elevation tier.",
   },
+  {
+    title: "Toast",
+    to: "/components/toast",
+    summary: "A global notification queue with actions and promises.",
+  },
+];
+
+function components(...paths: NavItem["to"][]): NavItem[] {
+  return paths.map((path) => {
+    const item = componentNav.find((candidate) => candidate.to === path);
+    if (!item) throw new Error(`Missing component navigation item: ${path}`);
+    return item;
+  });
+}
+
+export const componentSections: NavSection[] = [
+  {
+    title: "Actions",
+    items: components("/components/button", "/components/icon-button"),
+  },
+  {
+    title: "Forms and selection",
+    items: components(
+      "/components/checkbox",
+      "/components/combobox",
+      "/components/input",
+      "/components/native-select",
+      "/components/property-picker",
+      "/components/radio-group",
+      "/components/search-field",
+      "/components/select",
+      "/components/switch",
+    ),
+  },
+  {
+    title: "Navigation",
+    items: components(
+      "/components/command-menu",
+      "/components/sidebar",
+      "/components/tabs",
+    ),
+  },
+  {
+    title: "Overlays",
+    items: components(
+      "/components/alert-dialog",
+      "/components/dialog",
+      "/components/drawer",
+      "/components/menu",
+      "/components/popover",
+      "/components/tooltip",
+    ),
+  },
+  {
+    title: "Data and display",
+    items: components(
+      "/components/avatar",
+      "/components/badge",
+      "/components/data-table",
+      "/components/kbd",
+      "/components/list",
+      "/components/separator",
+      "/components/status",
+    ),
+  },
+  {
+    title: "Feedback",
+    items: components(
+      "/components/callout",
+      "/components/empty-state",
+      "/components/progress",
+      "/components/skeleton",
+      "/components/spinner",
+      "/components/toast",
+    ),
+  },
+  {
+    title: "Composites",
+    items: components("/components/composer"),
+  },
 ];
 
 export const nav: NavSection[] = [
@@ -179,5 +284,5 @@ export const nav: NavSection[] = [
       },
     ],
   },
-  { title: "Components", items: componentNav },
+  ...componentSections,
 ];

@@ -55,8 +55,5 @@ export const tone = stylex.create({
   accent: { color: tokens["--dowel-accent"] },
   success: { color: tokens["--dowel-success"] },
   warning: { color: tokens["--dowel-warning"] },
-  danger: {
-    backgroundColor: tokens["--dowel-danger-surface"],
-    color: tokens["--dowel-danger"],
-  },
+  danger: { color: tokens["--dowel-danger"] },
 });

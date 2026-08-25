@@ -2,6 +2,7 @@ import {
   ArrowRightIcon as HeroArrowRightIcon,
   Bars3Icon,
   CheckIcon as HeroCheckIcon,
+  ChevronRightIcon as HeroChevronRightIcon,
   MagnifyingGlassIcon,
   MoonIcon as HeroMoonIcon,
   Square2StackIcon,
@@ -28,6 +29,7 @@ export const CloseIcon = docsIcon(XMarkIcon);
 export const SearchIcon = docsIcon(MagnifyingGlassIcon);
 export const CopyIcon = docsIcon(Square2StackIcon);
 export const CheckIcon = docsIcon(HeroCheckIcon);
+export const ChevronRightIcon = docsIcon(HeroChevronRightIcon);
 export const ArrowRightIcon = docsIcon(HeroArrowRightIcon);
 
 /** Heroicons excludes brand logos, so the GitHub mark remains local. */

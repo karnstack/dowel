@@ -102,7 +102,9 @@ function RootDocument() {
               <DocsShell>
                 <Outlet />
               </DocsShell>
-              <CommandSearch open={searchOpen} onOpenChange={setSearchOpen} />
+              {searchOpen ? (
+                <CommandSearch onOpenChange={setSearchOpen} />
+              ) : null}
             </DocsContext.Provider>
           </Tooltip.Provider>
         </ThemeProvider>

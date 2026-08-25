@@ -25,7 +25,7 @@ import { Button, ThemeProvider } from "@karnstack/dowel";
 
 ## Components
 
-Alert Dialog · Avatar · Badge · Button · Callout · Checkbox · Composer · Data Table · Dialog · Empty State · Icon Button · Input · Kbd · Menu · Native Select · Popover · Property Picker · Radio Group · Search Field · Select · Separator · Sidebar · Skeleton · Spinner · Status · Switch · Tabs · Tooltip
+Alert Dialog · Avatar · Badge · Button · Callout · Checkbox · Combobox · Command Menu · Composer · Data Table · Dialog · Drawer · Empty State · Icon Button · Input · Kbd · List · Menu · Native Select · Popover · Progress · Property Picker · Radio Group · Search Field · Select · Separator · Sidebar · Skeleton · Spinner · Status · Switch · Tabs · Toast · Tooltip
 
 Visual controls own their appearance. Layout primitives accept application
 hooks. Every theme, focus state, and interaction ships with the package.

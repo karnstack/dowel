@@ -35,6 +35,16 @@ const runtimeDependencies = [
     version: packageMetadata.dependencies["@tanstack/react-table"],
     role: "Its headless, application-controlled state model handles advanced table behavior without coupling Dowel to a table layout or data-fetching opinion.",
   },
+  {
+    name: "@internationalized/date",
+    version: packageMetadata.dependencies["@internationalized/date"],
+    role: "Its timezone-safe date types and locale-aware calendar arithmetic keep date-only values stable across regions, time zones, and calendar systems.",
+  },
+  {
+    name: "react-aria-components",
+    version: packageMetadata.dependencies["react-aria-components"],
+    role: "It supplies the Calendar and DatePicker accessibility model, including roving focus, keyboard navigation, localized date segments, and validation behavior.",
+  },
 ] as const;
 
 const peerDependencies = [

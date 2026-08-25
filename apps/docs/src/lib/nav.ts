@@ -21,6 +21,11 @@ export type NavSection = {
 
 export const componentNav: NavItem[] = [
   {
+    title: "Accordion",
+    to: "/components/accordion",
+    summary: "A keyboard-accessible group of animated disclosure panels.",
+  },
+  {
     title: "Alert Dialog",
     to: "/components/alert-dialog",
     summary: "A focused confirmation modal for consequential actions.",
@@ -36,9 +41,19 @@ export const componentNav: NavItem[] = [
     summary: "A compact status or metadata pill in five tones.",
   },
   {
+    title: "Breadcrumbs",
+    to: "/components/breadcrumbs",
+    summary: "A compact location trail with automatic middle-item elision.",
+  },
+  {
     title: "Button",
     to: "/components/button",
     summary: "The default action control. Five hierarchy levels, two sizes.",
+  },
+  {
+    title: "Calendar & Date Picker",
+    to: "/components/calendar",
+    summary: "A month grid and popover field using native Date values.",
   },
   {
     title: "Callout",
@@ -49,6 +64,11 @@ export const componentNav: NavItem[] = [
     title: "Checkbox",
     to: "/components/checkbox",
     summary: "Checked, unchecked, and mixed selection with native form values.",
+  },
+  {
+    title: "Collapsible",
+    to: "/components/collapsible",
+    summary: "An animated disclosure for one optional content region.",
   },
   {
     title: "Combobox",
@@ -64,6 +84,11 @@ export const componentNav: NavItem[] = [
     title: "Composer",
     to: "/components/composer",
     summary: "A borderless creation shell with metadata and action regions.",
+  },
+  {
+    title: "Context Menu",
+    to: "/components/context-menu",
+    summary: "A pointer-positioned menu for actions on a target surface.",
   },
   {
     title: "Data Table",
@@ -84,6 +109,11 @@ export const componentNav: NavItem[] = [
     title: "Empty State",
     to: "/components/empty-state",
     summary: "Structured guidance and actions for a surface without content.",
+  },
+  {
+    title: "File Upload",
+    to: "/components/file-upload",
+    summary: "A native file picker and dropzone with built-in validation.",
   },
   {
     title: "Icon Button",
@@ -114,6 +144,11 @@ export const componentNav: NavItem[] = [
     title: "Native Select",
     to: "/components/native-select",
     summary: "A resilient native choice control with Dowel field styling.",
+  },
+  {
+    title: "Pagination",
+    to: "/components/pagination",
+    summary: "Controlled page navigation with compact number elision.",
   },
   {
     title: "Popover",
@@ -157,6 +192,11 @@ export const componentNav: NavItem[] = [
     summary: "A responsive application rail with pointer and keyboard resize.",
   },
   {
+    title: "Slider",
+    to: "/components/slider",
+    summary: "A pointer and keyboard control for a numeric range.",
+  },
+  {
     title: "Skeleton",
     to: "/components/skeleton",
     summary: "Reduced-motion-aware placeholders for pending content.",
@@ -182,14 +222,24 @@ export const componentNav: NavItem[] = [
     summary: "Compact pill and line view switching with arrow-key activation.",
   },
   {
+    title: "Toast",
+    to: "/components/toast",
+    summary: "A global notification queue with actions and promises.",
+  },
+  {
+    title: "Toggle Group",
+    to: "/components/toggle-group",
+    summary: "A connected set of independently pressed view controls.",
+  },
+  {
     title: "Tooltip",
     to: "/components/tooltip",
     summary: "A hover and focus label on the popover elevation tier.",
   },
   {
-    title: "Toast",
-    to: "/components/toast",
-    summary: "A global notification queue with actions and promises.",
+    title: "Tree View",
+    to: "/components/tree-view",
+    summary: "A nested hierarchy with selection and keyboard navigation.",
   },
 ];
 
@@ -204,34 +254,45 @@ function components(...paths: NavItem["to"][]): NavItem[] {
 export const componentSections: NavSection[] = [
   {
     title: "Actions",
-    items: components("/components/button", "/components/icon-button"),
+    items: components(
+      "/components/button",
+      "/components/icon-button",
+      "/components/toggle-group",
+    ),
   },
   {
     title: "Forms and selection",
     items: components(
       "/components/checkbox",
+      "/components/calendar",
       "/components/combobox",
+      "/components/file-upload",
       "/components/input",
       "/components/native-select",
       "/components/property-picker",
       "/components/radio-group",
       "/components/search-field",
       "/components/select",
+      "/components/slider",
       "/components/switch",
     ),
   },
   {
     title: "Navigation",
     items: components(
+      "/components/breadcrumbs",
       "/components/command-menu",
+      "/components/pagination",
       "/components/sidebar",
       "/components/tabs",
+      "/components/tree-view",
     ),
   },
   {
     title: "Overlays",
     items: components(
       "/components/alert-dialog",
+      "/components/context-menu",
       "/components/dialog",
       "/components/drawer",
       "/components/menu",
@@ -242,8 +303,10 @@ export const componentSections: NavSection[] = [
   {
     title: "Data and display",
     items: components(
+      "/components/accordion",
       "/components/avatar",
       "/components/badge",
+      "/components/collapsible",
       "/components/data-table",
       "/components/kbd",
       "/components/list",

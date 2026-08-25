@@ -35,6 +35,11 @@ const runtimeDependencies = [
     version: packageMetadata.dependencies["@tanstack/react-table"],
     role: "Its headless, application-controlled state model handles advanced table behavior without coupling Dowel to a table layout or data-fetching opinion.",
   },
+  {
+    name: "date-fns",
+    version: packageMetadata.dependencies["date-fns"],
+    role: "Its focused date helpers handle calendar arithmetic, month grids, comparison, and range constraints while Dowel keeps native Date values at the public API.",
+  },
 ] as const;
 
 const peerDependencies = [

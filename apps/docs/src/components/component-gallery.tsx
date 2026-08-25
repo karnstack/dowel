@@ -1,21 +1,27 @@
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
 import {
+  Accordion,
   AlertDialog,
   Avatar,
   Badge,
+  Breadcrumbs,
   Button,
   Callout,
+  Collapsible,
   Checkbox,
   CheckboxGroup,
   Combobox,
   CommandMenu,
   Composer,
+  ContextMenu,
   DataTable,
+  DatePicker,
   Dialog,
   Drawer,
   EmptyState,
   Field,
+  FileUpload,
   IconButton,
   Input,
   Kbd,
@@ -24,6 +30,7 @@ import {
   ListRow,
   Menu,
   NativeSelect,
+  Pagination,
   Popover,
   Progress,
   PropertyPicker,
@@ -33,6 +40,7 @@ import {
   Separator,
   Select,
   Sidebar,
+  Slider,
   Skeleton,
   Spinner,
   Status,
@@ -40,10 +48,13 @@ import {
   Tabs,
   Textarea,
   ToastProvider,
+  ToggleGroup,
   Tooltip,
+  TreeView,
   createDataTableColumnHelper,
   toast,
 } from "@karnstack/dowel";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 import {
@@ -112,10 +123,34 @@ function GalleryItem({
   );
 }
 
+function GalleryPagination() {
+  const [page, setPage] = useState(3);
+  return <Pagination page={page} totalPages={8} onPageChange={setPage} />;
+}
+
 export function ComponentGallery() {
   return (
     <section className="docs-gallery" aria-label="Live component catalog">
       <ul className="docs-gallery-grid" role="list">
+        <GalleryItem
+          title="Accordion"
+          to="/components/accordion"
+          layout="stack"
+        >
+          <Accordion.Root defaultValue={["details"]}>
+            <Accordion.Item value="details">
+              <Accordion.Header>
+                <Accordion.Trigger>Project details</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <Accordion.Content>
+                  Visible to workspace members.
+                </Accordion.Content>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion.Root>
+        </GalleryItem>
+
         <GalleryItem title="Alert Dialog" to="/components/alert-dialog">
           <AlertDialog.Root>
             <AlertDialog.Trigger
@@ -151,6 +186,24 @@ export function ComponentGallery() {
           <Button variant="primary">Create</Button>
           <Button>Cancel</Button>
           <Button variant="ghost">More</Button>
+        </GalleryItem>
+
+        <GalleryItem
+          title="Breadcrumbs"
+          to="/components/breadcrumbs"
+          layout="stack"
+        >
+          <Breadcrumbs
+            items={[
+              { label: "Workspace", href: "#workspace" },
+              { label: "Projects", href: "#projects" },
+              { label: "Dowel", current: true },
+            ]}
+          />
+        </GalleryItem>
+
+        <GalleryItem title="Calendar & Date Picker" to="/components/calendar">
+          <DatePicker label="Due date" defaultValue={new Date(2026, 7, 12)} />
         </GalleryItem>
 
         <GalleryItem title="Callout" to="/components/callout" layout="stack">
@@ -227,6 +280,21 @@ export function ComponentGallery() {
           />
         </GalleryItem>
 
+        <GalleryItem
+          title="Collapsible"
+          to="/components/collapsible"
+          layout="stack"
+        >
+          <Collapsible.Root defaultOpen>
+            <Collapsible.Trigger>Advanced settings</Collapsible.Trigger>
+            <Collapsible.Panel>
+              <Collapsible.Content>
+                Branch protection enabled.
+              </Collapsible.Content>
+            </Collapsible.Panel>
+          </Collapsible.Root>
+        </GalleryItem>
+
         <GalleryItem title="Textarea" to="/components/input" layout="stack">
           <Field.Root>
             <Field.Label>Description</Field.Label>
@@ -295,6 +363,26 @@ export function ComponentGallery() {
               </Menu.Positioner>
             </Menu.Portal>
           </Menu.Root>
+        </GalleryItem>
+
+        <GalleryItem
+          title="Context Menu"
+          to="/components/context-menu"
+          layout="stack"
+        >
+          <ContextMenu.Root>
+            <ContextMenu.Trigger>
+              Right-click for project actions
+            </ContextMenu.Trigger>
+            <ContextMenu.Portal>
+              <ContextMenu.Positioner>
+                <ContextMenu.Popup>
+                  <ContextMenu.Item>Rename</ContextMenu.Item>
+                  <ContextMenu.Item>Duplicate</ContextMenu.Item>
+                </ContextMenu.Popup>
+              </ContextMenu.Positioner>
+            </ContextMenu.Portal>
+          </ContextMenu.Root>
         </GalleryItem>
 
         <GalleryItem title="Dialog" to="/components/dialog">
@@ -441,6 +529,23 @@ export function ComponentGallery() {
           <Progress label="Upload artifacts" value={64} />
         </GalleryItem>
 
+        <GalleryItem title="Pagination" to="/components/pagination">
+          <GalleryPagination />
+        </GalleryItem>
+
+        <GalleryItem title="Slider" to="/components/slider" layout="stack">
+          <Slider.Root defaultValue={40}>
+            <Slider.Label>Volume</Slider.Label>
+            <Slider.Value />
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+              </Slider.Track>
+              <Slider.Thumb aria-label="Volume" />
+            </Slider.Control>
+          </Slider.Root>
+        </GalleryItem>
+
         <GalleryItem title="Toast" to="/components/toast">
           <ToastProvider>
             <Button onClick={() => toast.success("Repository created")}>
@@ -480,6 +585,33 @@ export function ComponentGallery() {
             <Tabs.Panel value="created">Created issues</Tabs.Panel>
             <Tabs.Panel value="activity">Recent activity</Tabs.Panel>
           </Tabs.Root>
+        </GalleryItem>
+
+        <GalleryItem title="Toggle Group" to="/components/toggle-group">
+          <ToggleGroup.Root aria-label="View options">
+            <ToggleGroup.Item defaultPressed>List</ToggleGroup.Item>
+            <ToggleGroup.Item>Board</ToggleGroup.Item>
+          </ToggleGroup.Root>
+        </GalleryItem>
+
+        <GalleryItem
+          title="Tree View"
+          to="/components/tree-view"
+          layout="stack"
+        >
+          <TreeView
+            defaultExpandedIds={["product"]}
+            items={[
+              {
+                id: "product",
+                label: "Product",
+                children: [
+                  { id: "roadmap", label: "Roadmap" },
+                  { id: "feedback", label: "Feedback" },
+                ],
+              },
+            ]}
+          />
         </GalleryItem>
 
         <GalleryItem title="Sidebar" to="/components/sidebar">
@@ -533,6 +665,18 @@ export function ComponentGallery() {
               <ListCell tone="tertiary">Updated yesterday</ListCell>
             </ListRow>
           </List>
+        </GalleryItem>
+
+        <GalleryItem
+          title="File Upload"
+          to="/components/file-upload"
+          layout="wide"
+        >
+          <FileUpload
+            multiple
+            maxFiles={3}
+            description="Drop files here or browse"
+          />
         </GalleryItem>
 
         <GalleryItem title="Composer" to="/components/composer" layout="wide">

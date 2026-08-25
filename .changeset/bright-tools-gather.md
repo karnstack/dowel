@@ -2,4 +2,4 @@
 "@karnstack/dowel": minor
 ---
 
-Add Combobox, CommandMenu, Drawer, List collection primitives, Progress, and Toast with a global manager.
+Add Accordion, Breadcrumbs, Calendar and DatePicker, Collapsible, Combobox, CommandMenu, ContextMenu, Drawer, FileUpload and Dropzone, List collection primitives, Pagination, Progress, Slider, Toast with a global manager, ToggleGroup, and TreeView.

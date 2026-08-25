@@ -127,3 +127,30 @@ export type {
   CommandMenuItem,
   CommandMenuProps,
 } from "./components/command-menu";
+export { Accordion } from "./components/accordion";
+export { Collapsible } from "./components/collapsible";
+export { Breadcrumbs } from "./components/breadcrumbs";
+export type {
+  BreadcrumbItem,
+  BreadcrumbsProps,
+} from "./components/breadcrumbs";
+export { Pagination } from "./components/pagination";
+export type { PaginationProps } from "./components/pagination";
+export { ToggleGroup } from "./components/toggle-group";
+export type {
+  ToggleGroupItemProps,
+  ToggleGroupRootProps,
+} from "./components/toggle-group";
+export { Slider } from "./components/slider";
+export { TreeView } from "./components/tree-view";
+export type { TreeViewItem, TreeViewProps } from "./components/tree-view";
+export { Calendar, DatePicker } from "./components/calendar";
+export type { CalendarProps, DatePickerProps } from "./components/calendar";
+export { ContextMenu } from "./components/context-menu";
+export type { ContextMenuTriggerProps } from "./components/context-menu";
+export { Dropzone, FileUpload } from "./components/file-upload";
+export type {
+  FileRejectReason,
+  FileUploadProps,
+  RejectedFile,
+} from "./components/file-upload";

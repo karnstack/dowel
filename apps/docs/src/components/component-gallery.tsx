@@ -58,6 +58,9 @@ const statusOptions = [
   { value: "done", label: "Done", group: "Closed" },
 ];
 
+const avatarPhoto =
+  "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?auto=format&crop=faces&fit=crop&h=96&q=80&w=96";
+
 type GalleryIssue = { id: string; title: string; updated: string };
 const tableColumn = createDataTableColumnHelper<GalleryIssue>();
 const tableColumns = tableColumn.columns([
@@ -130,7 +133,7 @@ export function ComponentGallery() {
         </GalleryItem>
 
         <GalleryItem title="Avatar" to="/components/avatar">
-          <Avatar name="Ada Lovelace" status="online" />
+          <Avatar name="Maya Chen" src={avatarPhoto} status="online" />
           <Avatar name="Grace Hopper" status="away" />
           <Avatar name="Lin Chen" shape="square" />
         </GalleryItem>

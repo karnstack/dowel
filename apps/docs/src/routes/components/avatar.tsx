@@ -9,9 +9,12 @@ export const Route = createFileRoute("/components/avatar")({
 });
 
 const toc = [
-  { id: "fallbacks", title: "Fallbacks" },
+  { id: "images", title: "Images and fallbacks" },
   { id: "sizes", title: "Sizes and presence" },
 ];
+
+const avatarPhoto =
+  "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?auto=format&crop=faces&fit=crop&h=96&q=80&w=96";
 
 function AvatarDocs() {
   return (
@@ -20,20 +23,31 @@ function AvatarDocs() {
       lead="A person or organization image with deterministic initials, shape, size, and presence fallbacks."
       toc={toc}
     >
-      <Section id="fallbacks" title="Fallbacks">
+      <Section id="images" title="Images and fallbacks">
         <p>
-          Pass a name for the accessible label and generated initials. A missing
-          or failed image returns to the same fallback automatically.
+          Pass a source for a portrait and a name for its accessible label. A
+          missing or failed image returns to generated initials automatically.
         </p>
         <Demo
-          code={`<Avatar name="Ada Lovelace" />
+          code={`<Avatar name="Maya Chen" src={portraitUrl} />
 <Avatar name="Grace Hopper" shape="square" />
 <Avatar name="Lin Chen" initials="LC" />`}
         >
-          <Avatar name="Ada Lovelace" />
+          <Avatar name="Maya Chen" src={avatarPhoto} />
           <Avatar name="Grace Hopper" shape="square" />
           <Avatar name="Lin Chen" initials="LC" />
         </Demo>
+        <p>
+          Demo portrait by{" "}
+          <a href="https://unsplash.com/@wocintechchat?utm_source=dowel&utm_medium=referral">
+            Christina @ wocintechchat.com M
+          </a>{" "}
+          on{" "}
+          <a href="https://unsplash.com/?utm_source=dowel&utm_medium=referral">
+            Unsplash
+          </a>
+          .
+        </p>
       </Section>
 
       <Section id="sizes" title="Sizes and presence">

@@ -1,6 +1,9 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "karnstack/dowel" }],
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "karnstack/dowel", "disableThanks": true }
+  ],
   "commit": false,
   "fixed": [],
   "linked": [],

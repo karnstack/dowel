@@ -1,8 +1,8 @@
 name: Release
 
 # Runs only after CI succeeds on main, so a red main never publishes.
-# Versions are committed directly to main. Changesets then publishes any
-# package version that is not already present on npm.
+# Changesets opens or updates a version PR. Merging that PR triggers CI again,
+# after which Changesets publishes the versioned package to npm.
 on:
   workflow_run:
     workflows: [CI]
@@ -13,6 +13,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
   contents: write
+  pull-requests: write
   id-token: write
 
 jobs:
@@ -38,8 +39,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      - name: Publish unpublished packages
-        run: pnpm release
+      - uses: changesets/action@v1
+        with:
+          version: pnpm run version-packages
+          publish: pnpm release
+          commit: "maint: version packages"
+          title: "maint: version packages"
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

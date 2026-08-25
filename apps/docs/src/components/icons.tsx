@@ -62,6 +62,13 @@ export const CloseIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const SearchIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="7" cy="7" r="4.25" />
+    <path d="m10.2 10.2 3.3 3.3" />
+  </Svg>
+);
+
 export const CopyIcon = (p: IconProps) => (
   <Svg {...p}>
     <rect x="6" y="6" width="8.5" height="8.5" rx="1.75" />

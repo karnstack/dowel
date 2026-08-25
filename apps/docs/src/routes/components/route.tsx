@@ -1,40 +1,135 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
-import { Sidebar } from "dowel";
+import {
+  Link,
+  Outlet,
+  createFileRoute,
+  useRouterState,
+} from "@tanstack/react-router";
+import { IconButton, Sidebar, Tooltip } from "dowel";
 
+import {
+  SearchTrigger,
+  ThemeToggle,
+  Wordmark,
+} from "../../components/docs-chrome";
+import { useDocs } from "../../components/docs-context";
+import {
+  CloseIcon,
+  GitHubIcon,
+  MenuIcon,
+  SearchIcon,
+} from "../../components/icons";
 import { SidebarNav } from "../../components/sidebar-nav";
+import { componentNav } from "../../lib/nav";
+import { versionLabel } from "../../lib/version";
 
-/**
- * A layout route, so the sidebar is mounted once for the whole `/components`
- * subtree instead of re-rendering per page. That is what lets the sidebar
- * keep its scroll position when you move between components.
- */
+const REPO = "https://github.com/karnstack/dowel";
+
 export const Route = createFileRoute("/components")({
   component: ComponentsLayout,
 });
 
+function RepositoryLink() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger
+        render={
+          <IconButton
+            label="dowel on GitHub"
+            nativeButton={false}
+            render={<a href={REPO} target="_blank" rel="noreferrer noopener" />}
+          >
+            <GitHubIcon />
+          </IconButton>
+        }
+      />
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>GitHub</Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  );
+}
+
+function WorkspaceTitle() {
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+  const current = componentNav.find((item) => item.to === pathname);
+  return (
+    <span className="docs-workspace-title">
+      {current?.title ?? "Components"}
+    </span>
+  );
+}
+
 function ComponentsLayout() {
+  const { navOpen, openSearch, setNavOpen, theme, toggleTheme } = useDocs();
+
   return (
     <div className="docs-shell">
-      <Sidebar.Root
-        defaultWidth={224}
-        minWidth={192}
-        maxWidth={304}
-        stickyOffset="var(--docs-header-h)"
-      >
+      <Sidebar.Root defaultWidth={232} minWidth={208} maxWidth={304}>
         <Sidebar.Panel aria-label="Component navigation">
+          <Sidebar.Header>
+            <Link to="/" aria-label="Homepage" className="docs-brand">
+              <Wordmark />
+            </Link>
+          </Sidebar.Header>
+
           <Sidebar.Body>
-            <div className="docs-sidebar-inner">
-              <SidebarNav />
-            </div>
+            <SidebarNav />
           </Sidebar.Body>
         </Sidebar.Panel>
+
         <Sidebar.ResizeHandle aria-label="Resize component navigation" />
+
         <Sidebar.Content>
-          <div className="docs-shell-content">
-            {/* The page supplies two grid cells: the content column and the
-                table of contents. See DocsPage. */}
-            <Outlet />
+          <div className="docs-mobile-bar">
+            <IconButton
+              label={navOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={navOpen}
+              aria-controls="docs-mobile-nav"
+              onClick={() => setNavOpen(!navOpen)}
+            >
+              {navOpen ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
+
+            <Link to="/" aria-label="Homepage" className="docs-brand">
+              <Wordmark />
+            </Link>
+
+            <div className="docs-mobile-actions">
+              <IconButton label="Search components" onClick={openSearch}>
+                <SearchIcon />
+              </IconButton>
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            </div>
           </div>
+
+          <div className="docs-mobile-nav" id="docs-mobile-nav">
+            <SidebarNav onNavigate={() => setNavOpen(false)} />
+          </div>
+
+          <div className="docs-workspace-bar">
+            <WorkspaceTitle />
+            <div className="docs-workspace-search">
+              <SearchTrigger onClick={openSearch} />
+            </div>
+          </div>
+
+          <div className="docs-shell-scroll">
+            <div className="docs-shell-content">
+              <Outlet />
+            </div>
+          </div>
+
+          <footer className="docs-workspace-footer">
+            <div className="docs-workspace-actions">
+              <RepositoryLink />
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <span className="docs-workspace-version">{versionLabel}</span>
+            </div>
+          </footer>
         </Sidebar.Content>
       </Sidebar.Root>
     </div>

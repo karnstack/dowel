@@ -18,7 +18,7 @@
      :root beats the OS. */
   color-scheme: light dark;
 
-  --docs-header-h: 3.5rem;
+  --docs-mobile-bar-h: 3.25rem;
   --docs-toc-w: 14rem;
   --docs-max: 88rem;
   --docs-gutter: 1.25rem;
@@ -92,7 +92,8 @@
 
 body {
   margin: 0;
-  min-height: 100dvh;
+  block-size: 100dvh;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -100,7 +101,7 @@ body {
    header. */
 :target,
 [id] {
-  scroll-margin-top: calc(var(--docs-header-h) + 1.5rem);
+  scroll-margin-top: 1.5rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -114,35 +115,19 @@ body {
   display: block;
 }
 
-/* ---------------------------------------------------------------- header */
-
-.docs-header {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 40;
-  background-color: color-mix(in srgb, var(--dowel-bg-1) 88%, transparent);
-  backdrop-filter: blur(12px);
-  border-block-end: 1px solid var(--dowel-border-1);
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.docs-header-inner {
-  display: flex;
-  align-items: center;
-  gap: var(--dowel-space-6);
-  block-size: var(--docs-header-h);
-  max-inline-size: var(--docs-max);
-  margin-inline: auto;
-  padding-inline: var(--docs-gutter);
-}
-
-.docs-header-mobile {
-  display: flex;
-}
-
-.docs-brand {
-  text-decoration: none;
-  color: var(--dowel-text-1);
-}
+/* ---------------------------------------------------------------- chrome */
 
 .docs-wordmark {
   display: flex;
@@ -156,33 +141,6 @@ body {
 
 .docs-mark {
   color: var(--dowel-accent);
-}
-
-.docs-header-nav {
-  display: none;
-  align-items: center;
-  gap: var(--dowel-space-8);
-  margin-inline-start: var(--dowel-space-6);
-}
-
-.docs-header-nav a {
-  color: var(--dowel-text-3);
-  text-decoration: none;
-  font-size: var(--dowel-fs-small);
-}
-
-.docs-header-nav a:hover,
-.docs-header-nav a[data-status="active"] {
-  color: var(--dowel-text-1);
-}
-
-/* dowel components accept no className, so every layout hook is a wrapper
-   the docs own. */
-.docs-header-end {
-  display: flex;
-  align-items: center;
-  gap: var(--dowel-space-2);
-  margin-inline-start: auto;
 }
 
 /* Both icons ship in the markup; CSS picks the one matching the resolved
@@ -223,19 +181,110 @@ body {
   gap: var(--dowel-space-3);
 }
 
-/* ------------------------------------------------------------ mobile nav */
+/* --------------------------------------------------------- command search */
 
-.docs-mobile-nav {
-  display: none;
-  max-block-size: calc(100dvh - var(--docs-header-h));
-  overflow-y: auto;
-  padding: var(--dowel-space-8) var(--docs-gutter) 2rem;
-  background-color: var(--dowel-bg-1);
-  border-block-start: 1px solid var(--dowel-border-1);
+.docs-command {
+  display: flex;
+  flex-direction: column;
+  max-block-size: min(34rem, calc(100dvh - 4rem));
+  overflow: hidden;
+  border: 1px solid var(--dowel-border-2);
+  border-radius: var(--dowel-radius-lg);
+  background: var(--dowel-bg-elevated);
+  box-shadow: var(--docs-panel-shadow);
 }
 
-:root[data-nav-open] .docs-mobile-nav {
-  display: block;
+.docs-command-input {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--dowel-space-4);
+  min-block-size: 3.25rem;
+  padding-inline: var(--dowel-space-7);
+  border-block-end: 1px solid var(--dowel-border-1);
+  color: var(--dowel-text-3);
+}
+
+.docs-command-input [data-dowel-component="input"] {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 3rem;
+  padding-inline: 0;
+  font-size: 1rem;
+}
+
+.docs-command-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-block-size: 0;
+  overflow-y: auto;
+  padding: var(--dowel-space-3);
+}
+
+.docs-command-result {
+  display: grid;
+  gap: 2px;
+  inline-size: 100%;
+  min-block-size: 3rem;
+  padding: var(--dowel-space-4) var(--dowel-space-6);
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dowel-text-1);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.docs-command-result[aria-selected="true"] {
+  background: var(--dowel-bg-2);
+}
+
+.docs-command-result:focus-visible {
+  outline: 2px solid var(--dowel-focus);
+  outline-offset: -2px;
+}
+
+.docs-command-result span {
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-medium);
+}
+
+.docs-command-result small {
+  overflow: hidden;
+  color: var(--dowel-text-3);
+  font-size: var(--dowel-fs-mini);
+  font-weight: var(--dowel-fw-normal);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-command-empty {
+  margin: 0;
+  padding: 2rem var(--dowel-space-6);
+  color: var(--dowel-text-3);
+  font-size: var(--dowel-fs-small);
+  text-align: center;
+}
+
+.docs-command-footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--dowel-space-7);
+  min-block-size: 2.25rem;
+  padding-inline: var(--dowel-space-6);
+  border-block-start: 1px solid var(--dowel-border-1);
+  color: var(--dowel-text-4);
+  font-size: var(--dowel-fs-mini);
+}
+
+.docs-command-footer span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dowel-space-2);
 }
 
 /* ------------------------------------------------------------------- nav */
@@ -286,40 +335,206 @@ body {
 /* ----------------------------------------------------------------- shell */
 
 .docs-shell {
-  max-inline-size: var(--docs-max);
-  margin-inline: auto;
-  padding-inline: var(--docs-gutter);
+  block-size: 100dvh;
+  inline-size: 100%;
+  overflow: hidden;
+}
+
+.docs-shell > [data-dowel-component="sidebar"] {
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.docs-shell [data-dowel-part="sidebar-panel"],
+.docs-shell [data-dowel-part="sidebar-content"] {
+  min-block-size: 0;
+}
+
+.docs-shell [data-dowel-part="sidebar-content"] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.docs-brand {
+  color: var(--dowel-text-1);
+  text-decoration: none;
+}
+
+.docs-shell [data-dowel-part="sidebar-header"] .docs-brand {
+  display: flex;
+  align-items: center;
+  block-size: 1.75rem;
+  padding-inline: var(--dowel-space-2);
+}
+
+.docs-search-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-3);
+  inline-size: 100%;
+  min-block-size: 2rem;
+  padding: 0 var(--dowel-space-4);
+  border: 0;
+  border-radius: 6px;
+  background: var(--dowel-bg-2);
+  color: var(--dowel-text-3);
+  font: inherit;
+  font-size: var(--dowel-fs-small);
+  text-align: start;
+  cursor: pointer;
+}
+
+.docs-search-trigger:hover {
+  color: var(--dowel-text-2);
+  background: var(--dowel-bg-3);
+}
+
+.docs-search-trigger:focus-visible {
+  outline: 2px solid var(--dowel-focus);
+  outline-offset: 1px;
+}
+
+.docs-search-trigger > span:nth-child(2) {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-search-trigger [data-dowel-component="kbd"] {
+  margin-inline-start: auto;
+}
+
+.docs-shell-scroll {
+  flex: 1;
+  min-block-size: 0;
+  min-inline-size: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .docs-shell-content {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   min-inline-size: 0;
+  padding-inline: var(--docs-gutter);
+}
+
+.docs-mobile-bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--dowel-space-4);
+  block-size: var(--docs-mobile-bar-h);
+  padding-inline: var(--dowel-space-4);
+  border-block-end: 1px solid var(--dowel-border-1);
+  background: var(--dowel-bg-1);
+}
+
+.docs-mobile-bar .docs-brand {
+  margin-inline-start: var(--dowel-space-1);
+}
+
+.docs-mobile-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-1);
+  margin-inline-start: auto;
+}
+
+.docs-workspace-bar {
+  display: none;
+  flex: none;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: var(--dowel-space-7);
+  border-block-end: 1px solid var(--dowel-border-1);
+  background: var(--dowel-bg-1);
+}
+
+.docs-workspace-title {
+  overflow: hidden;
+  color: var(--dowel-text-2);
+  font-size: var(--dowel-fs-small);
+  font-weight: var(--dowel-fw-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-workspace-search {
+  inline-size: 13rem;
+  margin-inline-start: auto;
+}
+
+.docs-workspace-search .docs-search-trigger {
+  min-block-size: 1.75rem;
+  background: transparent;
+}
+
+.docs-workspace-search .docs-search-trigger:hover {
+  background: var(--dowel-bg-2);
+}
+
+.docs-workspace-footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dowel-space-6);
+  min-block-size: 1.75rem;
+  padding-inline: var(--dowel-space-6);
+  border-block-start: 1px solid var(--dowel-border-1);
+  background: var(--dowel-bg-1);
+  color: var(--dowel-text-4);
+  font-size: var(--dowel-fs-mini);
+}
+
+.docs-workspace-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--dowel-space-1);
+  margin-inline-start: auto;
+}
+
+.docs-workspace-version {
+  min-inline-size: 5.5rem;
+  margin-inline-start: var(--dowel-space-3);
+  font-family: var(--dowel-mono);
+  text-align: end;
+  white-space: nowrap;
+}
+
+.docs-mobile-nav {
+  position: absolute;
+  z-index: 30;
+  inset: var(--docs-mobile-bar-h) 0 0;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--dowel-space-6) var(--dowel-space-4);
+  background: var(--dowel-bg-1);
+}
+
+:root[data-nav-open] .docs-mobile-nav {
+  display: flex;
 }
 
 @media (min-width: 64rem) {
-  .docs-shell > [data-dowel-component="sidebar"] {
-    min-block-size: calc(100dvh - var(--docs-header-h));
-  }
-
-  .docs-sidebar-inner {
-    padding-block: var(--dowel-space-5) 2rem;
-  }
-
   .docs-shell-content {
-    padding-inline-start: 3rem;
+    padding-inline: 3rem;
   }
 
+  .docs-workspace-bar {
+    display: flex;
+  }
+
+  .docs-mobile-bar,
   :root[data-nav-open] .docs-mobile-nav {
     display: none;
-  }
-
-  .docs-header-mobile {
-    display: none;
-  }
-
-  .docs-header-nav {
-    display: flex;
   }
 }
 
@@ -609,7 +824,7 @@ body {
 
 .docs-toc-inner {
   position: sticky;
-  inset-block-start: calc(var(--docs-header-h) + 2.5rem);
+  inset-block-start: 0;
   padding-block: 2.5rem 3rem;
 }
 

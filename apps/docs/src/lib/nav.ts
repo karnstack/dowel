@@ -10,7 +10,7 @@ import type { LinkProps } from "@tanstack/react-router";
 export type NavItem = {
   title: string;
   to: LinkProps["to"];
-  /** One line, shown on the components index and the landing grid. */
+  /** One line, shown on the components index and in component search. */
   summary: string;
 };
 
@@ -85,13 +85,8 @@ export const componentNav: NavItem[] = [
 
 export const nav: NavSection[] = [
   {
-    title: "Getting started",
+    title: "Library",
     items: [
-      {
-        title: "Introduction",
-        to: "/",
-        summary: "What dowel is, and what it refuses to be.",
-      },
       {
         title: "All components",
         to: "/components",

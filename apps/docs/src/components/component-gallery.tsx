@@ -96,7 +96,7 @@ function GalleryItem({
     <li className="docs-gallery-item" data-layout={layout}>
       <Link className="docs-gallery-link" to={to}>
         {title}
-        <ArrowRightIcon size={14} />
+        <ArrowRightIcon />
       </Link>
       <div className="docs-gallery-preview">{children}</div>
     </li>

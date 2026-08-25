@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComponentsRouteRouteImport } from './routes/components/route'
+import { Route as DependenciesRouteImport } from './routes/dependencies'
 import { Route as ComponentsIndexRouteImport } from './routes/components/index'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
@@ -49,6 +50,11 @@ const IndexRoute = IndexRouteImport.update({
 const ComponentsRouteRoute = ComponentsRouteRouteImport.update({
   id: '/components',
   path: '/components',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DependenciesRoute = DependenciesRouteImport.update({
+  id: '/dependencies',
+  path: '/dependencies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsIndexRoute = ComponentsIndexRouteImport.update({
@@ -201,6 +207,7 @@ const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteRouteWithChildren
+  '/dependencies': typeof DependenciesRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -233,6 +240,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dependencies': typeof DependenciesRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteRouteWithChildren
+  '/dependencies': typeof DependenciesRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -302,6 +311,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/components'
+    | '/dependencies'
     | '/components/alert-dialog'
     | '/components/avatar'
     | '/components/badge'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dependencies'
     | '/components/alert-dialog'
     | '/components/avatar'
     | '/components/badge'
@@ -367,6 +378,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/components'
+    | '/dependencies'
     | '/components/alert-dialog'
     | '/components/avatar'
     | '/components/badge'
@@ -401,6 +413,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComponentsRouteRoute: typeof ComponentsRouteRouteWithChildren
+  DependenciesRoute: typeof DependenciesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -417,6 +430,13 @@ declare module '@tanstack/react-router' {
       path: '/components'
       fullPath: '/components'
       preLoaderRoute: typeof ComponentsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dependencies': {
+      id: '/dependencies'
+      path: '/dependencies'
+      fullPath: '/dependencies'
+      preLoaderRoute: typeof DependenciesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/': {
@@ -696,6 +716,7 @@ const ComponentsRouteRouteWithChildren = ComponentsRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComponentsRouteRoute: ComponentsRouteRouteWithChildren,
+  DependenciesRoute: DependenciesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

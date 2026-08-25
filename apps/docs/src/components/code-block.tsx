@@ -37,7 +37,7 @@ function CopyButton({ value }: { value: string }) {
             size="sm"
             onClick={copy}
           >
-            {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+            {copied ? <CheckIcon /> : <CopyIcon />}
           </IconButton>
         }
       />

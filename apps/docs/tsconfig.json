@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "types": ["vite/client"],
+    "resolveJsonModule": true,
     // Root `pnpm typecheck` runs before `pnpm build` in CI, so dowel's
     // dist/index.d.ts does not exist yet. Point the docs at dowel's source
     // instead: the docs then typecheck against what the library actually is,

@@ -26,6 +26,9 @@ importers:
       '@fontsource-variable/host-grotesk':
         specifier: 5.3.0
         version: 5.3.0
+      '@heroicons/react':
+        specifier: 2.2.0
+        version: 2.2.0(react@19.2.8)
       '@karnstack/dowel':
         specifier: workspace:*
         version: link:../../packages/dowel
@@ -635,6 +638,11 @@ packages:
 
   '@fontsource-variable/host-grotesk@5.3.0':
     resolution: {integrity: sha512-WvdqilphrdjYLeCHXny9gkdpIZgzyeHpgRWB8T4LSKs5nVnCs6pYYeCeMiRshxcuB6djqL6CSdF1Hq0BvMNCwA==}
+
+  '@heroicons/react@2.2.0':
+    resolution: {integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==}
+    peerDependencies:
+      react: '>= 16 || ^19.0.0-rc'
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2835,6 +2843,10 @@ snapshots:
   '@floating-ui/utils@0.2.12': {}
 
   '@fontsource-variable/host-grotesk@5.3.0': {}
+
+  '@heroicons/react@2.2.0(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
 
   '@img/colour@1.1.0': {}
 

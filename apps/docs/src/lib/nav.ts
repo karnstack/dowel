@@ -172,6 +172,11 @@ export const nav: NavSection[] = [
         to: "/components",
         summary: "Everything the package exports, in one list.",
       },
+      {
+        title: "Dependencies",
+        to: "/dependencies",
+        summary: "What Dowel installs, expects, and leaves to the application.",
+      },
     ],
   },
   { title: "Components", items: componentNav },

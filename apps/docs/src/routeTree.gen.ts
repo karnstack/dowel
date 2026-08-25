@@ -22,8 +22,11 @@ import { Route as ComponentsIconButtonRouteImport } from './routes/components/ic
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsMenuRouteImport } from './routes/components/menu'
+import { Route as ComponentsNativeSelectRouteImport } from './routes/components/native-select'
 import { Route as ComponentsPropertyPickerRouteImport } from './routes/components/property-picker'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
+import { Route as ComponentsSearchFieldRouteImport } from './routes/components/search-field'
+import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSidebarRouteImport } from './routes/components/sidebar'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
@@ -94,6 +97,11 @@ const ComponentsMenuRoute = ComponentsMenuRouteImport.update({
   path: '/menu',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsNativeSelectRoute = ComponentsNativeSelectRouteImport.update({
+  id: '/native-select',
+  path: '/native-select',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsPropertyPickerRoute =
   ComponentsPropertyPickerRouteImport.update({
     id: '/property-picker',
@@ -103,6 +111,16 @@ const ComponentsPropertyPickerRoute =
 const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
   id: '/radio-group',
   path: '/radio-group',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsSearchFieldRoute = ComponentsSearchFieldRouteImport.update({
+  id: '/search-field',
+  path: '/search-field',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
+  id: '/select',
+  path: '/select',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsSidebarRoute = ComponentsSidebarRouteImport.update({
@@ -139,8 +157,11 @@ export interface FileRoutesByFullPath {
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/menu': typeof ComponentsMenuRoute
+  '/components/native-select': typeof ComponentsNativeSelectRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
+  '/components/search-field': typeof ComponentsSearchFieldRoute
+  '/components/select': typeof ComponentsSelectRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -159,8 +180,11 @@ export interface FileRoutesByTo {
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/menu': typeof ComponentsMenuRoute
+  '/components/native-select': typeof ComponentsNativeSelectRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
+  '/components/search-field': typeof ComponentsSearchFieldRoute
+  '/components/select': typeof ComponentsSelectRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -181,8 +205,11 @@ export interface FileRoutesById {
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/menu': typeof ComponentsMenuRoute
+  '/components/native-select': typeof ComponentsNativeSelectRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
+  '/components/search-field': typeof ComponentsSearchFieldRoute
+  '/components/select': typeof ComponentsSelectRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -204,8 +231,11 @@ export interface FileRouteTypes {
     | '/components/input'
     | '/components/kbd'
     | '/components/menu'
+    | '/components/native-select'
     | '/components/property-picker'
     | '/components/radio-group'
+    | '/components/search-field'
+    | '/components/select'
     | '/components/sidebar'
     | '/components/switch'
     | '/components/tabs'
@@ -224,8 +254,11 @@ export interface FileRouteTypes {
     | '/components/input'
     | '/components/kbd'
     | '/components/menu'
+    | '/components/native-select'
     | '/components/property-picker'
     | '/components/radio-group'
+    | '/components/search-field'
+    | '/components/select'
     | '/components/sidebar'
     | '/components/switch'
     | '/components/tabs'
@@ -245,8 +278,11 @@ export interface FileRouteTypes {
     | '/components/input'
     | '/components/kbd'
     | '/components/menu'
+    | '/components/native-select'
     | '/components/property-picker'
     | '/components/radio-group'
+    | '/components/search-field'
+    | '/components/select'
     | '/components/sidebar'
     | '/components/switch'
     | '/components/tabs'
@@ -352,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsMenuRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/native-select': {
+      id: '/components/native-select'
+      path: '/native-select'
+      fullPath: '/components/native-select'
+      preLoaderRoute: typeof ComponentsNativeSelectRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/property-picker': {
       id: '/components/property-picker'
       path: '/property-picker'
@@ -364,6 +407,20 @@ declare module '@tanstack/react-router' {
       path: '/radio-group'
       fullPath: '/components/radio-group'
       preLoaderRoute: typeof ComponentsRadioGroupRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/search-field': {
+      id: '/components/search-field'
+      path: '/search-field'
+      fullPath: '/components/search-field'
+      preLoaderRoute: typeof ComponentsSearchFieldRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/select': {
+      id: '/components/select'
+      path: '/select'
+      fullPath: '/components/select'
+      preLoaderRoute: typeof ComponentsSelectRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/sidebar': {
@@ -408,8 +465,11 @@ interface ComponentsRouteRouteChildren {
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsKbdRoute: typeof ComponentsKbdRoute
   ComponentsMenuRoute: typeof ComponentsMenuRoute
+  ComponentsNativeSelectRoute: typeof ComponentsNativeSelectRoute
   ComponentsPropertyPickerRoute: typeof ComponentsPropertyPickerRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
+  ComponentsSearchFieldRoute: typeof ComponentsSearchFieldRoute
+  ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSidebarRoute: typeof ComponentsSidebarRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
@@ -428,8 +488,11 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsKbdRoute: ComponentsKbdRoute,
   ComponentsMenuRoute: ComponentsMenuRoute,
+  ComponentsNativeSelectRoute: ComponentsNativeSelectRoute,
   ComponentsPropertyPickerRoute: ComponentsPropertyPickerRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
+  ComponentsSearchFieldRoute: ComponentsSearchFieldRoute,
+  ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSidebarRoute: ComponentsSidebarRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,

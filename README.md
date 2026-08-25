@@ -27,7 +27,7 @@ The system theme is the default. Pass `light` or `dark` to pin a theme.
 
 ## Components
 
-Badge · Button · Composer · Data Table · Dialog · Icon Button · Input · Kbd · Menu · Property Picker · Sidebar · Tabs · Tooltip
+Badge · Button · Checkbox · Composer · Data Table · Dialog · Icon Button · Input · Kbd · Menu · Native Select · Property Picker · Radio Group · Search Field · Select · Sidebar · Switch · Tabs · Tooltip
 
 Every component is keyboard tested and axe checked. The rendered catalog is contrast tested against WCAG 2.2 AA in light and dark. Visual controls own their appearance. Layout primitives accept application shell hooks.
 

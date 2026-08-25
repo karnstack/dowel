@@ -13,9 +13,12 @@ import {
   Input,
   Kbd,
   Menu,
+  NativeSelect,
   PropertyPicker,
   PropertyPill,
   RadioGroup,
+  SearchField,
+  Select,
   Sidebar,
   Switch,
   Tabs,
@@ -107,6 +110,40 @@ export function ComponentGallery() {
             <Field.Label>Project name</Field.Label>
             <Input name="project" defaultValue="New workspace" />
           </Field.Root>
+        </GalleryItem>
+
+        <GalleryItem
+          title="Search Field"
+          to="/components/search-field"
+          layout="stack"
+        >
+          <SearchField
+            aria-label="Search repositories"
+            placeholder="Search repositories"
+            shortcut={<Kbd keys={["Meta", "K"]} />}
+          />
+        </GalleryItem>
+
+        <GalleryItem
+          title="Native Select"
+          to="/components/native-select"
+          layout="stack"
+        >
+          <NativeSelect aria-label="Default branch" defaultValue="main">
+            <option value="main">main</option>
+            <option value="develop">develop</option>
+          </NativeSelect>
+        </GalleryItem>
+
+        <GalleryItem title="Select" to="/components/select" layout="stack">
+          <Select
+            label="Git provider"
+            options={[
+              { value: "github", label: "GitHub" },
+              { value: "gitlab", label: "GitLab" },
+            ]}
+            defaultValue="github"
+          />
         </GalleryItem>
 
         <GalleryItem title="Textarea" to="/components/input" layout="stack">

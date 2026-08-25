@@ -14,7 +14,10 @@ export async function expectNoA11yViolations(el: HTMLElement): Promise<void> {
     rules: { "color-contrast": { enabled: false } },
   });
   const summary = results.violations.map(
-    (v) => `${v.id}: ${v.help} (${v.nodes.length} node(s))`,
+    (violation) =>
+      `${violation.id}: ${violation.help} (${violation.nodes
+        .map((node) => node.target.join(" > "))
+        .join(", ")})`,
   );
   expect(summary).toEqual([]);
 }

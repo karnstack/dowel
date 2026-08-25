@@ -16,7 +16,7 @@ export const kbd = stylex.create({
     borderStyle: "solid",
     borderWidth: tokens["--dowel-hairline"],
     boxSizing: "border-box",
-    color: tokens["--dowel-text-tertiary"],
+    color: tokens["--dowel-text-secondary"],
     display: "inline-flex",
     fontFamily: tokens["--dowel-font-sans"],
     fontSize: "0.6875rem",

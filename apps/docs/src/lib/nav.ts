@@ -71,6 +71,11 @@ export const componentNav: NavItem[] = [
     summary: "A dropdown with keyboard navigation and typeahead.",
   },
   {
+    title: "Native Select",
+    to: "/components/native-select",
+    summary: "A resilient native choice control with Dowel field styling.",
+  },
+  {
     title: "Property Picker",
     to: "/components/property-picker",
     summary:
@@ -80,6 +85,16 @@ export const componentNav: NavItem[] = [
     title: "Radio Group",
     to: "/components/radio-group",
     summary: "A single-choice group with native forms and arrow-key selection.",
+  },
+  {
+    title: "Search Field",
+    to: "/components/search-field",
+    summary: "A search input with icon, clear action, and shortcut hint.",
+  },
+  {
+    title: "Select",
+    to: "/components/select",
+    summary: "A grouped single-choice popup with native form submission.",
   },
   {
     title: "Sidebar",

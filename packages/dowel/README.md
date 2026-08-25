@@ -38,5 +38,6 @@ See [dowel.sh](https://dowel.sh) for live examples and API details.
 - React 19
 - Host Grotesk Variable recommended
 - Pre-1.0, with no compatibility promises yet
+- Releases stay on `0.0.x` until Sourcetown completes the first production integration. That milestone becomes `0.1.0`.
 
 Inspired by Linear's craft and restraint. Not affiliated with Linear.

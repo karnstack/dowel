@@ -1,4 +1,5 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
+import { CheckIcon, MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import { useContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
@@ -139,17 +140,11 @@ export function PropertyPicker({
             data-dowel-component="property-picker-popup"
           >
             <BaseCombobox.InputGroup {...sx(styles.search.group)}>
-              <svg
+              <MagnifyingGlassIcon
                 {...sx(styles.search.icon)}
-                aria-hidden="true"
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
-              >
-                <circle cx="7" cy="7" r="4.5" stroke="currentColor" />
-                <path d="m10.5 10.5 3 3" stroke="currentColor" />
-              </svg>
+                width={16}
+                height={16}
+              />
               <BaseCombobox.Input
                 {...sx(styles.search.input)}
                 aria-label={`Search ${label}`}
@@ -194,7 +189,7 @@ export function PropertyPicker({
                         <BaseCombobox.ItemIndicator
                           {...sx(styles.list.indicator)}
                         >
-                          ✓
+                          <CheckIcon width={16} height={16} />
                         </BaseCombobox.ItemIndicator>
                       </BaseCombobox.Item>
                     )}

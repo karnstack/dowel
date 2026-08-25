@@ -31,6 +31,23 @@ describe("Callout", () => {
     );
   });
 
+  it("provides a tone icon by default and allows explicit suppression", () => {
+    const { container } = render(
+      <>
+        <Callout tone="success">Repository connected.</Callout>
+        <Callout tone="warning" icon={null}>
+          Approval required.
+        </Callout>
+      </>,
+    );
+    const callouts = container.querySelectorAll(
+      '[data-dowel-component="callout"]',
+    );
+
+    expect(callouts[0]?.querySelector('svg[data-slot="icon"]')).not.toBeNull();
+    expect(callouts[1]?.querySelector('svg[data-slot="icon"]')).toBeNull();
+  });
+
   it("ignores appearance props smuggled onto the component", () => {
     const smuggled = { className: "evil", style: { color: "red" } };
     render(<Callout {...smuggled}>Safe content</Callout>);

@@ -21,6 +21,11 @@ const runtimeDependencies = [
     role: "Its unstyled, composable primitives give Dowel proven focus, keyboard, overlay, and selection behavior without imposing a competing visual system.",
   },
   {
+    name: "@heroicons/react",
+    version: packageMetadata.dependencies["@heroicons/react"],
+    role: "Its 16px solid Micro set gives Dowel a consistent vocabulary for built-in functional controls and semantic defaults without maintaining bespoke SVG paths.",
+  },
+  {
     name: "@stylexjs/stylex",
     version: packageMetadata.dependencies["@stylexjs/stylex"],
     role: "It provides typed theme variables and deterministic style composition while compiling CSS ahead of time, so consumers need no StyleX build configuration.",
@@ -117,16 +122,18 @@ function DependenciesDocs() {
 
       <Section id="not-included" title="What is not included">
         <p>
-          Dowel does not install a router, form library, data-fetching client,
-          or icon set. Components accept ordinary React content in their icon
-          slots, so applications keep control of visual language and bundle
-          cost.
+          Dowel does not install a router, form library, or data-fetching
+          client, and it does not prescribe an application-wide icon system.
+          Consumer-facing icon slots accept ordinary React content, so
+          applications keep control of their visual language.
         </p>
         <p>
-          This documentation site uses{" "}
-          <a href="https://heroicons.com/">Heroicons Micro</a> at its native
-          16px size. <code>@heroicons/react</code> belongs only to the docs app
-          and is not a dependency of <code>@karnstack/dowel</code>.
+          Dowel uses <a href="https://heroicons.com/">Heroicons Micro</a> at its
+          native 16px size for icons the library owns, including search,
+          selection, sorting, and Callout's tone-aware defaults. Callout accepts
+          an icon override and treats <code>icon={"{null}"}</code> as an
+          explicit request to hide its default. The documentation chrome uses
+          the same set for consistency.
         </p>
       </Section>
 

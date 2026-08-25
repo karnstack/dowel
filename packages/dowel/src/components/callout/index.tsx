@@ -1,3 +1,9 @@
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import { forwardRef } from "react";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
@@ -19,9 +25,18 @@ export interface CalloutProps
   > {
   tone?: CalloutTone;
   title?: ReactNode;
+  /** Decorative leading icon. Defaults to the tone icon. Pass null to hide it. */
   icon?: ReactNode;
   actions?: ReactNode;
 }
+
+const defaultIcons = {
+  neutral: InformationCircleIcon,
+  accent: InformationCircleIcon,
+  success: CheckCircleIcon,
+  warning: ExclamationTriangleIcon,
+  danger: ExclamationCircleIcon,
+} as const;
 
 export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
   function Callout(
@@ -29,6 +44,10 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
     ref,
   ) {
     const safeProps = withoutAppearanceProps(props);
+    const DefaultIcon = defaultIcons[tone];
+    const resolvedIcon =
+      icon === undefined ? <DefaultIcon width={16} height={16} /> : icon;
+
     return (
       <div
         ref={ref}
@@ -40,12 +59,12 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
         data-dowel-component="callout"
         data-tone={tone}
       >
-        {icon ? (
+        {resolvedIcon ? (
           <span
             {...stylex.props(styles.part.icon, styles.tone[tone])}
             aria-hidden="true"
           >
-            {icon}
+            {resolvedIcon}
           </span>
         ) : null}
         <span {...stylex.props(styles.part.content)}>

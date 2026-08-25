@@ -18,6 +18,7 @@ import type {
   SortingState,
   Updater,
 } from "@tanstack/react-table";
+import { CheckIcon, ChevronUpIcon, MinusIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import type {
@@ -105,28 +106,9 @@ function applyUpdater<T>(updater: Updater<T>, current: T) {
     : updater;
 }
 
-function CheckIcon({ mixed = false }: { mixed?: boolean }) {
-  return (
-    <svg
-      aria-hidden="true"
-      width="10"
-      height="10"
-      viewBox="0 0 10 10"
-      fill="none"
-    >
-      {mixed ? (
-        <path d="M2.25 5h5.5" stroke="currentColor" strokeWidth="1.4" />
-      ) : (
-        <path
-          d="m2.1 5.1 1.8 1.8 4-4"
-          stroke="currentColor"
-          strokeWidth="1.35"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      )}
-    </svg>
-  );
+function SelectionIcon({ mixed = false }: { mixed?: boolean }) {
+  const Icon = mixed ? MinusIcon : CheckIcon;
+  return <Icon width={16} height={16} />;
 }
 
 type CheckboxProps = {
@@ -178,7 +160,9 @@ function Checkbox({
         )}
         aria-hidden="true"
       >
-        {checked || indeterminate ? <CheckIcon mixed={indeterminate} /> : null}
+        {checked || indeterminate ? (
+          <SelectionIcon mixed={indeterminate} />
+        ) : null}
       </span>
     </label>
   );
@@ -194,15 +178,7 @@ function SortIcon({ direction }: { direction: false | "asc" | "desc" }) {
       )}
       aria-hidden="true"
     >
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path
-          d="m3.5 7 2.5-2.5L8.5 7"
-          stroke="currentColor"
-          strokeWidth="1.25"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <ChevronUpIcon width={16} height={16} />
     </span>
   );
 }

@@ -1,4 +1,5 @@
 import { Input as BaseInput } from "@base-ui/react/input";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import { forwardRef } from "react";
 import type {
@@ -56,16 +57,11 @@ export const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
         >
           {children}
         </BaseNativeSelect>
-        <svg
+        <ChevronDownIcon
           {...stylex.props(styles.icon.root)}
-          aria-hidden="true"
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-        >
-          <path d="m3 4.5 3 3 3-3" stroke="currentColor" />
-        </svg>
+          width={16}
+          height={16}
+        />
       </span>
     );
   },

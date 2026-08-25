@@ -14,13 +14,6 @@ const toc = [
   { id: "semantics", title: "Semantics" },
 ];
 
-const InfoIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <circle cx="8" cy="8" r="5.5" stroke="currentColor" />
-    <path d="M8 7.25v3.5M8 5.25h.01" stroke="currentColor" />
-  </svg>
-);
-
 function CalloutDocs() {
   return (
     <DocsPage
@@ -37,7 +30,6 @@ function CalloutDocs() {
           layout="stack"
           code={`<Callout
   title="Mirror paused"
-  icon={<InfoIcon />}
   actions={<Button size="sm">Reconnect</Button>}
 >
   Authentication expired for this repository.
@@ -45,7 +37,6 @@ function CalloutDocs() {
         >
           <Callout
             title="Mirror paused"
-            icon={<InfoIcon />}
             actions={<Button size="sm">Reconnect</Button>}
           >
             Authentication expired for this repository.
@@ -57,7 +48,9 @@ function CalloutDocs() {
         <p>
           Tone colors the leading visual, not the entire message. Danger also
           receives a restrained tinted surface because it needs stronger
-          separation from ordinary guidance.
+          separation from ordinary guidance. Each tone supplies a matching
+          Heroicon by default. Pass a custom <code>icon</code>, or pass{" "}
+          <code>icon={"{null}"}</code> to remove it.
         </p>
         <Demo
           layout="stack"
@@ -65,13 +58,13 @@ function CalloutDocs() {
 <Callout tone="warning" title="Protected branch">Two approvals are required.</Callout>
 <Callout tone="danger" title="Action required">The provider token has expired.</Callout>`}
         >
-          <Callout tone="success" title="Connected" icon={<InfoIcon />}>
+          <Callout tone="success" title="Connected">
             Repository access is ready.
           </Callout>
-          <Callout tone="warning" title="Protected branch" icon={<InfoIcon />}>
+          <Callout tone="warning" title="Protected branch">
             Two approvals are required.
           </Callout>
-          <Callout tone="danger" title="Action required" icon={<InfoIcon />}>
+          <Callout tone="danger" title="Action required">
             The provider token has expired.
           </Callout>
         </Demo>

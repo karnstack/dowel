@@ -26,6 +26,11 @@ export const componentNav: NavItem[] = [
     summary: "A focused confirmation modal for consequential actions.",
   },
   {
+    title: "Avatar",
+    to: "/components/avatar",
+    summary: "An image or initials fallback with shape, size, and presence.",
+  },
+  {
     title: "Badge",
     to: "/components/badge",
     summary: "A compact status or metadata pill in five tones.",
@@ -61,6 +66,11 @@ export const componentNav: NavItem[] = [
     summary: "A modal on the modal elevation tier, labelled by its title.",
   },
   {
+    title: "Empty State",
+    to: "/components/empty-state",
+    summary: "Structured guidance and actions for a surface without content.",
+  },
+  {
     title: "Icon Button",
     to: "/components/icon-button",
     summary: "A square control for a single icon, with a required label.",
@@ -86,6 +96,11 @@ export const componentNav: NavItem[] = [
     summary: "A resilient native choice control with Dowel field styling.",
   },
   {
+    title: "Popover",
+    to: "/components/popover",
+    summary: "An anchored surface for interactive controls and rich details.",
+  },
+  {
     title: "Property Picker",
     to: "/components/property-picker",
     summary:
@@ -102,6 +117,11 @@ export const componentNav: NavItem[] = [
     summary: "A search input with icon, clear action, and shortcut hint.",
   },
   {
+    title: "Separator",
+    to: "/components/separator",
+    summary: "A quiet horizontal or vertical content divider.",
+  },
+  {
     title: "Select",
     to: "/components/select",
     summary: "A grouped single-choice popup with native form submission.",
@@ -110,6 +130,21 @@ export const componentNav: NavItem[] = [
     title: "Sidebar",
     to: "/components/sidebar",
     summary: "A responsive application rail with pointer and keyboard resize.",
+  },
+  {
+    title: "Skeleton",
+    to: "/components/skeleton",
+    summary: "Reduced-motion-aware placeholders for pending content.",
+  },
+  {
+    title: "Spinner",
+    to: "/components/spinner",
+    summary: "Accessible indeterminate progress in three compact sizes.",
+  },
+  {
+    title: "Status",
+    to: "/components/status",
+    summary: "A lightweight state icon and label in semantic tones.",
   },
   {
     title: "Switch",

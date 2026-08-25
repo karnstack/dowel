@@ -9,6 +9,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "pnpm -r test",
+    "test:a11y": "pnpm --filter @dowel/docs test:a11y",
     "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

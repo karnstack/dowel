@@ -23,7 +23,7 @@ export const tokens = stylex.defineVars({
   "--dowel-text-tertiary": "oklch(55.2% 0.016 285.938)",
   "--dowel-text-disabled": "oklch(70.5% 0.015 286.067)",
 
-  "--dowel-accent": "#287d73",
+  "--dowel-accent": "#26786f",
   "--dowel-accent-hover": "#226c64",
   "--dowel-accent-active": "#1d5d56",
   "--dowel-on-accent": "#ffffff",
@@ -33,7 +33,7 @@ export const tokens = stylex.defineVars({
   "--dowel-danger-hover": "#ad343c",
   "--dowel-danger-surface": "#c43d4514",
   "--dowel-on-danger": "#ffffff",
-  "--dowel-success": "#34835c",
+  "--dowel-success": "#307b55",
   "--dowel-warning": "#a76816",
 
   "--dowel-scrim": "#00000066",

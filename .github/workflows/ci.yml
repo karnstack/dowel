@@ -55,3 +55,6 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Accessibility
+        run: pnpm test:a11y

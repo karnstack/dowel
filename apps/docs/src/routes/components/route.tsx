@@ -146,6 +146,12 @@ function ComponentsLayout() {
             <div className="docs-workspace-actions">
               <RepositoryLink />
               <ThemeToggle theme={theme} size="sm" onToggle={toggleTheme} />
+              <abbr
+                className="docs-workspace-a11y"
+                title="WCAG 2.2 Level AA color contrast"
+              >
+                WCAG 2.2 AA
+              </abbr>
               <span className="docs-workspace-version">{versionLabel}</span>
             </div>
           </footer>

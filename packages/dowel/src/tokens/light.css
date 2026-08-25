@@ -20,10 +20,8 @@
     --dowel-text-3: oklch(55.2% 0.016 285.938);
     --dowel-text-4: oklch(70.5% 0.015 286.067);
 
-    /* accent — teal, karnstack's house colour. Deliberately not Linear's 295
-       indigo: hue 195 at a restrained chroma reads as ours, not as a borrowed
-       brand. #198b89 in sRGB, comfortably inside the gamut. */
-    --dowel-accent: lch(52% 32 195);
+    /* Restrained house teal, dark enough for AA text on quiet surfaces. */
+    --dowel-accent: #26786f;
     /* Derived from the accent so a --dowel-accent override retheming stays
        coherent on hover. Light hovers DARKEN: 92% toward black. */
     --dowel-accent-hover: color-mix(in oklch, var(--dowel-accent) 92%, black);
@@ -38,7 +36,7 @@
     /* status */
     --dowel-danger: lch(52% 68 28);
     --dowel-danger-fg: lch(100% 0 0);
-    --dowel-success: lch(58% 55 145);
+    --dowel-success: #307b55;
     --dowel-warning: lch(76% 78 82);
 
     /* elevation — exactly two tiers */

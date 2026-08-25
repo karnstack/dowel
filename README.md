@@ -29,7 +29,7 @@ The system theme is the default. Pass `light` or `dark` to pin a theme.
 
 Badge · Button · Composer · Data Table · Dialog · Icon Button · Input · Kbd · Menu · Property Picker · Sidebar · Tabs · Tooltip
 
-Every component is keyboard tested and accessibility checked. Visual controls own their appearance. Layout primitives accept application shell hooks.
+Every component is keyboard tested and axe checked. The rendered catalog is contrast tested against WCAG 2.2 AA in light and dark. Visual controls own their appearance. Layout primitives accept application shell hooks.
 
 For the complete API and theme tokens, see the [package reference](packages/dowel/README.md).
 

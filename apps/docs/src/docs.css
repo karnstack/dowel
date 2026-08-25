@@ -610,10 +610,12 @@ body {
 }
 
 .docs-article {
-  max-inline-size: 72ch;
+  inline-size: 100%;
+  min-inline-size: 0;
 }
 
 .docs-article-head {
+  max-inline-size: 72ch;
   padding-block-end: 1.75rem;
   border-block-end: 1px solid var(--dowel-border-1);
 }
@@ -656,6 +658,10 @@ body {
   font-weight: var(--dowel-fw-semibold);
   letter-spacing: var(--dowel-tracking-title);
   color: var(--dowel-text-1);
+}
+
+.docs-section > :where(h2, p, ul, ol, .docs-note) {
+  max-inline-size: 72ch;
 }
 
 .docs-anchor {
@@ -717,15 +723,21 @@ body {
   color: var(--dowel-text-1);
 }
 
-.docs-note {
-  margin: var(--dowel-space-8) 0;
-  padding: var(--dowel-space-7) var(--dowel-space-8);
-  border-radius: var(--dowel-radius);
-  background-color: var(--dowel-bg-2);
-  box-shadow: inset 2px 0 0 var(--dowel-accent);
-  font-size: var(--dowel-fs-small);
-  line-height: 1.65;
-  color: var(--dowel-text-3);
+.docs-article p.docs-note {
+  max-inline-size: 62ch;
+  margin-block: 2rem 0;
+  padding-inline-start: var(--dowel-space-8);
+  border-inline-start: 1px solid var(--dowel-border-2);
+  background: transparent;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--dowel-text-2);
+}
+
+@media (min-width: 40rem) {
+  .docs-article p.docs-note {
+    font-size: var(--dowel-fs-base);
+  }
 }
 
 .docs-inline-sample {
@@ -922,7 +934,7 @@ body {
   display: flex;
   justify-content: space-between;
   gap: var(--dowel-space-8);
-  max-inline-size: 72ch;
+  inline-size: 100%;
   margin-block-start: 4rem;
 }
 
@@ -1363,15 +1375,26 @@ body {
 }
 
 .docs-gallery-grid {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1px;
   margin: 0;
-  padding: 1px;
+  padding: 0;
   overflow: hidden;
   border-radius: var(--dowel-radius-lg);
   background-color: var(--dowel-border-1);
   list-style: none;
+}
+
+.docs-gallery-grid::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border: 1px solid var(--dowel-border-1);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .docs-gallery-item {
@@ -1669,7 +1692,7 @@ body {
 }
 
 .docs-demo-preview .docs-data-table-demo {
-  inline-size: min(100%, 64rem);
+  inline-size: 100%;
   padding: 0;
   border: 0;
 }

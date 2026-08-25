@@ -27,6 +27,36 @@ Tabs is the first component in this sequence because it unlocks page headers,
 settings navigation, detail panes, and view switching without depending on any
 later composite.
 
+## Sourcetown first-consumer priority
+
+Sourcetown is the first external consumer. Its product plans narrow the broad
+catalog into the following delivery order.
+
+1. **Settings and onboarding:** Checkbox, CheckboxGroup, Radio, RadioGroup,
+   Switch, SearchField, NativeSelect, Select, Callout, and AlertDialog. These
+   cover identity setup, organization roles, repository defaults, protected
+   branches, providers, workflow settings, and secrets metadata.
+2. **Repository shell:** Combobox, Listbox, CommandMenu, Popover, Breadcrumb,
+   PageHeader, Status, Avatar, Separator, and Drawer. These cover organization,
+   repository, branch, and merge-request switching across desktop and narrow
+   layouts.
+3. **Repository data:** Skeleton, Spinner, Progress, EmptyState, List,
+   ListRow, ListCell, GroupHeader, Table, SegmentedControl, and Pagination.
+   Pierre owns code and tree rendering. Dowel owns the surrounding loading,
+   navigation, metadata, branch, commit, search, and check surfaces.
+4. **Review and CI:** Collapsible, ResizablePanel, SplitPane, DetailsPane,
+   Toast, ActivityFeed, Comment, CommentComposer, RichTextEditor,
+   EditorToolbar, and FileUpload. These support review threads, merge gates,
+   run steps, live logs, artifacts, and manual dispatch.
+5. **Reusable settings composites:** SettingsShell, SettingsSection,
+   SettingsRow, DataList, and Form. Build these only after Sourcetown has used
+   the underlying controls in at least two settings routes.
+
+Git-specific pieces stay in Sourcetown: repository and ref pickers backed by
+Git data, clone controls, continuity badges, merge-request state, review
+threads, merge gates, checks, workflow runs, logs, and Pierre wrappers. Dowel
+provides the generic interaction and layout contracts beneath them.
+
 ## How to read this catalog
 
 The old 49-component list was mainly a Base UI checklist. This catalog combines

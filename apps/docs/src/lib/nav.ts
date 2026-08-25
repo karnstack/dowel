@@ -31,6 +31,11 @@ export const componentNav: NavItem[] = [
     summary: "The default action control. Five hierarchy levels, two sizes.",
   },
   {
+    title: "Checkbox",
+    to: "/components/checkbox",
+    summary: "Checked, unchecked, and mixed selection with native form values.",
+  },
+  {
     title: "Composer",
     to: "/components/composer",
     summary: "A borderless creation shell with metadata and action regions.",
@@ -72,9 +77,19 @@ export const componentNav: NavItem[] = [
       "Searchable grouped metadata selection with a compact pill trigger.",
   },
   {
+    title: "Radio Group",
+    to: "/components/radio-group",
+    summary: "A single-choice group with native forms and arrow-key selection.",
+  },
+  {
     title: "Sidebar",
     to: "/components/sidebar",
     summary: "A responsive application rail with pointer and keyboard resize.",
+  },
+  {
+    title: "Switch",
+    to: "/components/switch",
+    summary: "A compact immediate setting for binary on and off state.",
   },
   {
     title: "Tabs",

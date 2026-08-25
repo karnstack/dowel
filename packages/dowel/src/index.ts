@@ -57,3 +57,13 @@ export type {
 } from "./components/data-table";
 export { Tabs } from "./components/tabs";
 export type { TabsRootProps, TabsSize, TabsVariant } from "./components/tabs";
+export { Checkbox, CheckboxGroup } from "./components/checkbox";
+export type {
+  CheckboxGroupProps,
+  CheckboxProps,
+  SelectionOrientation,
+} from "./components/checkbox";
+export { Radio, RadioGroup } from "./components/radio-group";
+export type { RadioGroupRootProps, RadioProps } from "./components/radio-group";
+export { Switch } from "./components/switch";
+export type { SwitchProps } from "./components/switch";

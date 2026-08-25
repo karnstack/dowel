@@ -14,6 +14,7 @@ import { Route as ComponentsRouteRouteImport } from './routes/components/route'
 import { Route as ComponentsIndexRouteImport } from './routes/components/index'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsComposerRouteImport } from './routes/components/composer'
 import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
@@ -22,7 +23,9 @@ import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsMenuRouteImport } from './routes/components/menu'
 import { Route as ComponentsPropertyPickerRouteImport } from './routes/components/property-picker'
+import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsSidebarRouteImport } from './routes/components/sidebar'
+import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 
@@ -49,6 +52,11 @@ const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
+  id: '/checkbox',
+  path: '/checkbox',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsComposerRoute = ComponentsComposerRouteImport.update({
@@ -92,9 +100,19 @@ const ComponentsPropertyPickerRoute =
     path: '/property-picker',
     getParentRoute: () => ComponentsRouteRoute,
   } as any)
+const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
+  id: '/radio-group',
+  path: '/radio-group',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsSidebarRoute = ComponentsSidebarRouteImport.update({
   id: '/sidebar',
   path: '/sidebar',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
+  id: '/switch',
+  path: '/switch',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
@@ -113,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRouteRouteWithChildren
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -121,7 +140,9 @@ export interface FileRoutesByFullPath {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
+  '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components/': typeof ComponentsIndexRoute
@@ -130,6 +151,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -138,7 +160,9 @@ export interface FileRoutesByTo {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
+  '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components': typeof ComponentsIndexRoute
@@ -149,6 +173,7 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRouteRouteWithChildren
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -157,7 +182,9 @@ export interface FileRoutesById {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
+  '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components/': typeof ComponentsIndexRoute
@@ -169,6 +196,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/components/badge'
     | '/components/button'
+    | '/components/checkbox'
     | '/components/composer'
     | '/components/data-table'
     | '/components/dialog'
@@ -177,7 +205,9 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/menu'
     | '/components/property-picker'
+    | '/components/radio-group'
     | '/components/sidebar'
+    | '/components/switch'
     | '/components/tabs'
     | '/components/tooltip'
     | '/components/'
@@ -186,6 +216,7 @@ export interface FileRouteTypes {
     | '/'
     | '/components/badge'
     | '/components/button'
+    | '/components/checkbox'
     | '/components/composer'
     | '/components/data-table'
     | '/components/dialog'
@@ -194,7 +225,9 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/menu'
     | '/components/property-picker'
+    | '/components/radio-group'
     | '/components/sidebar'
+    | '/components/switch'
     | '/components/tabs'
     | '/components/tooltip'
     | '/components'
@@ -204,6 +237,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/components/badge'
     | '/components/button'
+    | '/components/checkbox'
     | '/components/composer'
     | '/components/data-table'
     | '/components/dialog'
@@ -212,7 +246,9 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/menu'
     | '/components/property-picker'
+    | '/components/radio-group'
     | '/components/sidebar'
+    | '/components/switch'
     | '/components/tabs'
     | '/components/tooltip'
     | '/components/'
@@ -258,6 +294,13 @@ declare module '@tanstack/react-router' {
       path: '/button'
       fullPath: '/components/button'
       preLoaderRoute: typeof ComponentsButtonRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/checkbox': {
+      id: '/components/checkbox'
+      path: '/checkbox'
+      fullPath: '/components/checkbox'
+      preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/composer': {
@@ -316,11 +359,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsPropertyPickerRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/radio-group': {
+      id: '/components/radio-group'
+      path: '/radio-group'
+      fullPath: '/components/radio-group'
+      preLoaderRoute: typeof ComponentsRadioGroupRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/sidebar': {
       id: '/components/sidebar'
       path: '/sidebar'
       fullPath: '/components/sidebar'
       preLoaderRoute: typeof ComponentsSidebarRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/switch': {
+      id: '/components/switch'
+      path: '/switch'
+      fullPath: '/components/switch'
+      preLoaderRoute: typeof ComponentsSwitchRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/tabs': {
@@ -343,6 +400,7 @@ declare module '@tanstack/react-router' {
 interface ComponentsRouteRouteChildren {
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComposerRoute: typeof ComponentsComposerRoute
   ComponentsDataTableRoute: typeof ComponentsDataTableRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
@@ -351,7 +409,9 @@ interface ComponentsRouteRouteChildren {
   ComponentsKbdRoute: typeof ComponentsKbdRoute
   ComponentsMenuRoute: typeof ComponentsMenuRoute
   ComponentsPropertyPickerRoute: typeof ComponentsPropertyPickerRoute
+  ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSidebarRoute: typeof ComponentsSidebarRoute
+  ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
   ComponentsIndexRoute: typeof ComponentsIndexRoute
@@ -360,6 +420,7 @@ interface ComponentsRouteRouteChildren {
 const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComposerRoute: ComponentsComposerRoute,
   ComponentsDataTableRoute: ComponentsDataTableRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
@@ -368,7 +429,9 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsKbdRoute: ComponentsKbdRoute,
   ComponentsMenuRoute: ComponentsMenuRoute,
   ComponentsPropertyPickerRoute: ComponentsPropertyPickerRoute,
+  ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSidebarRoute: ComponentsSidebarRoute,
+  ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,
   ComponentsIndexRoute: ComponentsIndexRoute,

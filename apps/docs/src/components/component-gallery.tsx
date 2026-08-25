@@ -3,6 +3,8 @@ import type { LinkProps } from "@tanstack/react-router";
 import {
   Badge,
   Button,
+  Checkbox,
+  CheckboxGroup,
   Composer,
   DataTable,
   Dialog,
@@ -13,7 +15,9 @@ import {
   Menu,
   PropertyPicker,
   PropertyPill,
+  RadioGroup,
   Sidebar,
+  Switch,
   Tabs,
   Textarea,
   Tooltip,
@@ -114,6 +118,41 @@ export function ComponentGallery() {
               rows={2}
             />
           </Field.Root>
+        </GalleryItem>
+
+        <GalleryItem title="Checkbox" to="/components/checkbox" layout="stack">
+          <CheckboxGroup defaultValue={["checks"]}>
+            <label className="docs-choice-label">
+              <Checkbox value="checks" /> Required checks
+            </label>
+            <label className="docs-choice-label">
+              <Checkbox value="reviews" /> Required reviews
+            </label>
+          </CheckboxGroup>
+        </GalleryItem>
+
+        <GalleryItem
+          title="Radio Group"
+          to="/components/radio-group"
+          layout="stack"
+        >
+          <RadioGroup.Root
+            aria-label="Visibility preview"
+            defaultValue="private"
+          >
+            <label className="docs-choice-label">
+              <RadioGroup.Item value="private" /> Private
+            </label>
+            <label className="docs-choice-label">
+              <RadioGroup.Item value="public" /> Public
+            </label>
+          </RadioGroup.Root>
+        </GalleryItem>
+
+        <GalleryItem title="Switch" to="/components/switch">
+          <label className="docs-choice-label">
+            <Switch defaultChecked /> Mirror repository
+          </label>
         </GalleryItem>
 
         <GalleryItem title="Property Picker" to="/components/property-picker">

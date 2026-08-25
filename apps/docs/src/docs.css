@@ -751,6 +751,30 @@ body {
   color: var(--dowel-text-2);
 }
 
+.docs-choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.docs-choice-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-block-size: 1.75rem;
+  color: var(--dowel-text-2);
+  font-size: var(--dowel-fs-small);
+  line-height: 1.4;
+  cursor: default;
+}
+
+.docs-choice-label[data-disabled] {
+  color: var(--dowel-text-4);
+}
+
 /* ------------------------------------------------------------------ demo */
 
 .docs-demo {

@@ -55,6 +55,21 @@ describe("AlertDialog", () => {
     expect(onConfirm).toHaveBeenCalledOnce();
   });
 
+  it("dismisses on a backdrop click and returns focus", async () => {
+    render(<Example />);
+    const trigger = screen.getByRole("button", { name: "Delete repository" });
+    await userEvent.click(trigger);
+
+    const backdrop = document.querySelector(
+      '[data-dowel-component="alert-dialog-backdrop"]',
+    );
+    expect(backdrop).not.toBeNull();
+    await userEvent.click(backdrop!);
+
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
+  });
+
   it("carries the active theme into its portal", async () => {
     render(
       <ThemeProvider theme="dark">

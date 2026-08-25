@@ -1,7 +1,11 @@
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
+import type {
+  AlertDialogRootActions,
+  AlertDialogRootProps,
+} from "@base-ui/react/alert-dialog";
 import * as stylex from "@stylexjs/stylex";
-import { forwardRef, useContext } from "react";
-import type { ComponentPropsWithoutRef } from "react";
+import { createContext, forwardRef, useContext, useRef } from "react";
+import type { ComponentPropsWithoutRef, RefObject } from "react";
 
 import { DowelThemeContext, themeStyles } from "../../theme/theme-provider";
 import * as styles from "../dialog/dialog.stylex";
@@ -19,8 +23,23 @@ function partProps(style: stylex.StyleXStyles) {
   return { className: resolved.className, style: resolved.style };
 }
 
+const AlertDialogActionsContext = createContext<
+  RefObject<AlertDialogRootActions | null> | undefined
+>(undefined);
+
 export const AlertDialog = {
-  Root: BaseAlertDialog.Root,
+  Root: function AlertDialogRoot<Payload>(
+    props: AlertDialogRootProps<Payload>,
+  ) {
+    const fallbackActionsRef = useRef<AlertDialogRootActions>(null);
+    const actionsRef = props.actionsRef ?? fallbackActionsRef;
+
+    return (
+      <AlertDialogActionsContext.Provider value={actionsRef}>
+        <BaseAlertDialog.Root {...props} actionsRef={actionsRef} />
+      </AlertDialogActionsContext.Provider>
+    );
+  },
 
   Trigger: function AlertDialogTrigger(
     props: Props<typeof BaseAlertDialog.Trigger>,
@@ -52,11 +71,20 @@ export const AlertDialog = {
   Backdrop: function AlertDialogBackdrop(
     props: Props<typeof BaseAlertDialog.Backdrop>,
   ) {
+    const actionsRef = useContext(AlertDialogActionsContext);
+    const { onClick, ...backdropProps } = props;
+
     return (
       <BaseAlertDialog.Backdrop
-        {...props}
+        {...backdropProps}
         {...partProps(styles.backdrop.root)}
         data-dowel-component="alert-dialog-backdrop"
+        onClick={(event) => {
+          onClick?.(event);
+          if (!event.defaultPrevented && event.target === event.currentTarget) {
+            actionsRef?.current?.close();
+          }
+        }}
       />
     );
   },

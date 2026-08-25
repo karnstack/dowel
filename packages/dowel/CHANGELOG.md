@@ -1,5 +1,13 @@
 # @karnstack/dowel
 
+## 0.2.0
+
+### Minor Changes
+
+- [#9](https://github.com/karnstack/dowel/pull/9) [`16ee159`](https://github.com/karnstack/dowel/commit/16ee159366a0e872737a609b108480d7c86a8663) - Add Accordion, Breadcrumbs, Calendar and DatePicker, Collapsible, Combobox, CommandMenu, ContextMenu, Drawer, FileUpload and Dropzone, List collection primitives, Pagination, Progress, Slider, Toast with a global manager, ToggleGroup, and TreeView.
+
+  Calendar and DatePicker use React Aria behavior and timezone-safe `CalendarDate` values from `@internationalized/date`.
+
 ## 0.1.0
 
 ### Minor Changes

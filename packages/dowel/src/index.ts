@@ -13,8 +13,13 @@ export { Badge } from "./components/badge";
 export type { BadgeProps } from "./components/badge";
 export { Kbd } from "./components/kbd";
 export type { KbdProps } from "./components/kbd";
-export { Input, Field } from "./components/input";
-export type { InputProps } from "./components/input";
+export { Field, Input, Textarea } from "./components/input";
+export type {
+  FieldSize,
+  FieldVariant,
+  InputProps,
+  TextareaProps,
+} from "./components/input";
 export { Dialog } from "./components/dialog";
 export { Menu } from "./components/menu";
 export { Tooltip } from "./components/tooltip";

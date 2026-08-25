@@ -43,7 +43,7 @@ export const componentNav: NavItem[] = [
   {
     title: "Input",
     to: "/components/input",
-    summary: "A text field, and the Field parts that label and describe it.",
+    summary: "Surface and borderless fields for settings and rich composers.",
   },
   {
     title: "Kbd",

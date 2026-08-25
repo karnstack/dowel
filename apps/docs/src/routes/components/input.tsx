@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, Input } from "dowel";
+import { Field, Input, Textarea } from "dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -10,6 +10,8 @@ export const Route = createFileRoute("/components/input")({
 
 const toc = [
   { id: "sizes", title: "Sizes" },
+  { id: "bare", title: "Borderless editing" },
+  { id: "textarea", title: "Textarea" },
   { id: "field", title: "Field" },
   { id: "validation", title: "Validation" },
 ];
@@ -23,21 +25,96 @@ function InputDocs() {
     >
       <Section id="sizes" title="Sizes">
         <p>
-          <code>md</code> is the 28px control height shared with Button.{" "}
-          <code>lg</code> is 36px, for a field that is the point of the screen
-          rather than one cell in a dense row. The native <code>size</code>{" "}
-          attribute is omitted from the type so dowel&apos;s visual scale can
-          take the name.
+          <code>sm</code> is 24px, <code>md</code> is the 28px workhorse, and{" "}
+          <code>lg</code> is 36px for a prominent form. <code>title</code> uses
+          larger type for inline title editing. The native <code>size</code>{" "}
+          attribute is omitted so Dowel&apos;s visual scale can use the name.
         </p>
         <Demo
           layout="stack"
           code={`import { Input } from "dowel";
 
-<Input placeholder="Search components" />
-<Input size="lg" placeholder="Search components" />`}
+<Input name="compact-search" size="sm" placeholder="Search components" />
+<Input name="search" placeholder="Search components" />
+<Input name="prominent-search" size="lg" placeholder="Search components" />`}
         >
-          <Input placeholder="Search components" />
-          <Input size="lg" placeholder="Search components" />
+          <Input
+            aria-label="Compact search"
+            name="compact-search"
+            size="sm"
+            placeholder="Search components"
+          />
+          <Input
+            aria-label="Search"
+            name="search"
+            placeholder="Search components"
+          />
+          <Input
+            aria-label="Prominent search"
+            name="prominent-search"
+            size="lg"
+            placeholder="Search components"
+          />
+        </Demo>
+      </Section>
+
+      <Section id="bare" title="Borderless editing">
+        <p>
+          Use <code>variant=&quot;bare&quot;</code> when the surrounding
+          composer is already the surface. The control stays transparent and
+          borderless, so hierarchy comes from type and spacing instead of
+          another box.
+        </p>
+        <Demo
+          layout="stack"
+          code={`<Input
+  aria-label="Issue title"
+  name="title"
+  variant="bare"
+  size="title"
+  placeholder="Add title"
+/>
+<Textarea
+  aria-label="Issue description"
+  name="description"
+  variant="bare"
+  placeholder="What needs to change, and why?"
+/>`}
+        >
+          <Input
+            aria-label="Issue title"
+            name="title"
+            variant="bare"
+            size="title"
+            placeholder="Add title"
+          />
+          <Textarea
+            aria-label="Issue description"
+            name="description"
+            variant="bare"
+            placeholder="What needs to change, and why?"
+          />
+        </Demo>
+      </Section>
+
+      <Section id="textarea" title="Textarea">
+        <p>
+          Textarea shares Input&apos;s surface and bare variants and integrates
+          with Field labels, descriptions, validation, and form values.
+        </p>
+        <Demo
+          layout="stack"
+          code={`<Field.Root>
+  <Field.Label>Release notes</Field.Label>
+  <Textarea name="releaseNotes" placeholder="What changed?" />
+  <Field.Description>Keep it useful for customers.</Field.Description>
+</Field.Root>`}
+        >
+          <Field.Root>
+            <Field.Label>Release notes</Field.Label>
+            <Textarea name="releaseNotes" placeholder="What changed?" />
+            <Field.Description>Keep it useful for customers.</Field.Description>
+          </Field.Root>
         </Demo>
       </Section>
 
@@ -55,7 +132,7 @@ function InputDocs() {
 
 <Field.Root>
   <Field.Label>Workspace name</Field.Label>
-  <Input placeholder="karnstack" />
+  <Input name="workspace" placeholder="karnstack" />
   <Field.Description>
     Lowercase letters and dashes only.
   </Field.Description>
@@ -63,7 +140,7 @@ function InputDocs() {
         >
           <Field.Root>
             <Field.Label>Workspace name</Field.Label>
-            <Input placeholder="karnstack" />
+            <Input name="workspace" placeholder="karnstack" />
             <Field.Description>
               Lowercase letters and dashes only.
             </Field.Description>
@@ -83,16 +160,21 @@ function InputDocs() {
           layout="stack"
           code={`<Field.Root>
   <Field.Label>Email</Field.Label>
-  <Input invalid defaultValue="not-an-email" />
+  <Input name="email" invalid defaultValue="not-an-email" />
 </Field.Root>
 
-<Input disabled defaultValue="Read only" />`}
+<Input aria-label="Immutable value" name="immutable" disabled defaultValue="Read only" />`}
         >
           <Field.Root>
             <Field.Label>Email</Field.Label>
-            <Input invalid defaultValue="not-an-email" />
+            <Input name="email" invalid defaultValue="not-an-email" />
           </Field.Root>
-          <Input disabled defaultValue="Read only" />
+          <Input
+            aria-label="Immutable value"
+            name="immutable"
+            disabled
+            defaultValue="Read only"
+          />
         </Demo>
       </Section>
     </DocsPage>

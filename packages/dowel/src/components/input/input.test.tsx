@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { expectNoA11yViolations } from "../../../test/setup";
 import { renderBoth } from "../../../test/render";
-import { Field, Input } from "./index";
+import { Field, Input, Textarea } from "./index";
 
 describe("Input", () => {
   it("renders a textbox", () => {
@@ -30,9 +30,18 @@ describe("Input", () => {
     expect(screen.getByRole("textbox").dataset.size).toBe("md");
   });
 
-  it("carries the dowel-input class", () => {
+  it("carries compiled StyleX styles", () => {
     render(<Input aria-label="Title" />);
-    expect(screen.getByRole("textbox").className).toContain("dowel-input");
+    const input = screen.getByRole("textbox");
+    expect(input.className).toBeTruthy();
+    expect(input.dataset.dowelComponent).toBe("input");
+  });
+
+  it("supports a borderless bare editing mode", () => {
+    render(<Input aria-label="Title" variant="bare" size="title" />);
+    const input = screen.getByRole("textbox");
+    expect(input.dataset.variant).toBe("bare");
+    expect(input.dataset.size).toBe("title");
   });
 
   it("ignores className and style smuggled through a spread", () => {
@@ -41,15 +50,17 @@ describe("Input", () => {
     const smuggled = { className: "evil", style: { color: "red" } };
     render(<Input aria-label="Title" {...smuggled} />);
     const input = screen.getByRole("textbox");
-    expect(input.className).toContain("dowel-input");
+    expect(input.className).toBeTruthy();
     expect(input.className).not.toContain("evil");
     expect(input.getAttribute("style")).toBeNull();
   });
 
   it("renders in both themes", () => {
     const { light, dark } = renderBoth(<Input aria-label="Title" />);
-    expect(light.querySelector(".dowel-input")).not.toBeNull();
-    expect(dark.querySelector(".dowel-input")).not.toBeNull();
+    expect(
+      light.querySelector('[data-dowel-component="input"]'),
+    ).not.toBeNull();
+    expect(dark.querySelector('[data-dowel-component="input"]')).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {
@@ -101,7 +112,9 @@ describe("Field", () => {
     // The invalid field state reaches the control's ARIA without any prop
     // on Input itself.
     expect(input.getAttribute("aria-invalid")).toBe("true");
-    const error = document.querySelector(".dowel-field-error");
+    const error = document.querySelector(
+      '[data-dowel-component="field-error"]',
+    );
     expect(error).not.toBeNull();
     expect(error!.textContent).toBe("Title is required");
     // The error is wired into the control's accessible description.
@@ -118,12 +131,10 @@ describe("Field", () => {
         <Field.Description {...smuggled}>Keep it short</Field.Description>
       </Field.Root>,
     );
-    for (const selector of [
-      ".dowel-field",
-      ".dowel-field-label",
-      ".dowel-field-description",
-    ]) {
-      const el = container.querySelector(selector);
+    for (const selector of ["field", "field-label", "field-description"]) {
+      const el = container.querySelector(
+        `[data-dowel-component="${selector}"]`,
+      );
       expect(el).not.toBeNull();
       expect(el!.className).not.toContain("evil");
       expect(el!.getAttribute("style")).toBeNull();
@@ -139,5 +150,34 @@ describe("Field", () => {
       </Field.Root>,
     );
     await expectNoA11yViolations(container);
+  });
+});
+
+describe("Textarea", () => {
+  it("renders a multiline textbox and accepts typing", async () => {
+    render(<Textarea aria-label="Description" variant="bare" />);
+    const textarea = screen.getByRole("textbox", { name: "Description" });
+    await userEvent.type(textarea, "A clear description");
+    expect((textarea as HTMLTextAreaElement).value).toBe("A clear description");
+    expect(textarea.tagName).toBe("TEXTAREA");
+    expect(textarea.dataset.variant).toBe("bare");
+  });
+
+  it("integrates with Field labels", () => {
+    render(
+      <Field.Root>
+        <Field.Label>Description</Field.Label>
+        <Textarea />
+      </Field.Root>,
+    );
+    expect(screen.getByRole("textbox", { name: "Description" })).toBeDefined();
+  });
+
+  it("ignores appearance props smuggled through a spread", () => {
+    const smuggled = { className: "evil", style: { color: "red" } };
+    render(<Textarea aria-label="Description" {...smuggled} />);
+    const textarea = screen.getByRole("textbox");
+    expect(textarea.className).not.toContain("evil");
+    expect(textarea.getAttribute("style")).toBeNull();
   });
 });

@@ -3,7 +3,7 @@
 **Date:** 2026-08-25
 
 **Status:** target catalog
-**Total:** 114 public components
+**Total:** 127 public components
 
 ## Build order
 
@@ -20,8 +20,8 @@ slices so each new primitive immediately supports a recognizable SaaS surface.
    SettingsShell, SettingsSection, and SettingsRow.
 5. **Collaboration:** RichTextEditor, EditorToolbar, Comment, CommentComposer,
    ActivityFeed, ReactionPicker, FileUpload, AttachmentList, and LinkPreview.
-6. **Advanced data:** Board, DataList, ChartTooltip, DatePicker, MultiSelect,
-   Progress, and pagination.
+6. **Advanced data:** Board, DataTable, TreeView, Timeline, InsightPanel,
+   DashboardGrid, charts, DatePicker, MultiSelect, Progress, and pagination.
 
 Tabs is the first component in this sequence because it unlocks page headers,
 settings navigation, detail panes, and view switching without depending on any
@@ -38,6 +38,7 @@ Evidence codes:
 - `R`: rendered in the authenticated Linear audit
 - `M`: descriptive module loaded by the audited Linear routes
 - `P`: recurring product pattern inferred from rendered composition
+- `D`: current official Linear documentation confirms the product pattern
 - `C`: system-completeness component, not presented as Linear evidence
 
 `R` and `M` say something about what was observed, not what Linear calls the
@@ -73,7 +74,7 @@ component internally. Public names and APIs belong to Dowel.
 Copy and favorite actions are Button or IconButton compositions, not separate
 primitives.
 
-## Forms and selection, 25
+## Forms and selection, 26
 
 | Component | Evidence | Contract |
 | --- | --- | --- |
@@ -102,9 +103,10 @@ primitives.
 | DatePicker | R, P | calendar selection in a popover |
 | FuzzyDatePicker | M | natural-language or approximate date selection |
 | FileUpload | R | file picker, drag target, progress, and errors |
+| ColorPicker | R, P | swatches, custom value, preview, contrast, and clear action |
 
-OTP fields and color pickers are excluded until a real product need appears.
-Component count is not a feature by itself.
+OTP fields remain excluded until a real product need appears. Component count
+is not a feature by itself.
 
 ## Overlays and pickers, 13
 
@@ -127,7 +129,7 @@ Component count is not a feature by itself.
 `Sheet` aliases Drawer and `HoverCard` aliases PreviewCard. Dowel ships one
 name for each contract.
 
-## Navigation, 10
+## Navigation, 11
 
 | Component | Evidence | Contract |
 | --- | --- | --- |
@@ -141,11 +143,12 @@ name for each contract.
 | NavItem | R | active, icon, badge, shortcut, and nested states |
 | PageHeader | R, M | breadcrumb, title, views, and actions composition |
 | NavigationControls | M | back, forward, history, and keyboard behavior |
+| TreeView | R | nested rows, disclosure, guide lines, selection, and keyboard navigation |
 
 Inline search is a SearchField composed into PageHeader, not another field
 primitive.
 
-## Data and display, 21
+## Data and display, 26
 
 | Component | Evidence | Contract |
 | --- | --- | --- |
@@ -170,6 +173,11 @@ primitive.
 | ListCell | M | constrained text, icon, avatar, and metadata cells |
 | GroupHeader | R | sticky or static list section heading |
 | ChartTooltip | M | data visualization hover or focus summary |
+| MetricCard | D | metric, comparison, trend, loading, and drill-down action |
+| BarChart | R, D | grouped or stacked bars, axes, legend, selection, and keyboard data access |
+| ScatterPlot | D | points, percentile guides, zoom, selection, and accessible data fallback |
+| BurnupChart | D | cumulative series, time interval, legend, and accessible data fallback |
+| Timeline | R, D | time scale, grouped rows, ranges, milestones, dependencies, and zoom |
 
 Meter is excluded because no audited use required a measurement distinct from
 task progress.
@@ -187,7 +195,7 @@ task progress.
 | FloatingPanel | M | movable or anchored nonmodal utility panel |
 | QuickView | M | temporary detail view without navigation loss |
 
-## Product-grade composites, 20
+## Product-grade composites, 26
 
 These are first-class components, not copy-paste examples. They compose the
 primitives above and own higher-level keyboard, responsive, and accessibility
@@ -215,6 +223,12 @@ contracts.
 | MultiSelectToolbar | R, M | selection count and batch actions |
 | Board | R, M | grouped columns, cards, drag affordance, empty columns |
 | HoverActions | R, M | actions revealed by row focus or hover |
+| DataTable | R, D | TanStack-powered sorting, resizing, selection, pinning, virtualization, and density |
+| FilterBar | R, D | active filter chips, saved filters, visibility, reset, and overflow |
+| InsightPanel | R, D | measure, slice, segment, chart, table, filters, and full-screen mode |
+| DashboardGrid | R, D | responsive metric, chart, and table panels with independent filters |
+| NotificationFeed | R, D | keyboard-navigable notifications, read state, actions, search, and detail pane |
+| UpdateCard | R, D | health, author, timestamp, rich update, reactions, comments, and actions |
 
 ## Components that stay internal
 

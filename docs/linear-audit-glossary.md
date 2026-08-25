@@ -4,7 +4,8 @@
 
 **Target:** authenticated `linear.app/customerio` workspace
 
-**Viewport:** 1440 by 1000, dark workspace theme
+**Primary extraction viewport:** 2947 by 1485 at device pixel ratio 2, dark
+workspace theme
 **Method:** reins browser control, accessibility snapshots, computed styles,
 network capture, and loaded JavaScript module inspection
 
@@ -56,10 +57,58 @@ workspace colors.
 | Display options | issue list display trigger | segmented tabs, select rows, display toggles, scroll area |
 | Filter builder | issue list filter trigger | searchable cascading menu, grouped options, separators |
 | Issue detail | issue route | editable title, rich document, comments, activity, reactions, details pane |
+| Projects | `/customerio/projects/all` | board, group lanes, project cards, view options, date columns |
+| Initiatives | `/customerio/initiatives/active` | hierarchical rows, disclosure, guide lines, metadata columns |
+| Inbox | `/customerio/inbox` | notification feed, master-detail split, keyboard rows, empty detail |
+| Views | `/customerio/views` | grouped saved views, view tabs, owners, descriptions, ordering |
+| Dashboard | existing dashboard route | insight card, stacked bar chart, axes, grid, filters, actions |
+| Pulse | `/customerio/pulse/following` | unboxed update feed, rich updates, health, reactions, comments |
+| Loops | `/customerio/loops` | grouped data grid, headers, descriptions, owners, run metadata |
+| Active cycle | team active cycle route | grouped issue list, details rail, progress tabs, progress rows |
+| Team overview | team overview route | overview tabs, resources, members, related navigation |
 | Profile settings | `/settings/account/profile` | settings shell, input, upload, buttons, destructive action |
 | Preferences | `/settings/account/preferences` | settings sections, rows, search, selects, switches, theme selector |
+| Issue labels | workspace issue labels route | hierarchical data grid, inline editing, color trigger, row actions |
+| Project statuses | workspace project statuses route | grouped status editor, status rows, descriptions, add actions |
 
 No data was created, edited, submitted, or deleted during the audit.
+
+## DOM and CSS extraction method
+
+Screenshots were only checkpoints. The detailed audit queried the rendered DOM
+in Linear's authenticated origin and recorded:
+
+- semantic roles, accessible names, state attributes, and focusable elements
+- `outerHTML` structure with product content removed from the written audit
+- computed layout, typography, color, border, radius, overflow, and transition
+- parent chains to distinguish the visual component from layout wrappers
+- stylesheet counts, loaded asset URLs, generated class families, and theme
+  variables
+
+The inspected page had one external application stylesheet with 1,859 CSS
+rules, four style elements, and one adopted theme stylesheet. Rendered elements
+used generated `sx-*` classes plus named composition classes such as
+`sc2sx-Flex-*`. Editor content used ProseMirror. This confirms StyleX at the
+rendered HTML and CSS level, not only from bundle names or screenshots.
+
+No issue titles, update bodies, customer data, member names, or workspace
+identifiers are copied into this document.
+
+## Inset application shell
+
+At the primary extraction viewport, the main application surface measured
+2695 by 1441px at x 244 and y 8. It used:
+
+- 12px border radius
+- 0.5px solid border
+- `overflow: hidden`
+- `lch(5.52 0.4 272)` for the audited dark surface
+- an 8px outer gap on the top, right, and bottom, while the sidebar remained
+  visually seamless with the browser background
+
+This is the precise shell grammar behind the inset appearance. The sidebar,
+top chrome, and bottom utility strip are not separately boxed. The rounded,
+bordered region is the content surface.
 
 ## Style system evidence
 
@@ -256,6 +305,77 @@ subissue actions, subscribers, linked pull requests, and a property sidebar.
 This supports ActivityFeed, CommentComposer, ReactionPicker, AttachmentList,
 LinkPreview, PropertyList, and DetailsPane composites.
 
+### Issue detail HTML and computed styles
+
+The title is a ProseMirror `div` with `role="textbox"` and an issue-title
+accessible name. It measured 791 by 32px and used Inter Variable at 24px,
+weight 600, 38.4px line height, and -0.1px letter spacing. It had no visible
+background or border.
+
+The description is a multiline ProseMirror textbox. It measured 819px wide,
+used 15px text at weight 450 and 24px line height, and applied 10px 14px 16px
+padding with -14px horizontal margins. The negative margins let the editable
+focus surface extend beyond the text measure without moving the text itself.
+
+Property buttons measured 28px high, used 13px text at weight 500, full-pill
+radii, transparent default backgrounds, and asymmetric icon-aware padding.
+Standard icon actions measured 28 by 28px with 2px horizontal padding and the
+same full-pill radius. Their transitions targeted border, background, color,
+and opacity over about 150ms.
+
+Read-only comments remained semantic ProseMirror documents at 15px, weight
+450, and 24px line height. Compact submit actions measured 24 by 24px with a
+12px radius and 0.5px border.
+
+### Dense collection rows
+
+The Loops surface used full-width grouped rows rather than a boxed table. A
+loop row measured 58px high with an 8px interaction radius. Its list container
+used bottom padding and vertical scrolling, while the main inset shell owned
+the outer clipping.
+
+The Inbox notification list measured 399.5px wide. Each notification row was
+55px high with an 8px radius and explicit selected, active, keyboard-active,
+first, and last data attributes. This is stronger evidence for a reusable
+NotificationFeed and ListRow state contract than a screenshot alone.
+
+Initiative parent rows were CSS grid containers around 57.5px high with 12px
+block padding, nested disclosure state, child indentation, and guide lines.
+Issue and label settings also rendered hierarchical groups. TreeView therefore
+belongs in the public catalog rather than being an initiative-only example.
+
+### Analytics and dashboards
+
+The audited dashboard insight was a 2336 by 399px card with an 8px radius,
+0.5px border, and no shadow. Its header was 48px high with 16px horizontal
+padding and 8px bottom padding. The title used 15px text at weight 600 and a
+23px line height.
+
+The chart was a semantic SVG with a 2335 by 350px drawing area. Grid lines used
+3 by 3 dash spacing and a quiet neutral stroke. Official Linear documentation
+also confirms interactive bar charts, scatter plots, burn-up charts, metric
+blocks, and tables. Dowel should expose accessible data fallbacks and keyboard
+selection instead of treating charts as decorative SVG.
+
+### Cycle insight rail
+
+The active cycle used a 440px `aside` beside the issue list. The inset insight
+card inside it measured 428px wide, used a 10px radius and 0.5px border, and
+scrolled independently. The card header used 16px padding. Its progress tabs
+were a 32px-high tablist containing 28px full-pill tabs with 12px text, weight
+500, and 2px between triggers. Progress rows were 395 by 42px with 10px
+horizontal padding and an 8px interaction radius.
+
+### Pulse update feed
+
+Pulse updates were semantic `article` elements in an unboxed, centered feed.
+The inspected article measured 805px wide and used a two-column grid with 20px
+column gap and 16px row gap. Its rich update was a read-only ProseMirror
+document at 16px with 24px line height. Post actions were 24px circles;
+reaction and comment actions used 28px compact controls. UpdateCard should
+preserve this quiet, unboxed default instead of forcing every update into a
+raised card.
+
 ## Settings patterns
 
 Profile and Preferences showed a stable settings grammar:
@@ -271,6 +391,23 @@ Profile and Preferences showed a stable settings grammar:
 
 Dowel should ship SettingsShell, SettingsSection, and SettingsRow as layout and
 accessibility contracts. They are not merely documentation examples.
+
+The Preferences content column measured 640px. Section headings used 15px text
+at weight 500 and 23px line height. Settings rows were 65px high with 16px
+padding, 12px internal gap, and grouped first or last corner radii. Select
+triggers were 30px high with an 8px radius. Switch inputs rendered at 30 by
+20px.
+
+The settings sidebar search measured 220 by 28px with 6px vertical padding,
+32px leading padding for the icon, 25px trailing padding, an 8px radius, and a
+0.5px border. This is a concrete SearchField compact size.
+
+The Issue labels surface used a full-width grid with sortable headers,
+hierarchical groups, and 44px inline-edit rows. The new-label draft row exposed
+a color trigger, a 150 by 25px auto-growing textarea, description editing, and
+explicit keyboard-active row state. Project statuses used a 640px grouped card
+with section headers, status icon blocks, descriptions, counts, and inline add
+actions.
 
 ## Color findings
 
@@ -334,3 +471,8 @@ selection, escape, arrow navigation, typeahead, and focus restoration.
 - [Linear issue selection](https://linear.app/docs/select-issues)
 - [Linear search](https://linear.app/docs/search)
 - [Linear peek](https://linear.app/docs/peek)
+- [Linear inbox](https://linear.app/docs/inbox)
+- [Linear insights](https://linear.app/docs/insights)
+- [Linear dashboards](https://linear.app/docs/dashboards)
+- [Linear timeline](https://linear.app/docs/timeline)
+- [Linear initiative and project updates](https://linear.app/docs/initiative-and-project-updates)

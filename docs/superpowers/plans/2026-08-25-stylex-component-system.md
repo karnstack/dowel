@@ -8,7 +8,7 @@
 ## Goal
 
 Replace the current plain CSS package with a precompiled StyleX component
-system, then build the complete 114-component target catalog in dependency
+system, then build the complete 127-component target catalog in dependency
 order. Preserve no unreleased APIs unless they independently pass the new
 design and accessibility contracts.
 
@@ -16,7 +16,7 @@ design and accessibility contracts.
 
 - Delete replaced code. Do not run plain CSS and StyleX component systems in
   parallel.
-- Keep each pull request vertically complete and reviewable.
+- Keep each commit vertically complete and reviewable.
 - Build package fixtures early so local workspace resolution cannot hide a
   broken npm artifact.
 - Build product composites only after their primitive dependencies are stable.
@@ -72,7 +72,7 @@ Implement in this order:
 4. Input, SearchField, Textarea
 5. Checkbox, CheckboxGroup, Radio, RadioGroup, Switch
 6. NativeSelect
-7. FileUpload
+7. FileUpload and ColorPicker
 8. NumberField and Slider
 9. DateField
 
@@ -103,13 +103,14 @@ Firefox, and WebKit.
 ## Phase 4: navigation and data display
 
 1. Link, Breadcrumb, Tabs, SegmentedControl, Pagination
-2. Sidebar, SidebarSection, NavItem
+2. Sidebar, SidebarSection, NavItem, TreeView
 3. PageHeader and NavigationControls
 4. Avatar, AvatarGroup, Badge, Tag, Status, PropertyPill, Kbd
 5. Separator, Card, Callout, EmptyState, Skeleton, Spinner, Progress
 6. DataList
 7. List, ListRow, ListCell, GroupHeader
-8. Table and ChartTooltip
+8. Table, DataTable, and ChartTooltip
+9. MetricCard, BarChart, ScatterPlot, and BurnupChart
 
 List and Table must define selection, keyboard entry, truncation, sticky
 regions, loading, empty, overflow, and responsive behavior. Do not treat them
@@ -123,6 +124,7 @@ as styled wrappers.
 4. DetailsPane
 5. FloatingPanel
 6. QuickView
+7. Timeline
 
 Use these to build a reference workspace that matches the audited hierarchy:
 sidebar, page header, grouped list or board, details pane, and quick view. The
@@ -138,8 +140,12 @@ reference is a composition test, not a Linear clone.
 6. PropertyList
 7. FilterBuilder
 8. ViewOptions
-9. MultiSelectToolbar
-10. HoverActions
+9. FilterBar
+10. MultiSelectToolbar
+11. HoverActions
+12. InsightPanel
+13. DashboardGrid
+14. NotificationFeed
 
 Build a complete settings reference and a complete searchable list reference.
 Verify that all composites can consume application data without importing
@@ -157,6 +163,7 @@ Linear-shaped domain types.
 8. CommentComposer
 9. ActivityFeed
 10. Board
+11. UpdateCard
 
 Select an editor engine through a dedicated architecture decision. The public
 RichTextEditor contract must not expose engine-specific node types unless Dowel
@@ -180,7 +187,7 @@ updates. Dowel supplies interaction and layout, not issue-specific state.
 9. Create the first release changeset only after the release candidate is
    intentionally approved.
 
-## Pull request sequence
+## Commit sequence
 
 Keep the early architecture work isolated from the catalog build:
 
@@ -195,7 +202,7 @@ Keep the early architecture work isolated from the catalog build:
 9. `maint: harden the complete catalog for the first release`
 
 Each title follows the repository convention and should be narrowed further if
-a phase needs multiple reviewable pull requests.
+a phase needs multiple reviewable commits.
 
 ## Required test layers
 
@@ -211,6 +218,6 @@ a phase needs multiple reviewable pull requests.
 
 ## Definition of complete
 
-The program is complete when all 114 documented components meet their API,
+The program is complete when all 127 documented components meet their API,
 interaction, accessibility, theme, responsive, package, and documentation
 contracts. An export with one demo does not count as a completed component.

@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { expectNoA11yViolations } from "../../../test/setup";
+import { ThemeProvider } from "../../theme/theme-provider";
 import { Button } from "../button";
 import { Menu } from "./index";
 
@@ -89,7 +90,7 @@ describe("Menu", () => {
     await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 
-  it("carries the dowel classes on every styled part", async () => {
+  it("carries StyleX classes and anatomy markers on every styled part", () => {
     render(
       <Menu.Root defaultOpen>
         <Menu.Trigger render={<Button>Actions</Button>} />
@@ -108,10 +109,73 @@ describe("Menu", () => {
       </Menu.Root>,
     );
     const menu = screen.getByRole("menu");
-    expect(menu.className).toContain("dowel-menu");
-    expect(menu.querySelectorAll(".dowel-menu-item")).toHaveLength(2);
-    expect(menu.querySelector(".dowel-menu-separator")).not.toBeNull();
-    expect(menu.querySelector(".dowel-menu-label")).not.toBeNull();
+    for (const part of [
+      "menu-popup",
+      "menu-item",
+      "menu-separator",
+      "menu-group-label",
+    ]) {
+      const elements = document.querySelectorAll(
+        `[data-dowel-component="${part}"]`,
+      );
+      expect(elements.length, part).toBeGreaterThan(0);
+      expect(elements[0]?.className, part).not.toBe("");
+    }
+  });
+
+  it("supports checkbox and radio selection patterns", async () => {
+    const onCheckedChange = vi.fn();
+    const onValueChange = vi.fn();
+    render(
+      <Menu.Root defaultOpen>
+        <Menu.Portal>
+          <Menu.Positioner>
+            <Menu.Popup>
+              <Menu.CheckboxItem onCheckedChange={onCheckedChange}>
+                <Menu.CheckboxItemIndicator>✓</Menu.CheckboxItemIndicator>
+                Show archived
+              </Menu.CheckboxItem>
+              <Menu.RadioGroup
+                defaultValue="compact"
+                onValueChange={onValueChange}
+              >
+                <Menu.RadioItem value="compact">
+                  <Menu.RadioItemIndicator>•</Menu.RadioItemIndicator>
+                  Compact
+                </Menu.RadioItem>
+                <Menu.RadioItem value="comfortable">Comfortable</Menu.RadioItem>
+              </Menu.RadioGroup>
+            </Menu.Popup>
+          </Menu.Positioner>
+        </Menu.Portal>
+      </Menu.Root>,
+    );
+    await userEvent.click(screen.getByRole("menuitemcheckbox"));
+    expect(onCheckedChange).toHaveBeenCalledWith(true, expect.anything());
+    await userEvent.click(
+      screen.getByRole("menuitemradio", { name: "Comfortable" }),
+    );
+    expect(onValueChange).toHaveBeenCalledWith(
+      "comfortable",
+      expect.anything(),
+    );
+  });
+
+  it("carries the active theme into its portal", () => {
+    render(
+      <ThemeProvider theme="dark">
+        <Menu.Root defaultOpen>
+          <Menu.Portal data-testid="portal">
+            <Menu.Positioner>
+              <Menu.Popup>
+                <Menu.Item>Action</Menu.Item>
+              </Menu.Popup>
+            </Menu.Positioner>
+          </Menu.Portal>
+        </Menu.Root>
+      </ThemeProvider>,
+    );
+    expect(screen.getByTestId("portal").dataset.dowelTheme).toBe("dark");
   });
 
   it("ignores className and style smuggled through a spread", async () => {
@@ -150,22 +214,22 @@ describe("Menu", () => {
         </Menu.Portal>
       </Menu.Root>,
     );
-    for (const [id, dowelClass] of [
+    for (const [id, styled] of [
       ["s-trigger", null],
-      ["s-portal", null],
+      ["s-portal", true],
       ["s-positioner", null],
-      ["s-popup", "dowel-menu"],
+      ["s-popup", true],
       ["s-group", null],
-      ["s-label", "dowel-menu-label"],
-      ["s-item", "dowel-menu-item"],
-      ["s-separator", "dowel-menu-separator"],
+      ["s-label", true],
+      ["s-item", true],
+      ["s-separator", true],
     ] as const) {
       // The surviving `id` is how each part is found: it proves functional
       // props pass through while the appearance channels are stripped.
       const el = document.getElementById(id);
       expect(el, id).not.toBeNull();
-      if (dowelClass) {
-        expect(el!.className, id).toContain(dowelClass);
+      if (styled) {
+        expect(el!.className, id).not.toBe("");
       }
       expect(el!.className, id).not.toContain("evil");
       expect(el!.style.color, id).toBe("");

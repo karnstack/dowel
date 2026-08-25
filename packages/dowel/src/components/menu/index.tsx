@@ -1,39 +1,50 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
+import * as stylex from "@stylexjs/stylex";
+import { forwardRef, useContext } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
-/**
- * Public props for a Menu part: the corresponding Base UI component's own
- * props (so `sideOffset`, `keepMounted`, `closeOnClick`, … stay reachable)
- * minus appearance, which is not a consumer concern. Props are inferred from
- * the component's call signature — `ComponentProps<T>` rejects this loose
- * constraint (its own requires a `ReactNode` return), and the result is
- * identical.
- */
+import { DowelThemeContext, themeStyles } from "../../theme/theme-provider";
+import * as styles from "./menu.stylex";
+
 type Props<T extends (...args: never) => unknown> = T extends (
   props: infer P,
 ) => unknown
   ? Omit<P, "className" | "style">
   : never;
 
-/**
- * A dropdown menu on the popover elevation tier. Compound component: compose
- * `Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Item`, `Separator`,
- * `Group` and `GroupLabel`. Keyboard navigation, typeahead and highlight
- * management come from Base UI; the highlighted item is styled via
- * `data-highlighted` so mouse and keyboard states are identical.
- */
-export const Menu = {
-  // Root renders no HTML element of its own — it is pure context, so there
-  // are no className/style channels to neutralise.
-  Root: BaseMenu.Root,
+type SpanProps = Omit<ComponentPropsWithoutRef<"span">, "className" | "style">;
 
-  // Trigger, Portal, Positioner and Group are structural — dowel gives them
-  // no class of their own — but they still render real elements (a native
-  // <button> for Trigger when no `render` is given, a <div> for the rest),
-  // so their className/style channels must be neutralised like the styled
-  // parts'. Portal is the sharp edge: an inline `transform`/`filter` on its
-  // <div> creates a containing block that silently breaks the popup's
-  // positioning. An element passed via `render` still carries its own
-  // attributes — that escape hatch is by design.
+export type MenuItemTone = "neutral" | "danger";
+export type MenuItemProps = Props<typeof BaseMenu.Item> & {
+  tone?: MenuItemTone;
+};
+
+function partProps(style: stylex.StyleXStyles) {
+  const resolved = stylex.props(style);
+  return { className: resolved.className, style: resolved.style };
+}
+
+function resolveItem(tone: MenuItemTone, selectable = false) {
+  const resolved = stylex.props(
+    styles.item.root,
+    selectable && styles.item.selectable,
+    tone === "danger" && styles.item.danger,
+  );
+  return { className: resolved.className, style: resolved.style };
+}
+
+export const Menu = {
+  Root: BaseMenu.Root,
+  SubmenuRoot: BaseMenu.SubmenuRoot,
+
+  RadioGroup: function MenuRadioGroup(
+    props: Props<typeof BaseMenu.RadioGroup>,
+  ) {
+    return (
+      <BaseMenu.RadioGroup {...props} className={undefined} style={undefined} />
+    );
+  },
+
   Trigger: function MenuTrigger(props: Props<typeof BaseMenu.Trigger>) {
     return (
       <BaseMenu.Trigger {...props} className={undefined} style={undefined} />
@@ -41,8 +52,16 @@ export const Menu = {
   },
 
   Portal: function MenuPortal(props: Props<typeof BaseMenu.Portal>) {
+    const theme = useContext(DowelThemeContext);
+    const resolved = stylex.props(themeStyles[theme]);
+
     return (
-      <BaseMenu.Portal {...props} className={undefined} style={undefined} />
+      <BaseMenu.Portal
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-theme={theme}
+      />
     );
   },
 
@@ -51,7 +70,6 @@ export const Menu = {
   ) {
     return (
       <BaseMenu.Positioner
-        // Before the spread deliberately: a default, not a mandate.
         sideOffset={4}
         {...props}
         className={undefined}
@@ -62,15 +80,112 @@ export const Menu = {
 
   Popup: function MenuPopup(props: Props<typeof BaseMenu.Popup>) {
     return (
-      // Everything after the spread stays AFTER it so props spread onto the
-      // component cannot override appearance.
-      <BaseMenu.Popup {...props} className="dowel-menu" style={undefined} />
+      <BaseMenu.Popup
+        {...props}
+        {...partProps(styles.popup.root)}
+        data-dowel-component="menu-popup"
+      />
     );
   },
 
-  Item: function MenuItem(props: Props<typeof BaseMenu.Item>) {
+  Viewport: function MenuViewport(props: Props<typeof BaseMenu.Viewport>) {
     return (
-      <BaseMenu.Item {...props} className="dowel-menu-item" style={undefined} />
+      <BaseMenu.Viewport
+        {...props}
+        {...partProps(styles.part.viewport)}
+        data-dowel-component="menu-viewport"
+      />
+    );
+  },
+
+  Item: function MenuItem({ tone = "neutral", ...props }: MenuItemProps) {
+    return (
+      <BaseMenu.Item
+        {...props}
+        {...resolveItem(tone)}
+        data-dowel-component="menu-item"
+        data-tone={tone}
+      />
+    );
+  },
+
+  LinkItem: function MenuLinkItem({
+    tone = "neutral",
+    ...props
+  }: Props<typeof BaseMenu.LinkItem> & { tone?: MenuItemTone }) {
+    return (
+      <BaseMenu.LinkItem
+        {...props}
+        {...resolveItem(tone)}
+        data-dowel-component="menu-link-item"
+        data-tone={tone}
+      />
+    );
+  },
+
+  CheckboxItem: function MenuCheckboxItem({
+    tone = "neutral",
+    ...props
+  }: Props<typeof BaseMenu.CheckboxItem> & { tone?: MenuItemTone }) {
+    return (
+      <BaseMenu.CheckboxItem
+        {...props}
+        {...resolveItem(tone, true)}
+        data-dowel-component="menu-checkbox-item"
+        data-tone={tone}
+      />
+    );
+  },
+
+  RadioItem: function MenuRadioItem({
+    tone = "neutral",
+    ...props
+  }: Props<typeof BaseMenu.RadioItem> & { tone?: MenuItemTone }) {
+    return (
+      <BaseMenu.RadioItem
+        {...props}
+        {...resolveItem(tone, true)}
+        data-dowel-component="menu-radio-item"
+        data-tone={tone}
+      />
+    );
+  },
+
+  SubmenuTrigger: function MenuSubmenuTrigger({
+    tone = "neutral",
+    ...props
+  }: Props<typeof BaseMenu.SubmenuTrigger> & { tone?: MenuItemTone }) {
+    return (
+      <BaseMenu.SubmenuTrigger
+        {...props}
+        {...resolveItem(tone)}
+        data-dowel-component="menu-submenu-trigger"
+        data-tone={tone}
+      />
+    );
+  },
+
+  CheckboxItemIndicator: function MenuCheckboxItemIndicator(
+    props: Props<typeof BaseMenu.CheckboxItemIndicator>,
+  ) {
+    return (
+      <BaseMenu.CheckboxItemIndicator
+        {...props}
+        {...partProps(styles.part.indicator)}
+        data-dowel-component="menu-checkbox-indicator"
+      />
+    );
+  },
+
+  RadioItemIndicator: function MenuRadioItemIndicator(
+    props: Props<typeof BaseMenu.RadioItemIndicator>,
+  ) {
+    return (
+      <BaseMenu.RadioItemIndicator
+        {...props}
+        {...partProps(styles.part.indicator)}
+        data-dowel-component="menu-radio-indicator"
+      />
     );
   },
 
@@ -78,8 +193,8 @@ export const Menu = {
     return (
       <BaseMenu.Separator
         {...props}
-        className="dowel-menu-separator"
-        style={undefined}
+        {...partProps(styles.part.separator)}
+        data-dowel-component="menu-separator"
       />
     );
   },
@@ -96,9 +211,35 @@ export const Menu = {
     return (
       <BaseMenu.GroupLabel
         {...props}
-        className="dowel-menu-label"
-        style={undefined}
+        {...partProps(styles.part.label)}
+        data-dowel-component="menu-group-label"
       />
     );
   },
+
+  Icon: forwardRef<HTMLSpanElement, SpanProps>(function MenuIcon(props, ref) {
+    return (
+      <span
+        ref={ref}
+        {...props}
+        {...partProps(styles.part.icon)}
+        aria-hidden="true"
+        data-dowel-component="menu-icon"
+      />
+    );
+  }),
+
+  Shortcut: forwardRef<HTMLSpanElement, SpanProps>(
+    function MenuShortcut(props, ref) {
+      return (
+        <span
+          ref={ref}
+          {...props}
+          {...partProps(styles.part.shortcut)}
+          aria-hidden="true"
+          data-dowel-component="menu-shortcut"
+        />
+      );
+    },
+  ),
 };

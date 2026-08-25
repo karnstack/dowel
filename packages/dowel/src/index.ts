@@ -30,4 +30,5 @@ export type {
 export { Dialog } from "./components/dialog";
 export type { DialogPopupProps } from "./components/dialog";
 export { Menu } from "./components/menu";
+export type { MenuItemProps, MenuItemTone } from "./components/menu";
 export { Tooltip } from "./components/tooltip";

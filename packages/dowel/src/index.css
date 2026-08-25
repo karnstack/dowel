@@ -12,7 +12,6 @@
    the cascade — the @layer statement above pins the order. */
 @import "./components/badge/badge.css";
 @import "./components/kbd/kbd.css";
-@import "./components/menu/menu.css";
 @import "./components/tooltip/tooltip.css";
 
 @layer dowel.base {

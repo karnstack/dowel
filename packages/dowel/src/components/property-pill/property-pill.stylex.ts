@@ -32,6 +32,11 @@ export const root = stylex.create({
       backgroundColor: tokens["--dowel-bg-surface-3"],
       color: tokens["--dowel-text-primary"],
     },
+    "[data-popup-open]": {
+      backgroundColor: tokens["--dowel-bg-surface-3"],
+      borderColor: tokens["--dowel-border-default"],
+      color: tokens["--dowel-text-primary"],
+    },
     ":focus-visible": {
       outlineColor: tokens["--dowel-focus-ring"],
       outlineOffset: "2px",

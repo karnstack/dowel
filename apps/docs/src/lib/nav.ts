@@ -61,6 +61,12 @@ export const componentNav: NavItem[] = [
     summary: "A dropdown with keyboard navigation and typeahead.",
   },
   {
+    title: "Property Picker",
+    to: "/components/property-picker",
+    summary:
+      "Searchable grouped metadata selection with a compact pill trigger.",
+  },
+  {
     title: "Tooltip",
     to: "/components/tooltip",
     summary: "A hover and focus label on the popover elevation tier.",

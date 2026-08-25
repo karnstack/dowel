@@ -20,6 +20,11 @@ export { Kbd } from "./components/kbd";
 export type { KbdProps } from "./components/kbd";
 export { PropertyPill } from "./components/property-pill";
 export type { PropertyPillProps } from "./components/property-pill";
+export { PropertyPicker } from "./components/property-picker";
+export type {
+  PropertyPickerOption,
+  PropertyPickerProps,
+} from "./components/property-picker";
 export { Field, Input, Textarea } from "./components/input";
 export type {
   FieldSize,

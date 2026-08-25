@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
 import {
+  AlertDialog,
   Badge,
   Button,
+  Callout,
   Checkbox,
   CheckboxGroup,
   Composer,
@@ -89,10 +91,41 @@ export function ComponentGallery() {
   return (
     <section className="docs-gallery" aria-label="Live component catalog">
       <ul className="docs-gallery-grid" role="list">
+        <GalleryItem title="Alert Dialog" to="/components/alert-dialog">
+          <AlertDialog.Root>
+            <AlertDialog.Trigger
+              render={<Button variant="danger">Delete</Button>}
+            />
+            <AlertDialog.Portal>
+              <AlertDialog.Backdrop />
+              <AlertDialog.Popup>
+                <AlertDialog.Header>
+                  <AlertDialog.Title>Delete repository?</AlertDialog.Title>
+                  <AlertDialog.Description>
+                    This action cannot be undone.
+                  </AlertDialog.Description>
+                </AlertDialog.Header>
+                <AlertDialog.Footer>
+                  <AlertDialog.Close render={<Button>Cancel</Button>} />
+                  <AlertDialog.Close
+                    render={<Button variant="danger">Delete</Button>}
+                  />
+                </AlertDialog.Footer>
+              </AlertDialog.Popup>
+            </AlertDialog.Portal>
+          </AlertDialog.Root>
+        </GalleryItem>
+
         <GalleryItem title="Button" to="/components/button">
           <Button variant="primary">Create</Button>
           <Button>Cancel</Button>
           <Button variant="ghost">More</Button>
+        </GalleryItem>
+
+        <GalleryItem title="Callout" to="/components/callout" layout="stack">
+          <Callout title="Protected branch" tone="warning">
+            Two approvals are required before merging.
+          </Callout>
         </GalleryItem>
 
         <GalleryItem title="Badge" to="/components/badge">

@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComponentsRouteRouteImport } from './routes/components/route'
 import { Route as ComponentsIndexRouteImport } from './routes/components/index'
+import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsCalloutRouteImport } from './routes/components/callout'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsComposerRouteImport } from './routes/components/composer'
 import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
@@ -47,6 +49,11 @@ const ComponentsIndexRoute = ComponentsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
+  id: '/alert-dialog',
+  path: '/alert-dialog',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
   id: '/badge',
   path: '/badge',
@@ -55,6 +62,11 @@ const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsCalloutRoute = ComponentsCalloutRouteImport.update({
+  id: '/callout',
+  path: '/callout',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
@@ -147,8 +159,10 @@ const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteRouteWithChildren
+  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
@@ -170,8 +184,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
@@ -195,8 +211,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteRouteWithChildren
+  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/composer': typeof ComponentsComposerRoute
   '/components/data-table': typeof ComponentsDataTableRoute
@@ -221,8 +239,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/components'
+    | '/components/alert-dialog'
     | '/components/badge'
     | '/components/button'
+    | '/components/callout'
     | '/components/checkbox'
     | '/components/composer'
     | '/components/data-table'
@@ -244,8 +264,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/components/alert-dialog'
     | '/components/badge'
     | '/components/button'
+    | '/components/callout'
     | '/components/checkbox'
     | '/components/composer'
     | '/components/data-table'
@@ -268,8 +290,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/components'
+    | '/components/alert-dialog'
     | '/components/badge'
     | '/components/button'
+    | '/components/callout'
     | '/components/checkbox'
     | '/components/composer'
     | '/components/data-table'
@@ -318,6 +342,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsIndexRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/alert-dialog': {
+      id: '/components/alert-dialog'
+      path: '/alert-dialog'
+      fullPath: '/components/alert-dialog'
+      preLoaderRoute: typeof ComponentsAlertDialogRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/badge': {
       id: '/components/badge'
       path: '/badge'
@@ -330,6 +361,13 @@ declare module '@tanstack/react-router' {
       path: '/button'
       fullPath: '/components/button'
       preLoaderRoute: typeof ComponentsButtonRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/callout': {
+      id: '/components/callout'
+      path: '/callout'
+      fullPath: '/components/callout'
+      preLoaderRoute: typeof ComponentsCalloutRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/checkbox': {
@@ -455,8 +493,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface ComponentsRouteRouteChildren {
+  ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsCalloutRoute: typeof ComponentsCalloutRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComposerRoute: typeof ComponentsComposerRoute
   ComponentsDataTableRoute: typeof ComponentsDataTableRoute
@@ -478,8 +518,10 @@ interface ComponentsRouteRouteChildren {
 }
 
 const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
+  ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsCalloutRoute: ComponentsCalloutRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComposerRoute: ComponentsComposerRoute,
   ComponentsDataTableRoute: ComponentsDataTableRoute,

@@ -21,6 +21,11 @@ export type NavSection = {
 
 export const componentNav: NavItem[] = [
   {
+    title: "Alert Dialog",
+    to: "/components/alert-dialog",
+    summary: "A focused confirmation modal for consequential actions.",
+  },
+  {
     title: "Badge",
     to: "/components/badge",
     summary: "A compact status or metadata pill in five tones.",
@@ -29,6 +34,11 @@ export const componentNav: NavItem[] = [
     title: "Button",
     to: "/components/button",
     summary: "The default action control. Five hierarchy levels, two sizes.",
+  },
+  {
+    title: "Callout",
+    to: "/components/callout",
+    summary: "Persistent contextual guidance with optional actions and tone.",
   },
   {
     title: "Checkbox",

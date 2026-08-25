@@ -34,7 +34,7 @@
     --dowel-focus: var(--dowel-accent);
 
     /* status */
-    --dowel-danger: lch(52% 68 28);
+    --dowel-danger: #b9363f;
     --dowel-danger-fg: lch(100% 0 0);
     --dowel-success: #307b55;
     --dowel-warning: lch(76% 78 82);

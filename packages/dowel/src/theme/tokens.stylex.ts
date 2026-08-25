@@ -29,9 +29,9 @@ export const tokens = stylex.defineVars({
   "--dowel-on-accent": "#ffffff",
   "--dowel-focus-ring": "#2d8f84",
 
-  "--dowel-danger": "#c43d45",
-  "--dowel-danger-hover": "#ad343c",
-  "--dowel-danger-surface": "#c43d4514",
+  "--dowel-danger": "#b9363f",
+  "--dowel-danger-hover": "#a12f37",
+  "--dowel-danger-surface": "#b9363f14",
   "--dowel-on-danger": "#ffffff",
   "--dowel-success": "#307b55",
   "--dowel-warning": "#a76816",

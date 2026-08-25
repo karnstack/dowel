@@ -42,6 +42,7 @@ test("calendar exposes its live selected date and uses a non-text cursor", async
   page,
 }) => {
   await page.goto("/components/calendar");
+  await page.waitForLoadState("networkidle");
 
   const twelfth = page
     .getByRole("button", { name: /August 12, 2026/i })

@@ -1,5 +1,9 @@
 # dowel Phase 1 Implementation Plan
 
+> Historical plan. Superseded by
+> `2026-08-25-stylex-component-system.md`. Do not continue this plain CSS
+> implementation sequence.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Ship `dowel@0.1.0` to npm with a working token system, a compiled-CSS build pipeline, release automation, a live docs site at dowel.sh, and 8 components proving the pattern end-to-end.

@@ -26,27 +26,38 @@
 - **No override API.** `className` and `style` are omitted from every public
   prop type and neutralised at runtime. Do not add them back. If someone needs
   a different button, dowel is the wrong library. That is the point.
-- Spread `{...props}` FIRST, then `className`, `style={undefined}`, `data-*`.
-  Spreading last lets a consumer spread strip the class and it typechecks
-  clean, because JSX spreads skip excess-property checks.
-- Variants are `data-*` attributes, never props that map to class names.
-- All custom properties are prefixed `--dowel-`, all classes `dowel-`.
+- Spread `{...props}` FIRST, then the result of `stylex.props(...)`, then
+  `style={undefined}`. Spreading last lets a consumer strip the generated
+  class and it typechecks clean, because JSX spreads skip excess-property
+  checks.
+- Author component styles with StyleX. Express variants as local style maps
+  and boolean entries passed to `stylex.props()`. Use `data-*` attributes only
+  when state must remain visible to CSS selectors or tests.
+- Define public theme tokens with `stylex.defineVars()` in named `.stylex.ts`
+  exports. Public custom properties start with `--dowel-`. Internal generated
+  class names are opaque and must never be treated as API.
 - Only `border`, `background-color`, `color`, `opacity` may transition. Never
   `all`, never transform or size on hover.
 - Hairlines are `0.5px`. Controls are 28px. Base font weight is 450, UI labels
   500, workhorse size 13px.
 - Hover rules need `:hover:not(:disabled):not([aria-disabled="true"])`, since
   `:not(:disabled)` is true for an anchor.
-- No Tailwind, no CSS-in-JS, no class-name helper (`cx`/`clsx`). Hand-authored
-  plain CSS, bundled by Lightning CSS.
-- Component `@import`s go in the import block at the TOP of `src/index.css`.
-  Lightning CSS errors on a late `@import`.
+- No Tailwind and no class-name helper (`cx`/`clsx`). StyleX is the only
+  component styling system. Do not add CSS Modules, styled-components,
+  Emotion, or hand-authored component stylesheets alongside it.
+- StyleX must compile at build time with runtime injection disabled. The npm
+  package ships compiled JavaScript and one extracted `dowel.css`, so a
+  consumer does not need a StyleX compiler.
+- Plain CSS is reserved for font faces, document resets, and third-party escape
+  hatches that StyleX cannot represent. Record every such exception in the
+  architecture document.
 
 ## Testing
 
 - jsdom cannot verify styling. It ignores every rule inside `@layer` and never
   substitutes `var()`. Do not write assertions about computed colour, geometry
-  or hover: they cannot fail. Verify CSS against the built `dist/dowel.css`.
+  or hover: they cannot fail. Verify extracted StyleX rules against the built
+  `dist/dowel.css` and use browser visual tests for rendered appearance.
 - Vitest intercepts `console`. Grepping the run log cannot observe
   `console.error`. Use `vi.spyOn(console, "error")`.
 - Base UI overlays open asynchronously. Use `findByRole`/`waitFor`, never a

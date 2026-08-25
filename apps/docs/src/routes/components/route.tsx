@@ -132,6 +132,17 @@ function ComponentsLayout() {
           </div>
 
           <footer className="docs-workspace-footer">
+            <span className="docs-workspace-credit">
+              Made by{" "}
+              <a
+                href="https://x.com/gyankarn"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                karn
+              </a>{" "}
+              and a few AI agents
+            </span>
             <div className="docs-workspace-actions">
               <RepositoryLink />
               <ThemeToggle theme={theme} size="sm" onToggle={toggleTheme} />

@@ -494,6 +494,31 @@ body {
   font-size: var(--dowel-fs-mini);
 }
 
+.docs-workspace-credit {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-workspace-credit a {
+  color: var(--dowel-text-3);
+  font-weight: var(--dowel-fw-normal);
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.16em;
+}
+
+.docs-workspace-credit a:hover {
+  color: var(--dowel-text-2);
+}
+
+.docs-workspace-credit a:focus-visible {
+  border-radius: 2px;
+  outline: 1px solid var(--dowel-focus);
+  outline-offset: 2px;
+}
+
 .docs-workspace-actions {
   display: flex;
   align-items: center;

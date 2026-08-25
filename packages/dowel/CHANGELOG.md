@@ -1,5 +1,11 @@
 # @karnstack/dowel
 
+## 0.1.0
+
+### Minor Changes
+
+- [#7](https://github.com/karnstack/dowel/pull/7) [`a0b57cd`](https://github.com/karnstack/dowel/commit/a0b57cd8080ae97feef3a658d36fcfa2c76f256a) - Add Popover, Separator, Avatar, Status, Spinner, Skeleton, and EmptyState with responsive documentation, light and dark themes, reduced-motion handling, and accessibility coverage. Standardize library-owned functional icons on Heroicons Micro and add tone-aware default icons to Callout.
+
 ## 0.0.2
 
 ### Patch Changes

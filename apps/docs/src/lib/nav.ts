@@ -53,7 +53,7 @@ export const componentNav: NavItem[] = [
   {
     title: "Calendar & Date Picker",
     to: "/components/calendar",
-    summary: "A month grid and popover field using native Date values.",
+    summary: "An internationalized month grid and segmented date field.",
   },
   {
     title: "Callout",

@@ -52,6 +52,7 @@ import {
   Tooltip,
   TreeView,
   createDataTableColumnHelper,
+  parseDate,
   toast,
 } from "@karnstack/dowel";
 import { useState } from "react";
@@ -203,7 +204,7 @@ export function ComponentGallery() {
         </GalleryItem>
 
         <GalleryItem title="Calendar & Date Picker" to="/components/calendar">
-          <DatePicker label="Due date" defaultValue={new Date(2026, 7, 12)} />
+          <DatePicker label="Due date" defaultValue={parseDate("2026-08-12")} />
         </GalleryItem>
 
         <GalleryItem title="Callout" to="/components/callout" layout="stack">

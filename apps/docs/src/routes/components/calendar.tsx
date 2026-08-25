@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Calendar, DatePicker } from "@karnstack/dowel";
+import { Calendar, DatePicker, parseDate } from "@karnstack/dowel";
 import { useState } from "react";
 
 import { Demo } from "../../components/demo";
@@ -10,12 +10,12 @@ export const Route = createFileRoute("/components/calendar")({
 });
 
 function CalendarExample() {
-  const [date, setDate] = useState(new Date(2026, 7, 12));
+  const [date, setDate] = useState(parseDate("2026-08-12"));
   return (
     <Calendar
       value={date}
       onValueChange={setDate}
-      defaultMonth={new Date(2026, 7, 1)}
+      defaultFocusedValue={parseDate("2026-08-01")}
     />
   );
 }
@@ -24,7 +24,7 @@ function CalendarDocs() {
   return (
     <DocsPage
       title="Calendar & Date Picker"
-      lead="A date-fns-backed month grid and compact popover field with native Date values."
+      lead="An internationalized month grid and segmented date field with timezone-safe CalendarDate values."
       toc={[
         { id: "calendar", title: "Calendar" },
         { id: "picker", title: "Date picker" },
@@ -32,19 +32,20 @@ function CalendarDocs() {
     >
       <Section id="calendar" title="Calendar">
         <Demo
-          code={`const [date, setDate] = useState(new Date());\n\n<Calendar value={date} onValueChange={setDate} />`}
+          code={`const [date, setDate] = useState(parseDate("2026-08-12"));\n\n<Calendar value={date} onValueChange={setDate} />`}
         >
           <CalendarExample />
         </Demo>
       </Section>
       <Section id="picker" title="Date picker">
         <p>
-          DatePicker composes the same calendar into a labelled popover trigger.
+          DatePicker adds locale-aware editable segments and composes the same
+          keyboard-navigable calendar into its popover.
         </p>
         <Demo
-          code={`<DatePicker label="Due date" defaultValue={new Date(2026, 7, 12)} />`}
+          code={`<DatePicker label="Due date" defaultValue={parseDate("2026-08-12")} />`}
         >
-          <DatePicker label="Due date" defaultValue={new Date(2026, 7, 12)} />
+          <DatePicker label="Due date" defaultValue={parseDate("2026-08-12")} />
         </Demo>
       </Section>
     </DocsPage>

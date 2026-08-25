@@ -146,6 +146,13 @@ export { TreeView } from "./components/tree-view";
 export type { TreeViewItem, TreeViewProps } from "./components/tree-view";
 export { Calendar, DatePicker } from "./components/calendar";
 export type { CalendarProps, DatePickerProps } from "./components/calendar";
+export {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+  today,
+} from "@internationalized/date";
+export type { DateValue } from "@internationalized/date";
 export { ContextMenu } from "./components/context-menu";
 export type { ContextMenuTriggerProps } from "./components/context-menu";
 export { Dropzone, FileUpload } from "./components/file-upload";

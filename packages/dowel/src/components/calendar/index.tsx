@@ -3,221 +3,221 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/16/solid";
+import { CalendarDate } from "@internationalized/date";
 import * as stylex from "@stylexjs/stylex";
 import {
-  addDays,
-  addMonths,
-  isAfter,
-  isBefore,
-  isSameDay,
-  isSameMonth,
-  startOfDay,
-  startOfMonth,
-  startOfWeek,
-} from "date-fns";
-import { useMemo, useState } from "react";
-import type { Day } from "date-fns";
+  Button as AriaButton,
+  Calendar as AriaCalendar,
+  CalendarCell as AriaCalendarCell,
+  CalendarGrid as AriaCalendarGrid,
+  CalendarGridBody as AriaCalendarGridBody,
+  CalendarGridHeader as AriaCalendarGridHeader,
+  CalendarHeaderCell as AriaCalendarHeaderCell,
+  CalendarHeading as AriaCalendarHeading,
+  DateInput as AriaDateInput,
+  DatePicker as AriaDatePicker,
+  DateSegment as AriaDateSegment,
+  Dialog as AriaDialog,
+  Group as AriaGroup,
+  I18nProvider,
+  Label as AriaLabel,
+  Popover as AriaPopover,
+} from "react-aria-components";
+import type {
+  CalendarCellRenderProps,
+  CalendarProps as AriaCalendarProps,
+  DatePickerProps as AriaDatePickerProps,
+  GroupRenderProps,
+} from "react-aria-components";
+import { useState } from "react";
+import type { ReactNode } from "react";
 
-import { Button } from "../button";
-import { Popover } from "../popover";
 import * as styles from "./calendar.stylex";
 
-export interface CalendarProps {
-  value?: Date;
-  defaultValue?: Date;
-  onValueChange?: (date: Date) => void;
-  month?: Date;
-  defaultMonth?: Date;
-  onMonthChange?: (month: Date) => void;
-  min?: Date;
-  max?: Date;
-  isDateDisabled?: (date: Date) => boolean;
-  locale?: string;
-  weekStartsOn?: Day;
-  ariaLabel?: string;
-}
-function sx(...v: stylex.StyleXStyles[]) {
-  const r = stylex.props(...v);
-  return { className: r.className, style: r.style };
-}
-function formatter(
-  locale: string | undefined,
-  options: Intl.DateTimeFormatOptions,
-) {
-  return new Intl.DateTimeFormat(locale, options);
+function sx(...values: stylex.StyleXStyles[]) {
+  const resolved = stylex.props(...values);
+  return { className: resolved.className, style: resolved.style };
 }
 
-export function Calendar({
-  value,
-  defaultValue,
-  onValueChange,
-  month,
-  defaultMonth,
-  onMonthChange,
-  min,
-  max,
-  isDateDisabled,
-  locale,
-  weekStartsOn = 0,
-  ariaLabel = "Choose date",
-}: CalendarProps) {
-  const [internalValue, setInternalValue] = useState(defaultValue);
-  const [internalMonth, setInternalMonth] = useState(() =>
-    startOfMonth(defaultMonth ?? value ?? defaultValue ?? new Date()),
-  );
-  const selected = value ?? internalValue;
-  const shownMonth = startOfMonth(month ?? internalMonth);
-  const gridStart = startOfWeek(startOfMonth(shownMonth), { weekStartsOn });
-  const days = useMemo(
-    () => Array.from({ length: 42 }, (_, index) => addDays(gridStart, index)),
-    [gridStart.getTime()],
-  );
-  const monthLabel = formatter(locale, {
-    month: "long",
-    year: "numeric",
-  }).format(shownMonth);
-  const dayLabel = formatter(locale, { dateStyle: "full" });
-  const weekdayLabel = formatter(locale, { weekday: "narrow" });
-  function move(amount: number) {
-    const next = startOfMonth(addMonths(shownMonth, amount));
-    if (month === undefined) setInternalMonth(next);
-    onMonthChange?.(next);
-  }
-  function choose(date: Date) {
-    const next = startOfDay(date);
-    if (value === undefined) setInternalValue(next);
-    if (!isSameMonth(next, shownMonth)) {
-      if (month === undefined) setInternalMonth(startOfMonth(next));
-      onMonthChange?.(startOfMonth(next));
-    }
-    onValueChange?.(next);
-  }
-  function disabled(date: Date) {
-    const day = startOfDay(date);
-    return Boolean(
-      (min && isBefore(day, startOfDay(min))) ||
-        (max && isAfter(day, startOfDay(max))) ||
-        isDateDisabled?.(day),
-    );
-  }
+function calendarCellClassName({
+  isDisabled,
+  isFocusVisible,
+  isOutsideMonth,
+  isSelected,
+  isToday,
+  isUnavailable,
+}: CalendarCellRenderProps) {
   return (
-    <div
-      role="group"
+    sx(
+      styles.calendar.day,
+      isOutsideMonth && styles.calendar.outside,
+      isSelected && styles.calendar.selected,
+      isToday && styles.calendar.today,
+      isToday && isSelected && styles.calendar.todaySelected,
+      isFocusVisible && styles.calendar.dayFocused,
+      isDisabled && styles.calendar.disabled,
+      isUnavailable && styles.calendar.unavailable,
+    ).className ?? ""
+  );
+}
+
+function CalendarContents() {
+  return (
+    <>
+      <header {...sx(styles.calendar.header)}>
+        <AriaButton
+          slot="previous"
+          aria-label="Previous month"
+          {...sx(styles.calendar.nav)}
+        >
+          <ChevronLeftIcon width={14} height={14} aria-hidden="true" />
+        </AriaButton>
+        <AriaCalendarHeading {...sx(styles.calendar.month)} />
+        <AriaButton
+          slot="next"
+          aria-label="Next month"
+          {...sx(styles.calendar.nav)}
+        >
+          <ChevronRightIcon width={14} height={14} aria-hidden="true" />
+        </AriaButton>
+      </header>
+      <AriaCalendarGrid weekdayStyle="narrow" {...sx(styles.calendar.grid)}>
+        <AriaCalendarGridHeader>
+          {(day) => (
+            <AriaCalendarHeaderCell {...sx(styles.calendar.weekday)}>
+              {day}
+            </AriaCalendarHeaderCell>
+          )}
+        </AriaCalendarGridHeader>
+        <AriaCalendarGridBody>
+          {(date) => (
+            <AriaCalendarCell date={date} className={calendarCellClassName} />
+          )}
+        </AriaCalendarGridBody>
+      </AriaCalendarGrid>
+    </>
+  );
+}
+
+export interface CalendarProps
+  extends Omit<
+    AriaCalendarProps<CalendarDate>,
+    "aria-label" | "children" | "className" | "onChange" | "style"
+  > {
+  ariaLabel?: string;
+  locale?: string;
+  onValueChange?: (date: CalendarDate) => void;
+}
+
+function CalendarRoot({
+  ariaLabel = "Choose date",
+  onValueChange,
+  ...props
+}: Omit<CalendarProps, "locale">) {
+  return (
+    <AriaCalendar
+      {...props}
       aria-label={ariaLabel}
+      onChange={onValueChange}
       {...sx(styles.calendar.root)}
       data-dowel-component="calendar"
     >
-      <div {...sx(styles.calendar.header)}>
-        <button
-          type="button"
-          aria-label="Previous month"
-          onClick={() => move(-1)}
-          {...sx(styles.calendar.nav)}
-        >
-          <ChevronLeftIcon width={14} height={14} />
-        </button>
-        <span aria-live="polite" {...sx(styles.calendar.month)}>
-          {monthLabel}
-        </span>
-        <button
-          type="button"
-          aria-label="Next month"
-          onClick={() => move(1)}
-          {...sx(styles.calendar.nav)}
-        >
-          <ChevronRightIcon width={14} height={14} />
-        </button>
-      </div>
-      <div role="grid" aria-label={monthLabel} {...sx(styles.calendar.grid)}>
-        {Array.from({ length: 7 }, (_, index) => {
-          const date = addDays(gridStart, index);
-          return (
-            <span
-              key={`weekday-${index}`}
-              role="columnheader"
-              aria-label={formatter(locale, { weekday: "long" }).format(date)}
-              {...sx(styles.calendar.weekday)}
-            >
-              {weekdayLabel.format(date)}
-            </span>
-          );
-        })}
-        {days.map((date) => {
-          const outside = !isSameMonth(date, shownMonth);
-          const active = selected ? isSameDay(date, selected) : false;
-          const today = isSameDay(date, new Date());
-          return (
-            <button
-              key={date.toISOString()}
-              type="button"
-              role="gridcell"
-              aria-label={dayLabel.format(date)}
-              aria-selected={active}
-              aria-current={today ? "date" : undefined}
-              disabled={disabled(date)}
-              onClick={() => choose(date)}
-              {...sx(
-                styles.calendar.day,
-                outside && styles.calendar.outside,
-                active && styles.calendar.selected,
-                today && styles.calendar.today,
-              )}
-            >
-              {date.getDate()}
-            </button>
-          );
-        })}
-      </div>
-    </div>
+      <CalendarContents />
+    </AriaCalendar>
   );
 }
 
-export interface DatePickerProps extends Omit<CalendarProps, "ariaLabel"> {
-  label: string;
-  placeholder?: string;
-}
-export function DatePicker({
-  label,
-  placeholder = "Choose date",
-  value,
-  defaultValue,
-  onValueChange,
-  locale,
-  ...calendarProps
-}: DatePickerProps) {
-  const [open, setOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState(defaultValue);
-  const selected = value ?? internalValue;
-  const display = selected
-    ? formatter(locale, { dateStyle: "medium" }).format(selected)
-    : placeholder;
-  return (
-    <Popover.Root open={open} onOpenChange={setOpen}>
-      <Popover.Trigger
-        render={
-          <Button aria-label={label}>
-            <CalendarDaysIcon width={14} height={14} aria-hidden="true" />
-            {display}
-          </Button>
-        }
-      />
-      <Popover.Portal>
-        <Popover.Positioner align="start">
-          <Popover.Popup>
-            <Calendar
-              {...calendarProps}
-              value={selected}
-              locale={locale}
-              ariaLabel={label}
-              onValueChange={(date) => {
-                if (value === undefined) setInternalValue(date);
-                onValueChange?.(date);
-                setOpen(false);
-              }}
-            />
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
-    </Popover.Root>
+export function Calendar({ locale, ...props }: CalendarProps) {
+  const calendar = <CalendarRoot {...props} />;
+  return locale ? (
+    <I18nProvider locale={locale}>{calendar}</I18nProvider>
+  ) : (
+    calendar
   );
 }
+
+export interface DatePickerProps
+  extends Omit<
+    AriaDatePickerProps<CalendarDate>,
+    "children" | "className" | "onChange" | "style"
+  > {
+  label: string;
+  description?: ReactNode;
+  locale?: string;
+  onValueChange?: (date: CalendarDate | null) => void;
+}
+
+function groupClassName({
+  isDisabled,
+  isFocusWithin,
+  isInvalid,
+}: GroupRenderProps) {
+  return (
+    sx(
+      styles.picker.group,
+      isFocusWithin && styles.picker.groupFocused,
+      isInvalid && styles.picker.groupInvalid,
+      isDisabled && styles.picker.disabled,
+    ).className ?? ""
+  );
+}
+
+function DatePickerRoot({
+  label,
+  description,
+  onValueChange,
+  ...props
+}: Omit<DatePickerProps, "locale">) {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
+  return (
+    <AriaDatePicker
+      ref={setPortalContainer}
+      {...props}
+      onChange={onValueChange}
+      {...sx(styles.picker.root)}
+      data-dowel-component="date-picker"
+    >
+      <AriaLabel {...sx(styles.picker.label)}>{label}</AriaLabel>
+      <AriaGroup className={groupClassName}>
+        <AriaDateInput {...sx(styles.picker.input)}>
+          {(segment) => (
+            <AriaDateSegment segment={segment} {...sx(styles.picker.segment)} />
+          )}
+        </AriaDateInput>
+        <AriaButton aria-label="Open calendar" {...sx(styles.picker.trigger)}>
+          <CalendarDaysIcon width={14} height={14} aria-hidden="true" />
+        </AriaButton>
+      </AriaGroup>
+      {description ? (
+        <span slot="description" {...sx(styles.picker.description)}>
+          {description}
+        </span>
+      ) : null}
+      <AriaPopover
+        placement="bottom start"
+        offset={4}
+        UNSTABLE_portalContainer={portalContainer ?? undefined}
+        {...sx(styles.picker.popover)}
+      >
+        <AriaDialog {...sx(styles.picker.dialog)}>
+          <AriaCalendar {...sx(styles.calendar.root)}>
+            <CalendarContents />
+          </AriaCalendar>
+        </AriaDialog>
+      </AriaPopover>
+    </AriaDatePicker>
+  );
+}
+
+export function DatePicker({ locale, ...props }: DatePickerProps) {
+  const picker = <DatePickerRoot {...props} />;
+  return locale ? (
+    <I18nProvider locale={locale}>{picker}</I18nProvider>
+  ) : (
+    picker
+  );
+}
+
+export { CalendarDate };

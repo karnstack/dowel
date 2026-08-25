@@ -1,10 +1,8 @@
 name: Release
 
-# Runs only AFTER the CI workflow succeeds on main, so a red main never
-# publishes. The changesets flow then takes over:
-#   1. add a changeset in your PR, merge to main
-#   2. CI passes -> this opens/updates a "Version Packages" PR
-#   3. merging THAT PR re-runs CI -> this publishes to npm
+# Runs only after CI succeeds on main, so a red main never publishes.
+# Versions are committed directly to main. Changesets then publishes any
+# package version that is not already present on npm.
 on:
   workflow_run:
     workflows: [CI]
@@ -15,7 +13,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
   contents: write
-  pull-requests: write
   id-token: write
 
 jobs:
@@ -41,16 +38,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      - uses: changesets/action@v1
-        with:
-          version: pnpm exec changeset version
-          publish: pnpm exec changeset publish
-          commit: "chore: version packages"
-          title: "chore: version packages"
+      - name: Publish unpublished packages
+        run: pnpm release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # changesets/action looks for NPM_TOKEN specifically; without it the
-          # action falls back to OIDC trusted publishing. Set both so npm auth
-          # is deterministic regardless of which path the action takes.
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

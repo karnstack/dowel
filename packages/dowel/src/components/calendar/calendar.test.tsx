@@ -4,6 +4,15 @@ import { parseDate } from "@internationalized/date";
 import { describe, expect, it, vi } from "vitest";
 import { Calendar, DatePicker } from "./index";
 describe("Calendar", () => {
+  it("marks the controlled date as selected", () => {
+    render(<Calendar value={parseDate("2026-08-12")} locale="en-US" />);
+    expect(
+      screen
+        .getByRole("button", { name: /August 12, 2026/i })
+        .getAttribute("data-selected"),
+    ).not.toBeNull();
+  });
+
   it("selects a date", async () => {
     const change = vi.fn();
     render(

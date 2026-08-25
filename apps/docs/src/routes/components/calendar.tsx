@@ -12,11 +12,16 @@ export const Route = createFileRoute("/components/calendar")({
 function CalendarExample() {
   const [date, setDate] = useState(parseDate("2026-08-12"));
   return (
-    <Calendar
-      value={date}
-      onValueChange={setDate}
-      defaultFocusedValue={parseDate("2026-08-01")}
-    />
+    <div className="docs-calendar-example">
+      <Calendar
+        value={date}
+        onValueChange={setDate}
+        defaultFocusedValue={parseDate("2026-08-01")}
+      />
+      <output className="docs-calendar-value" aria-live="polite">
+        Selected: <code>{date.toString()}</code>
+      </output>
+    </div>
   );
 }
 
@@ -32,7 +37,7 @@ function CalendarDocs() {
     >
       <Section id="calendar" title="Calendar">
         <Demo
-          code={`const [date, setDate] = useState(parseDate("2026-08-12"));\n\n<Calendar value={date} onValueChange={setDate} />`}
+          code={`const [date, setDate] = useState(parseDate("2026-08-12"));\n\n<Calendar value={date} onValueChange={setDate} />\n<output>Selected: {date.toString()}</output>`}
         >
           <CalendarExample />
         </Demo>

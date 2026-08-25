@@ -26,6 +26,13 @@ function items(onSelect = vi.fn()) {
 }
 
 describe("CommandMenu", () => {
+  it("supports controlled open state without a trigger", () => {
+    render(<CommandMenu open items={items()} />);
+    expect(
+      screen.getByRole("combobox", { name: "Command menu" }),
+    ).toBeDefined();
+  });
+
   it("filters, runs a command, and closes", async () => {
     const onSelect = vi.fn();
     render(

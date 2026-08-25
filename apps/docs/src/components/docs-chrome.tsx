@@ -42,15 +42,17 @@ export function SearchTrigger({ onClick }: { onClick: () => void }) {
 export function ThemeToggle({
   theme,
   onToggle,
+  size = "md",
 }: {
   theme: DocsTheme;
   onToggle: () => void;
+  size?: "sm" | "md";
 }) {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger
         render={
-          <IconButton label="Toggle theme" onClick={onToggle}>
+          <IconButton label="Toggle theme" size={size} onClick={onToggle}>
             <span className="docs-theme-icon" data-icon="sun">
               <SunIcon />
             </span>

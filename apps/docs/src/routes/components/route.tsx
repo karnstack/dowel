@@ -36,6 +36,7 @@ function RepositoryLink() {
           <IconButton
             label="dowel on GitHub"
             nativeButton={false}
+            size="sm"
             render={<a href={REPO} target="_blank" rel="noreferrer noopener" />}
           >
             <GitHubIcon />
@@ -133,7 +134,7 @@ function ComponentsLayout() {
           <footer className="docs-workspace-footer">
             <div className="docs-workspace-actions">
               <RepositoryLink />
-              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <ThemeToggle theme={theme} size="sm" onToggle={toggleTheme} />
               <span className="docs-workspace-version">{versionLabel}</span>
             </div>
           </footer>

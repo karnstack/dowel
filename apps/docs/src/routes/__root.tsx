@@ -10,6 +10,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import { CommandSearch } from "../components/command-search";
 import { DocsContext } from "../components/docs-context";
+import { DocsShell } from "../components/docs-shell";
 
 import "@fontsource-variable/host-grotesk";
 import "@karnstack/dowel/dowel.css";
@@ -98,7 +99,9 @@ function RootDocument() {
         <ThemeProvider theme={theme ?? "system"}>
           <Tooltip.Provider>
             <DocsContext.Provider value={context}>
-              <Outlet />
+              <DocsShell>
+                <Outlet />
+              </DocsShell>
               <CommandSearch open={searchOpen} onOpenChange={setSearchOpen} />
             </DocsContext.Provider>
           </Tooltip.Provider>

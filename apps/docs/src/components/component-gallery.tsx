@@ -14,6 +14,7 @@ import {
   PropertyPicker,
   PropertyPill,
   Sidebar,
+  Tabs,
   Tooltip,
   createDataTableColumnHelper,
 } from "dowel";
@@ -193,6 +194,19 @@ export function ComponentGallery() {
         <GalleryItem title="Kbd" to="/components/kbd">
           <Kbd keys={["Meta", "K"]} />
           <Kbd keys={["Shift", "P"]} />
+        </GalleryItem>
+
+        <GalleryItem title="Tabs" to="/components/tabs" layout="stack">
+          <Tabs.Root defaultValue="assigned">
+            <Tabs.List aria-label="Issue views">
+              <Tabs.Tab value="assigned">Assigned</Tabs.Tab>
+              <Tabs.Tab value="created">Created</Tabs.Tab>
+              <Tabs.Tab value="activity">Activity</Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="assigned">Assigned issues</Tabs.Panel>
+            <Tabs.Panel value="created">Created issues</Tabs.Panel>
+            <Tabs.Panel value="activity">Recent activity</Tabs.Panel>
+          </Tabs.Root>
         </GalleryItem>
 
         <GalleryItem title="Sidebar" to="/components/sidebar">

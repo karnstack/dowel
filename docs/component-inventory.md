@@ -5,6 +5,28 @@
 **Status:** target catalog
 **Total:** 114 public components
 
+## Build order
+
+The catalog is a coverage target, not a queue. Components ship in product
+slices so each new primitive immediately supports a recognizable SaaS surface.
+
+1. **Core controls:** Tabs, SearchField, Checkbox, RadioGroup, Switch, Select,
+   Popover, Separator, Avatar, Status, Spinner, Skeleton, and EmptyState.
+2. **Dense collections:** List, ListRow, ListCell, GroupHeader, HoverActions,
+   SegmentedControl, PageHeader, Breadcrumb, and MultiSelectToolbar.
+3. **Command and filtering:** Combobox, Listbox, CommandMenu, FilterBuilder,
+   ViewOptions, Toast, and AlertDialog.
+4. **Workspace structure:** ResizablePanel, SplitPane, DetailsPane, QuickView,
+   SettingsShell, SettingsSection, and SettingsRow.
+5. **Collaboration:** RichTextEditor, EditorToolbar, Comment, CommentComposer,
+   ActivityFeed, ReactionPicker, FileUpload, AttachmentList, and LinkPreview.
+6. **Advanced data:** Board, DataList, ChartTooltip, DatePicker, MultiSelect,
+   Progress, and pagination.
+
+Tabs is the first component in this sequence because it unlocks page headers,
+settings navigation, detail panes, and view switching without depending on any
+later composite.
+
 ## How to read this catalog
 
 The old 49-component list was mainly a Base UI checklist. This catalog combines

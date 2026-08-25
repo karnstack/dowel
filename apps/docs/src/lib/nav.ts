@@ -77,6 +77,11 @@ export const componentNav: NavItem[] = [
     summary: "A responsive application rail with pointer and keyboard resize.",
   },
   {
+    title: "Tabs",
+    to: "/components/tabs",
+    summary: "Compact pill and line view switching with arrow-key activation.",
+  },
+  {
     title: "Tooltip",
     to: "/components/tooltip",
     summary: "A hover and focus label on the popover elevation tier.",

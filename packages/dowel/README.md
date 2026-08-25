@@ -25,7 +25,7 @@ import { Button, ThemeProvider } from "dowel";
 
 ## Components
 
-Badge · Button · Composer · Data Table · Dialog · Icon Button · Input · Kbd · Menu · Property Picker · Sidebar · Tooltip
+Badge · Button · Composer · Data Table · Dialog · Icon Button · Input · Kbd · Menu · Property Picker · Sidebar · Tabs · Tooltip
 
 Visual controls own their appearance. Layout primitives accept application
 hooks. Every theme, focus state, and interaction ships with the package.

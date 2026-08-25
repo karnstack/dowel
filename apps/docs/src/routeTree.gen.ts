@@ -23,6 +23,7 @@ import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsMenuRouteImport } from './routes/components/menu'
 import { Route as ComponentsPropertyPickerRouteImport } from './routes/components/property-picker'
 import { Route as ComponentsSidebarRouteImport } from './routes/components/sidebar'
+import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 
 const IndexRoute = IndexRouteImport.update({
@@ -96,6 +97,11 @@ const ComponentsSidebarRoute = ComponentsSidebarRouteImport.update({
   path: '/sidebar',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
+  id: '/tabs',
+  path: '/tabs',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
   id: '/tooltip',
   path: '/tooltip',
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/components/menu': typeof ComponentsMenuRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/tabs': typeof ComponentsTabsRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components/': typeof ComponentsIndexRoute
 }
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/components/menu': typeof ComponentsMenuRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/tabs': typeof ComponentsTabsRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components': typeof ComponentsIndexRoute
 }
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/components/menu': typeof ComponentsMenuRoute
   '/components/property-picker': typeof ComponentsPropertyPickerRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/tabs': typeof ComponentsTabsRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/components/': typeof ComponentsIndexRoute
 }
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/components/menu'
     | '/components/property-picker'
     | '/components/sidebar'
+    | '/components/tabs'
     | '/components/tooltip'
     | '/components/'
   fileRoutesByTo: FileRoutesByTo
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/components/menu'
     | '/components/property-picker'
     | '/components/sidebar'
+    | '/components/tabs'
     | '/components/tooltip'
     | '/components'
   id:
@@ -202,6 +213,7 @@ export interface FileRouteTypes {
     | '/components/menu'
     | '/components/property-picker'
     | '/components/sidebar'
+    | '/components/tabs'
     | '/components/tooltip'
     | '/components/'
   fileRoutesById: FileRoutesById
@@ -311,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSidebarRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/tabs': {
+      id: '/components/tabs'
+      path: '/tabs'
+      fullPath: '/components/tabs'
+      preLoaderRoute: typeof ComponentsTabsRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/tooltip': {
       id: '/components/tooltip'
       path: '/tooltip'
@@ -333,6 +352,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsMenuRoute: typeof ComponentsMenuRoute
   ComponentsPropertyPickerRoute: typeof ComponentsPropertyPickerRoute
   ComponentsSidebarRoute: typeof ComponentsSidebarRoute
+  ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
   ComponentsIndexRoute: typeof ComponentsIndexRoute
 }
@@ -349,6 +369,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsMenuRoute: ComponentsMenuRoute,
   ComponentsPropertyPickerRoute: ComponentsPropertyPickerRoute,
   ComponentsSidebarRoute: ComponentsSidebarRoute,
+  ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,
   ComponentsIndexRoute: ComponentsIndexRoute,
 }

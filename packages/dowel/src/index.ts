@@ -55,3 +55,5 @@ export type {
   DataTableDensity,
   DataTableProps,
 } from "./components/data-table";
+export { Tabs } from "./components/tabs";
+export type { TabsRootProps, TabsSize, TabsVariant } from "./components/tabs";

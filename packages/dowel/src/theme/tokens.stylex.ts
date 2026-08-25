@@ -31,6 +31,7 @@ export const tokens = stylex.defineVars({
 
   "--dowel-danger": "#c43d45",
   "--dowel-danger-hover": "#ad343c",
+  "--dowel-danger-surface": "#c43d4514",
   "--dowel-on-danger": "#ffffff",
   "--dowel-success": "#34835c",
   "--dowel-warning": "#a76816",

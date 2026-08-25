@@ -50,12 +50,13 @@ function IconButtonDocs() {
         <p>
           Ghost by default, because these usually sit in a toolbar where a
           filled control would shout. <code>secondary</code> gives it a surface
-          when it needs to read as a discrete target.
+          when it needs to read as a discrete target. <code>muted</code> and{" "}
+          <code>danger</code> cover quiet emphasis and destructive actions.
         </p>
         <Demo
           code={`<IconButton label="Menu"><MenuIcon /></IconButton>
 <IconButton label="Copy" variant="secondary"><CopyIcon /></IconButton>
-<IconButton label="Confirm" variant="secondary" size="sm">
+<IconButton label="Confirm" variant="muted" size="sm">
   <CheckIcon />
 </IconButton>
 <IconButton label="Unavailable" variant="secondary" disabled>
@@ -68,7 +69,7 @@ function IconButtonDocs() {
           <IconButton label="Copy" variant="secondary">
             <CopyIcon />
           </IconButton>
-          <IconButton label="Confirm" variant="secondary" size="sm">
+          <IconButton label="Confirm" variant="muted" size="sm">
             <CheckIcon size={14} />
           </IconButton>
           <IconButton label="Unavailable" variant="secondary" disabled>

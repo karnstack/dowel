@@ -20,6 +20,7 @@ const styles = stylex.create({
     fontSize: "0.8125rem",
     fontWeight: 450,
     letterSpacing: "-0.0125rem",
+    minHeight: "100dvh",
     minWidth: 0,
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",

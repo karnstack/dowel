@@ -28,7 +28,7 @@ export const componentNav: NavItem[] = [
   {
     title: "Button",
     to: "/components/button",
-    summary: "The default control. Four variants, two sizes.",
+    summary: "The default action control. Five hierarchy levels, two sizes.",
   },
   {
     title: "Dialog",

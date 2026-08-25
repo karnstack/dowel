@@ -10,8 +10,6 @@
 /* Component sheets. CSS requires every @import before the first style rule,
    and each sheet declares its own @layer, so listing them here cannot change
    the cascade — the @layer statement above pins the order. */
-@import "./components/button/button.css";
-@import "./components/icon-button/icon-button.css";
 @import "./components/badge/badge.css";
 @import "./components/kbd/kbd.css";
 @import "./components/dialog/dialog.css";

@@ -24,7 +24,8 @@ describe("IconButton", () => {
       </IconButton>,
     );
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("dowel-icon-btn");
+    expect(btn.className).toBeTruthy();
+    expect(btn.dataset.dowelComponent).toBe("icon-button");
     expect(btn.dataset.size).toBe("md");
   });
 
@@ -61,7 +62,7 @@ describe("IconButton", () => {
       </IconButton>,
     );
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("dowel-icon-btn");
+    expect(btn.className).toBeTruthy();
     expect(btn.className).not.toContain("evil");
     expect(btn.getAttribute("style")).toBeNull();
   });
@@ -89,7 +90,7 @@ describe("IconButton", () => {
     const el = screen.getByRole("button", { name: "Docs" });
     expect(el.tagName).toBe("A");
     expect(el.getAttribute("href")).toBe("/docs");
-    expect(el.className).toContain("dowel-icon-btn");
+    expect(el.dataset.dowelComponent).toBe("icon-button");
     // `type` is a MIME hint on anchors — it must not leak from button mode.
     expect(el.hasAttribute("type")).toBe(false);
   });
@@ -100,8 +101,12 @@ describe("IconButton", () => {
         <Icon />
       </IconButton>,
     );
-    expect(light.querySelector(".dowel-icon-btn")).not.toBeNull();
-    expect(dark.querySelector(".dowel-icon-btn")).not.toBeNull();
+    expect(
+      light.querySelector('[data-dowel-component="icon-button"]'),
+    ).not.toBeNull();
+    expect(
+      dark.querySelector('[data-dowel-component="icon-button"]'),
+    ).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {

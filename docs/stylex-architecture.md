@@ -60,9 +60,7 @@ stylex({
   runtimeInjection: false,
   sxPropName: false,
   treeshakeCompensation: true,
-  useCSSLayers: {
-    prefix: "dowel",
-  },
+  useCSSLayers: false,
   unstable_moduleResolution: {
     type: "commonJS",
     rootDir: packageRoot,
@@ -75,8 +73,10 @@ Important constraints:
 - The StyleX transform runs before the React transform in Vite.
 - Production builds never inject styles from JavaScript.
 - The extracted asset is normalized to `dist/dowel.css`.
-- Dowel owns a named CSS layer so host applications can order their own layers
-  without depending on atomic class names.
+- Component rules are unlayered. Layered library rules lose to every unlayered
+  host reset regardless of selector specificity, which lets a generic
+  `input { font: inherit }` rule break Dowel's visual contract. Unlayered
+  StyleX classes still beat ordinary type-selector resets through specificity.
 - The JSX `sx` shorthand is disabled. Component source uses
   `stylex.props(...)` explicitly and public component APIs never expose `sx`.
 - ESLint uses the official StyleX plugin because the compiler intentionally

@@ -5,7 +5,7 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { Badge, IconButton, Kbd, Tooltip } from "dowel";
+import { Badge, IconButton, Kbd, ThemeProvider, Tooltip } from "dowel";
 import { useCallback, useEffect, useState } from "react";
 
 import {
@@ -200,17 +200,7 @@ function RootDocument() {
   }, [toggleTheme]);
 
   return (
-    // The theme hooks onto <html> rather than a wrapper div so the page
-    // background reaches the viewport edges instead of stopping at the
-    // content box. On :root the attribute also wins over the
-    // prefers-color-scheme rule, which is guarded with
-    // :not([data-dowel-theme="light"]).
-    <html
-      lang="en"
-      className="dowel-root"
-      data-dowel-theme={theme ?? undefined}
-      data-nav-open={navOpen ? "" : undefined}
-    >
+    <html lang="en" data-nav-open={navOpen ? "" : undefined}>
       <head>
         <HeadContent />
       </head>
@@ -220,70 +210,72 @@ function RootDocument() {
           adjacent tooltips share a single delay, so the second one a pointer
           reaches opens instantly instead of waiting again.
         */}
-        <Tooltip.Provider>
-          <header className="docs-header">
-            <div className="docs-header-inner">
-              <div className="docs-header-mobile">
-                <IconButton
-                  label={navOpen ? "Close navigation" : "Open navigation"}
-                  aria-expanded={navOpen}
-                  aria-controls="docs-mobile-nav"
-                  onClick={() => setNavOpen((open) => !open)}
-                >
-                  {navOpen ? <CloseIcon /> : <MenuIcon />}
-                </IconButton>
+        <ThemeProvider theme={theme ?? "system"}>
+          <Tooltip.Provider>
+            <header className="docs-header">
+              <div className="docs-header-inner">
+                <div className="docs-header-mobile">
+                  <IconButton
+                    label={navOpen ? "Close navigation" : "Open navigation"}
+                    aria-expanded={navOpen}
+                    aria-controls="docs-mobile-nav"
+                    onClick={() => setNavOpen((open) => !open)}
+                  >
+                    {navOpen ? <CloseIcon /> : <MenuIcon />}
+                  </IconButton>
+                </div>
+
+                <Link to="/" aria-label="Homepage" className="docs-brand">
+                  <Wordmark />
+                </Link>
+                <Badge tone="accent">{versionLabel}</Badge>
+
+                <nav className="docs-header-nav" aria-label="Main">
+                  <Link to="/">Introduction</Link>
+                  <Link to="/components">Components</Link>
+                </nav>
+
+                <div className="docs-header-end">
+                  <Tooltip.Root>
+                    <Tooltip.Trigger
+                      render={
+                        <IconButton
+                          label="dowel on GitHub"
+                          nativeButton={false}
+                          render={
+                            <a
+                              href={REPO}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                            />
+                          }
+                        >
+                          <GitHubIcon />
+                        </IconButton>
+                      }
+                    />
+                    <Tooltip.Portal>
+                      <Tooltip.Positioner>
+                        <Tooltip.Popup>GitHub</Tooltip.Popup>
+                      </Tooltip.Positioner>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+
+                  <ThemeToggle theme={theme} onToggle={toggleTheme} />
+                </div>
               </div>
 
-              <Link to="/" aria-label="Homepage" className="docs-brand">
-                <Wordmark />
-              </Link>
-              <Badge tone="accent">{versionLabel}</Badge>
-
-              <nav className="docs-header-nav" aria-label="Main">
-                <Link to="/">Introduction</Link>
-                <Link to="/components">Components</Link>
-              </nav>
-
-              <div className="docs-header-end">
-                <Tooltip.Root>
-                  <Tooltip.Trigger
-                    render={
-                      <IconButton
-                        label="dowel on GitHub"
-                        nativeButton={false}
-                        render={
-                          <a
-                            href={REPO}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                          />
-                        }
-                      >
-                        <GitHubIcon />
-                      </IconButton>
-                    }
-                  />
-                  <Tooltip.Portal>
-                    <Tooltip.Positioner>
-                      <Tooltip.Popup>GitHub</Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-
-                <ThemeToggle theme={theme} onToggle={toggleTheme} />
-              </div>
-            </div>
-
-            {/* The mobile disclosure. It is always in the DOM so the
+              {/* The mobile disclosure. It is always in the DOM so the
                 aria-controls reference always resolves; CSS hides it when
                 the header's toggle is not expanded. */}
-            <div className="docs-mobile-nav" id="docs-mobile-nav">
-              <SidebarNav onNavigate={() => setNavOpen(false)} />
-            </div>
-          </header>
+              <div className="docs-mobile-nav" id="docs-mobile-nav">
+                <SidebarNav onNavigate={() => setNavOpen(false)} />
+              </div>
+            </header>
 
-          <Outlet />
-        </Tooltip.Provider>
+            <Outlet />
+          </Tooltip.Provider>
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>

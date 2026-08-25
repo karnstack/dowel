@@ -8,7 +8,7 @@ export default defineConfig({
       dev: false,
       runtimeInjection: false,
       sxPropName: false,
-      useCSSLayers: { prefix: "dowel" },
+      useCSSLayers: false,
       unstable_moduleResolution: {
         type: "commonJS",
         rootDir: import.meta.dirname,

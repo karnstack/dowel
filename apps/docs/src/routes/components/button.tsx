@@ -20,7 +20,7 @@ function ButtonDocs() {
   return (
     <DocsPage
       title="Button"
-      lead="The default control. Four variants, two sizes, and no appearance props — className and style are omitted from the type and neutralised at runtime."
+      lead="The default action control. Five hierarchy levels, two compact sizes, and no appearance escape hatch."
       toc={toc}
     >
       <Section id="variants" title="Variants">
@@ -34,11 +34,13 @@ function ButtonDocs() {
 
 <Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
+<Button variant="muted">Muted</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="danger">Danger</Button>`}
         >
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
+          <Button variant="muted">Muted</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="danger">Danger</Button>
         </Demo>
@@ -125,7 +127,7 @@ function ButtonDocs() {
                 <td>
                   <code>
                     &quot;primary&quot; | &quot;secondary&quot; |
-                    &quot;ghost&quot; | &quot;danger&quot;
+                    &quot;muted&quot; | &quot;ghost&quot; | &quot;danger&quot;
                   </code>
                 </td>
                 <td>

@@ -20,7 +20,7 @@ export default defineConfig({
       runtimeInjection: false,
       sxPropName: false,
       treeshakeCompensation: true,
-      useCSSLayers: { prefix: "dowel" },
+      useCSSLayers: false,
       unstable_moduleResolution: {
         type: "commonJS",
         rootDir: packageRoot,

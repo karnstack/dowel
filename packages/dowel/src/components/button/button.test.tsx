@@ -29,9 +29,11 @@ describe("Button", () => {
     expect(btn.dataset.size).toBe("sm");
   });
 
-  it("carries the dowel-btn class", () => {
+  it("carries compiled StyleX styles", () => {
     render(<Button>Go</Button>);
-    expect(screen.getByRole("button").className).toContain("dowel-btn");
+    const button = screen.getByRole("button");
+    expect(button.className).toBeTruthy();
+    expect(button.dataset.dowelComponent).toBe("button");
   });
 
   it("ignores className and style smuggled through a spread", () => {
@@ -40,7 +42,7 @@ describe("Button", () => {
     const smuggled = { className: "evil", style: { color: "red" } };
     render(<Button {...smuggled}>Go</Button>);
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("dowel-btn");
+    expect(btn.className).toBeTruthy();
     expect(btn.className).not.toContain("evil");
     expect(btn.getAttribute("style")).toBeNull();
   });
@@ -74,20 +76,26 @@ describe("Button", () => {
     const el = screen.getByRole("button", { name: "Docs" });
     expect(el.tagName).toBe("A");
     expect(el.getAttribute("href")).toBe("/docs");
-    expect(el.className).toContain("dowel-btn");
+    expect(el.dataset.dowelComponent).toBe("button");
     // `type` is a MIME hint on anchors — it must not leak from button mode.
     expect(el.hasAttribute("type")).toBe(false);
   });
 
   it("renders a native <button> when nativeButton is unset", () => {
     render(<Button>Go</Button>);
-    expect(screen.getByRole("button").tagName).toBe("BUTTON");
+    const button = screen.getByRole("button");
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.getAttribute("type")).toBe("button");
   });
 
   it("renders in both themes", () => {
     const { light, dark } = renderBoth(<Button>Go</Button>);
-    expect(light.querySelector(".dowel-btn")).not.toBeNull();
-    expect(dark.querySelector(".dowel-btn")).not.toBeNull();
+    expect(
+      light.querySelector('[data-dowel-component="button"]'),
+    ).not.toBeNull();
+    expect(
+      dark.querySelector('[data-dowel-component="button"]'),
+    ).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {

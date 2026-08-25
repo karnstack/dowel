@@ -5,7 +5,7 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { Badge, IconButton, Kbd, ThemeProvider, Tooltip } from "dowel";
+import { IconButton, Kbd, ThemeProvider, Tooltip } from "dowel";
 import { useCallback, useEffect, useState } from "react";
 
 import {
@@ -16,7 +16,6 @@ import {
   SunIcon,
 } from "../components/icons";
 import { SidebarNav } from "../components/sidebar-nav";
-import { versionLabel } from "../lib/version";
 
 // The docs self-host Inter; dowel itself ships no typeface, it only names
 // "Inter Variable" first in --dowel-font.
@@ -64,11 +63,10 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "dowel — an opinionated React component library" },
+      { title: "dowel · React components for product interfaces" },
       {
         name: "description",
-        content:
-          "dowel is an opinionated React component library. One look, well made.",
+        content: "Compact, accessible React components for product interfaces.",
       },
     ],
     // Declared on the root route so every prerendered page carries them.
@@ -228,10 +226,7 @@ function RootDocument() {
                 <Link to="/" aria-label="Homepage" className="docs-brand">
                   <Wordmark />
                 </Link>
-                <Badge tone="accent">{versionLabel}</Badge>
-
                 <nav className="docs-header-nav" aria-label="Main">
-                  <Link to="/">Introduction</Link>
                   <Link to="/components">Components</Link>
                 </nav>
 

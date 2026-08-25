@@ -9,9 +9,9 @@ export const Route = createFileRoute("/components/")({
 function ComponentsIndex() {
   return (
     <DocsPage
-      eyebrow="Overview"
-      title="All components"
-      lead="Eight components, one look. Every one of them ships its own appearance and refuses className and style, so what you compose is behaviour and content."
+      eyebrow="Library"
+      title="Components"
+      lead="Ten components. Open one for live examples and API details."
     >
       <ComponentGrid />
     </DocsPage>

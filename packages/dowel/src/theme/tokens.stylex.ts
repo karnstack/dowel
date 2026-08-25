@@ -6,10 +6,10 @@ export const tokens = stylex.defineVars({
   "--dowel-font-mono":
     '"JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace',
 
-  "--dowel-bg-canvas": "#f7f7f8",
+  "--dowel-bg-canvas": "oklch(98.5% 0 none)",
   "--dowel-bg-surface-1": "#ffffff",
-  "--dowel-bg-surface-2": "#f4f4f5",
-  "--dowel-bg-surface-3": "#e4e4e7",
+  "--dowel-bg-surface-2": "oklch(96.7% 0.001 286.375)",
+  "--dowel-bg-surface-3": "oklch(92% 0.004 286.32)",
   "--dowel-bg-elevated": "#ffffff",
   "--dowel-bg-hover": "#0000000a",
   "--dowel-bg-active": "#00000010",
@@ -18,10 +18,10 @@ export const tokens = stylex.defineVars({
   "--dowel-border-default": "#00000014",
   "--dowel-border-strong": "#00000024",
 
-  "--dowel-text-primary": "#18181b",
-  "--dowel-text-secondary": "#52525b",
-  "--dowel-text-tertiary": "#71717a",
-  "--dowel-text-disabled": "#a1a1aa",
+  "--dowel-text-primary": "oklch(21% 0.006 285.885)",
+  "--dowel-text-secondary": "oklch(44.2% 0.017 285.786)",
+  "--dowel-text-tertiary": "oklch(55.2% 0.016 285.938)",
+  "--dowel-text-disabled": "oklch(70.5% 0.015 286.067)",
 
   "--dowel-accent": "#287d73",
   "--dowel-accent-hover": "#226c64",
@@ -38,10 +38,9 @@ export const tokens = stylex.defineVars({
 
   "--dowel-scrim": "#00000066",
   "--dowel-shadow-control": "0 1px 1px #0000000a, 0 1px 2px #0000000a",
-  "--dowel-shadow-popover":
-    "0 3px 8px #0000001f, 0 2px 5px #0000001f, 0 1px 1px #0000001f",
+  "--dowel-shadow-popover": "0 4px 12px -2px #09090b14, 0 1px 3px #09090b0f",
   "--dowel-shadow-modal":
-    "0 20px 64px #00000024, 0 8px 24px #0000001f, 0 2px 8px #0000001a, 0 1px 1px #0000001f",
+    "0 12px 32px -12px #09090b2e, 0 4px 12px -4px #09090b1f, 0 1px 2px #09090b14",
 
   "--dowel-radius-sm": "4px",
   "--dowel-radius-md": "8px",

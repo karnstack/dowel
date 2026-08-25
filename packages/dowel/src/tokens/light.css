@@ -3,22 +3,22 @@
 @layer dowel.tokens {
   :root {
     /* surfaces */
-    --dowel-bg-1: #f7f7f8;
-    --dowel-bg-2: #f4f4f5;
-    --dowel-bg-3: #e4e4e7;
-    --dowel-bg-4: #d4d4d8;
+    --dowel-bg-1: oklch(98.5% 0 none);
+    --dowel-bg-2: oklch(96.7% 0.001 286.375);
+    --dowel-bg-3: oklch(92% 0.004 286.32);
+    --dowel-bg-4: oklch(87.1% 0.006 286.286);
     --dowel-bg-elevated: #ffffff;
 
     /* borders */
-    --dowel-border-1: #e4e4e7;
-    --dowel-border-2: #d4d4d8;
-    --dowel-border-3: #a1a1aa;
+    --dowel-border-1: oklch(92% 0.004 286.32);
+    --dowel-border-2: oklch(87.1% 0.006 286.286);
+    --dowel-border-3: oklch(70.5% 0.015 286.067);
 
     /* text */
-    --dowel-text-1: #18181b;
-    --dowel-text-2: #52525b;
-    --dowel-text-3: #71717a;
-    --dowel-text-4: #a1a1aa;
+    --dowel-text-1: oklch(21% 0.006 285.885);
+    --dowel-text-2: oklch(44.2% 0.017 285.786);
+    --dowel-text-3: oklch(55.2% 0.016 285.938);
+    --dowel-text-4: oklch(70.5% 0.015 286.067);
 
     /* accent — teal, karnstack's house colour. Deliberately not Linear's 295
        indigo: hue 195 at a restrained chroma reads as ours, not as a borrowed
@@ -42,13 +42,10 @@
     --dowel-warning: lch(76% 78 82);
 
     /* elevation — exactly two tiers */
-    --dowel-shadow-popover:
-      0 3px 8px lch(0 0 0 / 0.08), 0 2px 5px lch(0 0 0 / 0.08),
-      0 1px 1px lch(0 0 0 / 0.08);
+    --dowel-shadow-popover: 0 4px 12px -2px #09090b14, 0 1px 3px #09090b0f;
     --dowel-shadow-modal:
-      0 4px 40px lch(0 0 0 / 0.06), 0 3px 20px lch(0 0 0 / 0.08),
-      0 3px 12px lch(0 0 0 / 0.08), 0 2px 8px lch(0 0 0 / 0.08),
-      0 1px 1px lch(0 0 0 / 0.08);
+      0 12px 32px -12px #09090b2e, 0 4px 12px -4px #09090b1f,
+      0 1px 2px #09090b14;
     --dowel-overlay: lch(0 0 0 / 0.4);
   }
 }

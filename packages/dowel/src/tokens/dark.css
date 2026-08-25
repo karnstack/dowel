@@ -4,20 +4,20 @@
 @layer dowel.tokens {
   .dowel-dark,
   [data-dowel-theme="dark"] {
-    --dowel-bg-1: lch(5.52% 0.4 var(--dowel-hue));
-    --dowel-bg-2: lch(7.32% 0.85 var(--dowel-hue));
-    --dowel-bg-3: lch(8.22% 1.3 var(--dowel-hue));
-    --dowel-bg-4: lch(9.345% 0.85 var(--dowel-hue));
-    --dowel-bg-elevated: lch(12.72% 0.85 var(--dowel-hue));
+    --dowel-bg-1: oklch(14.1% 0.005 285.823);
+    --dowel-bg-2: oklch(21% 0.006 285.885);
+    --dowel-bg-3: oklch(27.4% 0.006 286.033);
+    --dowel-bg-4: oklch(37% 0.013 285.805);
+    --dowel-bg-elevated: oklch(21% 0.006 285.885);
 
-    --dowel-border-1: lch(9.84% 1.48 var(--dowel-hue));
-    --dowel-border-2: lch(14.16% 1.48 var(--dowel-hue));
-    --dowel-border-3: lch(25.68% 1.93 var(--dowel-hue));
+    --dowel-border-1: oklch(21% 0.006 285.885);
+    --dowel-border-2: oklch(27.4% 0.006 286.033);
+    --dowel-border-3: oklch(37% 0.013 285.805);
 
-    --dowel-text-1: lch(100% 0 var(--dowel-hue));
-    --dowel-text-2: lch(90.451% 1.2 var(--dowel-hue));
-    --dowel-text-3: lch(61.803% 1.2 var(--dowel-hue));
-    --dowel-text-4: lch(36.975% 1.2 var(--dowel-hue));
+    --dowel-text-1: oklch(98.5% 0 none);
+    --dowel-text-2: oklch(70.5% 0.015 286.067);
+    --dowel-text-3: oklch(55.2% 0.016 285.938);
+    --dowel-text-4: oklch(44.2% 0.017 285.786);
 
     /* Same teal, lifted to sit on near-black surfaces: 7.71:1 against bg-1.
        Chroma tops out around here — lch(64% 40 195) and anything more
@@ -49,20 +49,20 @@
 
   @media (prefers-color-scheme: dark) {
     :root:not(.dowel-light):not([data-dowel-theme="light"]) {
-      --dowel-bg-1: lch(5.52% 0.4 var(--dowel-hue));
-      --dowel-bg-2: lch(7.32% 0.85 var(--dowel-hue));
-      --dowel-bg-3: lch(8.22% 1.3 var(--dowel-hue));
-      --dowel-bg-4: lch(9.345% 0.85 var(--dowel-hue));
-      --dowel-bg-elevated: lch(12.72% 0.85 var(--dowel-hue));
+      --dowel-bg-1: oklch(14.1% 0.005 285.823);
+      --dowel-bg-2: oklch(21% 0.006 285.885);
+      --dowel-bg-3: oklch(27.4% 0.006 286.033);
+      --dowel-bg-4: oklch(37% 0.013 285.805);
+      --dowel-bg-elevated: oklch(21% 0.006 285.885);
 
-      --dowel-border-1: lch(9.84% 1.48 var(--dowel-hue));
-      --dowel-border-2: lch(14.16% 1.48 var(--dowel-hue));
-      --dowel-border-3: lch(25.68% 1.93 var(--dowel-hue));
+      --dowel-border-1: oklch(21% 0.006 285.885);
+      --dowel-border-2: oklch(27.4% 0.006 286.033);
+      --dowel-border-3: oklch(37% 0.013 285.805);
 
-      --dowel-text-1: lch(100% 0 var(--dowel-hue));
-      --dowel-text-2: lch(90.451% 1.2 var(--dowel-hue));
-      --dowel-text-3: lch(61.803% 1.2 var(--dowel-hue));
-      --dowel-text-4: lch(36.975% 1.2 var(--dowel-hue));
+      --dowel-text-1: oklch(98.5% 0 none);
+      --dowel-text-2: oklch(70.5% 0.015 286.067);
+      --dowel-text-3: oklch(55.2% 0.016 285.938);
+      --dowel-text-4: oklch(44.2% 0.017 285.786);
 
       /* Same teal, lifted to sit on near-black surfaces: 7.71:1 against bg-1.
          Chroma tops out around here — lch(64% 40 195) and anything more

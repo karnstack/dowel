@@ -100,6 +100,25 @@ describe("PropertyPicker", () => {
     await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 
+  it("keeps one highlighted row when hovering across option groups", async () => {
+    render(<Example />);
+    await userEvent.click(
+      screen.getByRole("combobox", { name: "Status: Triage" }),
+    );
+    const triage = await screen.findByRole("option", { name: /Triage/ });
+    const done = screen.getByRole("option", { name: /Done/ });
+
+    await userEvent.hover(done);
+
+    expect(done.hasAttribute("data-highlighted")).toBe(true);
+    expect(triage.hasAttribute("data-highlighted")).toBe(false);
+    expect(
+      document.querySelectorAll(
+        '[data-dowel-component="property-picker-option"][data-highlighted]',
+      ),
+    ).toHaveLength(1);
+  });
+
   it("clears an optional property", async () => {
     render(<Example />);
     await userEvent.click(

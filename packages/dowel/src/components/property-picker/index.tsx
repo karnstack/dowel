@@ -170,11 +170,10 @@ export function PropertyPicker({
                     </BaseCombobox.GroupLabel>
                   ) : null}
                   <BaseCombobox.Collection>
-                    {(option: PropertyPickerOption, index: number) => (
+                    {(option: PropertyPickerOption) => (
                       <BaseCombobox.Item
                         key={option.value}
                         value={option}
-                        index={index}
                         disabled={option.disabled}
                         {...sx(styles.list.item)}
                         data-dowel-component="property-picker-option"

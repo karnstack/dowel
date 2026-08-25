@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Composer, PropertyPill } from "dowel";
+import { Button, Composer, PropertyPill } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -30,7 +30,7 @@ function ComposerDocs() {
         </p>
         <Demo
           layout="start"
-          code={`import { Button, Composer, PropertyPill } from "dowel";
+          code={`import { Button, Composer, PropertyPill } from "@karnstack/dowel";
 
 <Composer.Root aria-label="Create work item" onSubmit={createItem}>
   <Composer.Header>

@@ -5,14 +5,14 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import { useHotkeys } from "@tanstack/react-hotkeys";
-import { ThemeProvider, Tooltip } from "dowel";
+import { ThemeProvider, Tooltip } from "@karnstack/dowel";
 import { useCallback, useMemo, useState } from "react";
 
 import { CommandSearch } from "../components/command-search";
 import { DocsContext } from "../components/docs-context";
 
 import "@fontsource-variable/host-grotesk";
-import "dowel/dowel.css";
+import "@karnstack/dowel/dowel.css";
 import "../docs.css";
 
 function isOverlayOpen() {

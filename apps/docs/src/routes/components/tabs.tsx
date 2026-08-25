@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Tabs } from "dowel";
+import { Tabs } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -29,7 +29,7 @@ function TabsDocs() {
         </p>
         <Demo
           layout="stack"
-          code={`import { Tabs } from "dowel";
+          code={`import { Tabs } from "@karnstack/dowel";
 
 <Tabs.Root defaultValue="assigned">
   <Tabs.List aria-label="Issue views">

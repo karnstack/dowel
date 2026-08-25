@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IconButton, Tooltip } from "dowel";
+import { IconButton, Tooltip } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -30,7 +30,7 @@ function TooltipDocs() {
         </p>
         <Demo
           layout="start"
-          code={`import { IconButton, Tooltip } from "dowel";
+          code={`import { IconButton, Tooltip } from "@karnstack/dowel";
 
 <Tooltip.Root>
   <Tooltip.Trigger

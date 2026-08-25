@@ -47,7 +47,7 @@ jobs:
       - name: Build the library then the docs
         if: steps.token.outputs.present == 'true'
         run: |
-          pnpm --filter dowel build
+          pnpm --filter @karnstack/dowel build
           pnpm --filter @dowel/docs build
 
       - name: Deploy
@@ -59,7 +59,7 @@ jobs:
           # The action picks a package manager by looking for a lockfile in
           # workingDirectory. apps/docs has none (the lockfile is at the repo
           # root), so it falls back to npm and npm chokes on the
-          # "dowel": "workspace:*" dependency. Say pnpm explicitly.
+          # "@karnstack/dowel": "workspace:*" dependency. Say pnpm explicitly.
           packageManager: pnpm
           # The action's bundled default predates wrangler v4 and cannot read
           # an assets-only config ("Missing entry-point"). Pin the major that

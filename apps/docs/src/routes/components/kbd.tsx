@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Kbd } from "dowel";
+import { Kbd } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -27,7 +27,7 @@ function KbdDocs() {
           baseline.
         </p>
         <Demo
-          code={`import { Kbd } from "dowel";
+          code={`import { Kbd } from "@karnstack/dowel";
 
 <Kbd keys={["Meta", "K"]} />
 <Kbd keys={["Ctrl", "Shift", "P"]} />

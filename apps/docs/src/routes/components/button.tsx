@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "dowel";
+import { Button } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -30,7 +30,7 @@ function ButtonDocs() {
           for an action that destroys something.
         </p>
         <Demo
-          code={`import { Button } from "dowel";
+          code={`import { Button } from "@karnstack/dowel";
 
 <Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>

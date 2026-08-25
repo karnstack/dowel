@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Menu } from "dowel";
+import { Button, Menu } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -29,7 +29,7 @@ function MenuDocs() {
         </p>
         <Demo
           layout="start"
-          code={`import { Button, Menu } from "dowel";
+          code={`import { Button, Menu } from "@karnstack/dowel";
 
 <Menu.Root>
   <Menu.Trigger render={<Button>Open menu</Button>} />

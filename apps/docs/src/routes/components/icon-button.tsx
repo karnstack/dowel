@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IconButton, Tooltip } from "dowel";
+import { IconButton, Tooltip } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -34,7 +34,7 @@ function IconButtonDocs() {
           There is no way to render one of these without a name.
         </p>
         <Demo
-          code={`import { IconButton } from "dowel";
+          code={`import { IconButton } from "@karnstack/dowel";
 
 <IconButton label="Close">
   <CloseIcon />

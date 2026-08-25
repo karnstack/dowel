@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge } from "dowel";
+import { Badge } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -26,7 +26,7 @@ function BadgeDocs() {
           needs to scan quickly in a dense list.
         </p>
         <Demo
-          code={`import { Badge } from "dowel";
+          code={`import { Badge } from "@karnstack/dowel";
 
 <Badge>Neutral</Badge>
 <Badge dot tone="accent">Beta</Badge>

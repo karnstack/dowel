@@ -9,14 +9,14 @@ Styled with StyleX. Built on Base UI and TanStack Table. Light and dark included
 ## Install
 
 ```bash
-pnpm add dowel
+pnpm add @karnstack/dowel
 ```
 
 ## Use
 
 ```tsx
-import "dowel/dowel.css";
-import { Button, ThemeProvider } from "dowel";
+import "@karnstack/dowel/dowel.css";
+import { Button, ThemeProvider } from "@karnstack/dowel";
 
 <ThemeProvider theme="system">
   <Button variant="primary">Create</Button>

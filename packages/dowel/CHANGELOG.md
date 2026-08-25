@@ -1,4 +1,4 @@
-# dowel
+# @karnstack/dowel
 
 ## 0.0.1
 

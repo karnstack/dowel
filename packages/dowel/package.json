@@ -1,5 +1,5 @@
 {
-  "name": "dowel",
+  "name": "@karnstack/dowel",
   "version": "0.0.1",
   "description": "An opinionated React component library. One look, well made.",
   "license": "MIT",

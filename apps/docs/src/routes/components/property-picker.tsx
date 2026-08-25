@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PropertyPicker } from "dowel";
+import { PropertyPicker } from "@karnstack/dowel";
 import { useState } from "react";
 
 import { Demo } from "../../components/demo";

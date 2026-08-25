@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, DataTable, createDataTableColumnHelper } from "dowel";
+import {
+  Badge,
+  DataTable,
+  createDataTableColumnHelper,
+} from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -119,7 +123,7 @@ function DataTableDocs() {
         </p>
         <Demo
           layout="start"
-          code={`import { DataTable, createDataTableColumnHelper } from "dowel";
+          code={`import { DataTable, createDataTableColumnHelper } from "@karnstack/dowel";
 
 const column = createDataTableColumnHelper<Issue>();
 const columns = column.columns([

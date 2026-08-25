@@ -15,11 +15,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "version-packages": "changeset version",
-    "release": "pnpm --filter dowel publish --access public --no-git-checks"
+    "release": "changeset publish"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.2",
-    "@changesets/cli": "^2.31.1",
+    "@changesets/changelog-github": "^1.0.0",
+    "@changesets/cli": "^3.0.1",
     "prettier": "3.6.2",
     "typescript": "5.9.3"
   }

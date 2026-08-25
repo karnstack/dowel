@@ -1,5 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Composer, Dialog, Field, Input, PropertyPill } from "dowel";
+import {
+  Button,
+  Composer,
+  Dialog,
+  Field,
+  Input,
+  PropertyPill,
+} from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -29,7 +36,7 @@ function DialogDocs() {
         </p>
         <Demo
           layout="start"
-          code={`import { Button, Dialog } from "dowel";
+          code={`import { Button, Dialog } from "@karnstack/dowel";
 
 <Dialog.Root>
   <Dialog.Trigger render={<Button>Delete workspace</Button>} />

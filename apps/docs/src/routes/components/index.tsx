@@ -19,7 +19,7 @@ function ComponentsIndex() {
 
         <div className="docs-install-command" aria-label="Install dowel">
           <span aria-hidden="true">$</span>
-          <code>pnpm add dowel</code>
+          <code>pnpm add @karnstack/dowel</code>
         </div>
       </header>
 

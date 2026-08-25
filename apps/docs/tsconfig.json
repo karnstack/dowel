@@ -8,7 +8,7 @@
     // and the gate stops depending on build order. Vite still resolves the
     // workspace link through the package's exports map at build time.
     "paths": {
-      "dowel": ["../../packages/dowel/src/index.ts"]
+      "@karnstack/dowel": ["../../packages/dowel/src/index.ts"]
     }
   },
   "include": ["src", "vite.config.ts"]

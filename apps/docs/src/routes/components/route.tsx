@@ -4,7 +4,7 @@ import {
   createFileRoute,
   useRouterState,
 } from "@tanstack/react-router";
-import { IconButton, Sidebar, Tooltip } from "dowel";
+import { IconButton, Sidebar, Tooltip } from "@karnstack/dowel";
 
 import {
   SearchTrigger,

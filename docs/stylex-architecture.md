@@ -41,7 +41,7 @@ StyleX compile + TypeScript build
             +--> dist/dowel.css      all extracted atomic rules
 ```
 
-The consumer imports `dowel` and `dowel/dowel.css`. No Dowel `.stylex.ts`
+The consumer imports `@karnstack/dowel` and `@karnstack/dowel/dowel.css`. No Dowel `.stylex.ts`
 source crosses the package boundary.
 
 ## Compiler configuration

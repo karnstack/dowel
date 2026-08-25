@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "dowel";
+import { IconButton, Tooltip } from "@karnstack/dowel";
 import { useEffect, useState } from "react";
 
 import { tokenize } from "../lib/highlight";

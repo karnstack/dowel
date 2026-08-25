@@ -1,4 +1,4 @@
-import { Dialog, Input, Kbd } from "dowel";
+import { Dialog, Input, Kbd } from "@karnstack/dowel";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 

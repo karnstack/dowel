@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Sidebar } from "dowel";
+import { Sidebar } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -63,7 +63,7 @@ function SidebarDocs() {
         </p>
         <Demo
           layout="start"
-          code={`import { Sidebar } from "dowel";
+          code={`import { Sidebar } from "@karnstack/dowel";
 
 <Sidebar.Root defaultWidth={232} minWidth={192} maxWidth={320}>
   <Sidebar.Panel aria-label="Workspace navigation">

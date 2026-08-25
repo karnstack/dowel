@@ -9,7 +9,7 @@ const DIST = resolve(import.meta.dirname, "..", "dist", "dowel.css");
 // backstop for anyone invoking vitest directly and bypassing the hook.
 const NOT_BUILT =
   `${DIST} is missing. This suite asserts against build output.\n` +
-  `Run \`pnpm --filter dowel build\` first (\`pnpm --filter dowel test\` does it for you).`;
+  `Run \`pnpm --filter @karnstack/dowel build\` first (\`pnpm --filter @karnstack/dowel test\` does it for you).`;
 
 function readDist(): string {
   if (!existsSync(DIST)) throw new Error(NOT_BUILT);

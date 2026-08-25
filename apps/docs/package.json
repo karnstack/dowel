@@ -15,7 +15,7 @@
     "@tanstack/react-hotkeys": "0.10.0",
     "@tanstack/react-router": "^1.170.23",
     "@tanstack/react-start": "^1.168.40",
-    "dowel": "workspace:*",
+    "@karnstack/dowel": "workspace:*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

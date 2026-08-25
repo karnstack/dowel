@@ -19,7 +19,7 @@ A dowel is the small precision-turned pin that joins two pieces of wood:
 identical, unglamorous, load-bearing. That is what a component is.
 
 - **repo:** `github.com/karnstack/dowel`
-- **npm:** `dowel` (unscoped)
+- **npm:** `@karnstack/dowel`
 - **docs:** `dowel.sh`
 - **licence:** MIT
 
@@ -193,7 +193,7 @@ and minifies into a single `dist/dowel.css` using cascade layers:
 @layer dowel.tokens, dowel.base, dowel.components;
 ```
 
-Consumers import `dowel/dowel.css` once. Layers mean their own styles win
+Consumers import `@karnstack/dowel/dowel.css` once. Layers mean their own styles win
 without specificity fights.
 
 **Behaviour.** Every component Base UI covers wraps it, giving one uniform
@@ -341,7 +341,7 @@ copies and a rotation appears to work while doing nothing.
 Token scopes:
 
 - `NPM_TOKEN` — npm **granular automation** token, write access to the
-  `dowel`, `@karnstack/*` packages
+  `@karnstack/dowel` package
 - `CLOUDFLARE_API_TOKEN` — **Workers Scripts: Edit** on the karnstack account
 
 Setting org secrets requires `admin:org` on the `gh` token; the default

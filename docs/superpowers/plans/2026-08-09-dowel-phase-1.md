@@ -6,11 +6,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship `dowel@0.1.0` to npm with a working token system, a compiled-CSS build pipeline, release automation, a live docs site at dowel.sh, and 8 components proving the pattern end-to-end.
+**Goal:** Ship `@karnstack/dowel@0.1.0` to npm with a working token system, a compiled-CSS build pipeline, release automation, a live docs site at dowel.sh, and 8 components proving the pattern end-to-end.
 
 **Architecture:** pnpm workspace with one publishable package (`packages/dowel`) and one docs app (`apps/docs`). Components are React wrappers over `@base-ui/react` primitives, styled by hand-authored plain CSS with `dowel-` prefixed classes. Lightning CSS bundles per-component CSS into a single `dist/dowel.css`; tsdown emits ESM + types. Variants are expressed as `data-*` attributes, never className props.
 
-**Tech Stack:** React 19.2, `@base-ui/react` 1.7, TypeScript 5.9.3, Lightning CSS 1.33, tsdown 0.22, vitest 4.1, changesets 2.31, TanStack Start 1.168, Cloudflare Workers.
+**Tech Stack:** React 19.2, `@base-ui/react` 1.7, TypeScript 5.9.3, Lightning CSS 1.33, tsdown 0.22, vitest 4.1, Changesets 3.0, TanStack Start 1.168, Cloudflare Workers.
 
 ## Global Constraints
 
@@ -38,7 +38,7 @@
 
 ```
 packages/dowel/
-├── package.json                    name "dowel", exports . and ./dowel.css
+├── package.json                    name "@karnstack/dowel", exports . and ./dowel.css
 ├── tsconfig.json
 ├── tsdown.config.ts                ESM + d.ts
 ├── scripts/build-css.mjs           Lightning CSS bundle+minify
@@ -83,7 +83,7 @@ apps/docs/                          TanStack Start, prerendered → dowel.sh
 **Interfaces:**
 
 - Consumes: nothing (first task)
-- Produces: workspace where `pnpm install`, `pnpm -r typecheck`, `pnpm format:check` all run clean. Package name `dowel`. Every later task runs commands from repo root.
+- Produces: workspace where `pnpm install`, `pnpm -r typecheck`, `pnpm format:check` all run clean. Package name `@karnstack/dowel`. Every later task runs commands from repo root.
 
 - [ ] **Step 1: Create the workspace manifest**
 
@@ -204,7 +204,7 @@ and add `"LICENSE"` to the package's `files` array alongside `"dist"`.
 
 ```json
 {
-  "name": "dowel",
+  "name": "@karnstack/dowel",
   "version": "0.0.0",
   "description": "An opinionated React component library. One look, well made.",
   "license": "MIT",
@@ -360,7 +360,7 @@ describe("token layer", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test tokens`
+Run: `pnpm --filter @karnstack/dowel test tokens`
 Expected: FAIL — `ENOENT` on `src/index.css`.
 
 - [ ] **Step 3: Write scale.css**
@@ -635,7 +635,7 @@ pnpm add @fontsource-variable/inter
 
 ```ts
 import "@fontsource-variable/inter";
-import "dowel/dowel.css";
+import "@karnstack/dowel/dowel.css";
 ```
 
 Inter is OFL-licensed. dowel does not bundle it, so you control whether it is
@@ -670,7 +670,7 @@ export {};
 
 - [ ] **Step 9: Run the tests to verify they pass**
 
-Run: `pnpm --filter dowel test tokens`
+Run: `pnpm --filter @karnstack/dowel test tokens`
 Expected: PASS, 4 tests.
 
 - [ ] **Step 10: Commit**
@@ -694,7 +694,7 @@ git commit -m "Add the dowel token layer with light and dark parity tests"
 **Interfaces:**
 
 - Consumes: Task 2's `src/index.css` and token names.
-- Produces: `pnpm --filter dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Build order is `tsdown` then `build-css.mjs` — never the reverse. Produces no class-name helper: components in Tasks 4+ write `className="dowel-x"` as a plain string literal.
+- Produces: `pnpm --filter @karnstack/dowel build` emitting `dist/index.js`, `dist/index.d.ts`, `dist/dowel.css`. Build order is `tsdown` then `build-css.mjs` — never the reverse. Produces no class-name helper: components in Tasks 4+ write `className="dowel-x"` as a plain string literal.
 
 - [ ] **Step 1: Write the failing build-contract test**
 
@@ -709,7 +709,7 @@ const DIST = resolve(import.meta.dirname, "..", "dist", "dowel.css");
 
 describe("dowel.css build contract", () => {
   it("has been built", () => {
-    // Run `pnpm --filter dowel build` before this suite.
+    // Run `pnpm --filter @karnstack/dowel build` before this suite.
     expect(existsSync(DIST)).toBe(true);
   });
 
@@ -738,7 +738,7 @@ describe("dowel.css build contract", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test css-contract`
+Run: `pnpm --filter @karnstack/dowel test css-contract`
 Expected: FAIL — `dist/dowel.css` does not exist.
 
 - [ ] **Step 3: Write the CSS build script**
@@ -782,7 +782,7 @@ console.log(`built dist/dowel.css (${(code.length / 1024).toFixed(1)} kB)`);
 - [ ] **Step 4: Add browserslist to devDependencies**
 
 ```bash
-pnpm --filter dowel add -D browserslist@^4.26.0
+pnpm --filter @karnstack/dowel add -D browserslist@^4.26.0
 ```
 
 - [ ] **Step 5: Write tsdown.config.ts**
@@ -835,8 +835,8 @@ export {};
 - [ ] **Step 8: Build and run the contract test**
 
 ```bash
-pnpm --filter dowel build
-pnpm --filter dowel test css-contract
+pnpm --filter @karnstack/dowel build
+pnpm --filter @karnstack/dowel test css-contract
 ```
 
 Expected: build prints a kB size; all 4 contract tests PASS.
@@ -995,7 +995,7 @@ describe("Button", () => {
 
 - [ ] **Step 3: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test button`
+Run: `pnpm --filter @karnstack/dowel test button`
 Expected: FAIL — cannot resolve `./index`.
 
 - [ ] **Step 4: Write the Button component**
@@ -1142,14 +1142,14 @@ Append to `packages/dowel/src/index.css` (after the `dowel.base` block):
 
 - [ ] **Step 7: Run the tests to verify they pass**
 
-Run: `pnpm --filter dowel test button`
+Run: `pnpm --filter @karnstack/dowel test button`
 Expected: PASS, 9 tests.
 
 - [ ] **Step 8: Rebuild and confirm the contract still holds**
 
 ```bash
-pnpm --filter dowel build
-pnpm --filter dowel test
+pnpm --filter @karnstack/dowel build
+pnpm --filter @karnstack/dowel test
 ```
 
 Expected: all suites PASS. If `css-contract` reports a missing token, the button CSS referenced a name absent from Task 2 — fix the reference, do not add an ad-hoc token.
@@ -1241,7 +1241,7 @@ describe("IconButton", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test icon-button`
+Run: `pnpm --filter @karnstack/dowel test icon-button`
 Expected: FAIL — cannot resolve `./index`.
 
 - [ ] **Step 3: Write the component**
@@ -1353,8 +1353,8 @@ Append to `src/index.css`:
 - [ ] **Step 6: Run tests and build**
 
 ```bash
-pnpm --filter dowel test icon-button
-pnpm --filter dowel build && pnpm --filter dowel test
+pnpm --filter @karnstack/dowel test icon-button
+pnpm --filter @karnstack/dowel build && pnpm --filter @karnstack/dowel test
 ```
 
 Expected: PASS.
@@ -1464,7 +1464,7 @@ describe("Kbd", () => {
 
 - [ ] **Step 2: Run both to verify they fail**
 
-Run: `pnpm --filter dowel test badge kbd`
+Run: `pnpm --filter @karnstack/dowel test badge kbd`
 Expected: FAIL — modules not found.
 
 - [ ] **Step 3: Write Badge**
@@ -1614,8 +1614,8 @@ Append to `src/index.css`:
 - [ ] **Step 6: Run tests and build**
 
 ```bash
-pnpm --filter dowel test badge kbd
-pnpm --filter dowel build && pnpm --filter dowel test
+pnpm --filter @karnstack/dowel test badge kbd
+pnpm --filter @karnstack/dowel build && pnpm --filter @karnstack/dowel test
 ```
 
 Expected: PASS.
@@ -1734,7 +1734,7 @@ describe("Field", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test input`
+Run: `pnpm --filter @karnstack/dowel test input`
 Expected: FAIL — cannot resolve `./index`.
 
 **If the two `Field` association tests still fail after Step 3:** Base UI
@@ -1925,8 +1925,8 @@ Append to `src/index.css`:
 - [ ] **Step 6: Run tests and build**
 
 ```bash
-pnpm --filter dowel test input
-pnpm --filter dowel build && pnpm --filter dowel test
+pnpm --filter @karnstack/dowel test input
+pnpm --filter @karnstack/dowel build && pnpm --filter @karnstack/dowel test
 ```
 
 Expected: PASS.
@@ -2016,7 +2016,7 @@ describe("Dialog", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test dialog`
+Run: `pnpm --filter @karnstack/dowel test dialog`
 Expected: FAIL — cannot resolve `./index`.
 
 - [ ] **Step 3: Write the component**
@@ -2142,8 +2142,8 @@ Append to `src/index.css`:
 - [ ] **Step 6: Run tests and build**
 
 ```bash
-pnpm --filter dowel test dialog
-pnpm --filter dowel build && pnpm --filter dowel test
+pnpm --filter @karnstack/dowel test dialog
+pnpm --filter @karnstack/dowel build && pnpm --filter @karnstack/dowel test
 ```
 
 Expected: PASS.
@@ -2243,7 +2243,7 @@ describe("Menu", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test menu`
+Run: `pnpm --filter @karnstack/dowel test menu`
 Expected: FAIL — cannot resolve `./index`.
 
 - [ ] **Step 3: Write the component**
@@ -2384,8 +2384,8 @@ Append to `src/index.css`:
 - [ ] **Step 6: Run tests and build**
 
 ```bash
-pnpm --filter dowel test menu
-pnpm --filter dowel build && pnpm --filter dowel test
+pnpm --filter @karnstack/dowel test menu
+pnpm --filter @karnstack/dowel build && pnpm --filter @karnstack/dowel test
 ```
 
 Expected: PASS.
@@ -2474,7 +2474,7 @@ describe("Tooltip", () => {
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pnpm --filter dowel test tooltip`
+Run: `pnpm --filter @karnstack/dowel test tooltip`
 Expected: FAIL — cannot resolve `./index`.
 
 - [ ] **Step 3: Write the component**
@@ -2557,8 +2557,8 @@ Append to `src/index.css`:
 - [ ] **Step 6: Run the full suite and build**
 
 ```bash
-pnpm --filter dowel build
-pnpm --filter dowel test
+pnpm --filter @karnstack/dowel build
+pnpm --filter @karnstack/dowel test
 pnpm typecheck
 ```
 
@@ -2684,12 +2684,12 @@ Expected: the `CI / build` check passes.
 **Interfaces:**
 
 - Consumes: the workflow named `CI` from Task 11; the org secret `NPM_TOKEN`.
-- Produces: merging a PR that contains a changeset opens a "Version Packages" PR; merging that publishes `dowel` to npm.
+- Produces: merging a PR that contains a changeset opens a "Version Packages" PR; merging that publishes `@karnstack/dowel` to npm.
 
 - [ ] **Step 1: Install changesets**
 
 ```bash
-pnpm add -Dw @changesets/cli@^2.31.1
+pnpm add -Dw @changesets/cli@3.0.1
 pnpm exec changeset init
 ```
 
@@ -2712,7 +2712,7 @@ pnpm exec changeset init
 ```
 
 ```bash
-pnpm add -Dw @changesets/changelog-github@^0.5.1
+pnpm add -Dw @changesets/changelog-github@1.0.0
 ```
 
 - [ ] **Step 3: Write the release workflow**
@@ -2763,14 +2763,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      - uses: changesets/action@v1
+      - uses: changesets/action@v2.1.1
         with:
-          version: pnpm exec changeset version
-          publish: pnpm exec changeset publish
-          commit: "chore: version packages"
-          title: "chore: version packages"
+          version-script: pnpm exec changeset version
+          publish-script: pnpm exec changeset publish
+          commit-message: "maint: version packages"
+          pr-title: "maint: version packages"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           # changesets/action looks for NPM_TOKEN specifically; without it the
           # action falls back to OIDC trusted publishing. Set both so npm auth
@@ -2786,7 +2786,7 @@ Set `packages/dowel/package.json` `"version"` to `"0.0.0"` (already done in Task
 pnpm exec changeset
 ```
 
-Choose `dowel`, select **minor**, and use the summary:
+Choose `@karnstack/dowel`, select **minor**, and use the summary:
 `First release: token system, build pipeline, and eight components.`
 
 This produces `0.1.0` on publish — matching the spec's "0.x for months".
@@ -2804,12 +2804,12 @@ gh pr checks --watch
 - [ ] **Step 6: After merge, verify the Version Packages PR appears**
 
 Run: `gh pr list`
-Expected: a `chore: version packages` PR exists. Merging it publishes `dowel@0.1.0`.
+Expected: a `maint: version packages` PR exists. Merging it publishes `@karnstack/dowel@0.1.0`.
 
 **Verification after that merge:**
 
 ```bash
-sleep 60 && curl -s https://registry.npmjs.org/dowel | python3 -c "import sys,json;print(json.load(sys.stdin)['dist-tags'])"
+sleep 60 && curl -s https://registry.npmjs.org/@karnstack%2Fdowel | python3 -c "import sys,json;print(json.load(sys.stdin)['dist-tags'])"
 ```
 
 Expected: `{"latest": "0.1.0"}`.
@@ -2826,7 +2826,7 @@ Expected: `{"latest": "0.1.0"}`.
 
 **Interfaces:**
 
-- Consumes: the built `dowel` package via workspace protocol.
+- Consumes: the built `@karnstack/dowel` package via workspace protocol.
 - Produces: a prerendered static site in `apps/docs/dist` ready for Task 14's deploy.
 
 - [ ] **Step 1: Scaffold the app package**
@@ -2848,7 +2848,7 @@ Expected: `{"latest": "0.1.0"}`.
     "@fontsource-variable/inter": "^5.3.0",
     "@tanstack/react-router": "^1.170.23",
     "@tanstack/react-start": "^1.168.40",
-    "dowel": "workspace:*",
+    "@karnstack/dowel": "workspace:*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -2887,10 +2887,10 @@ export default defineConfig({
 
 ```tsx
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { Tooltip } from "dowel";
+import { Tooltip } from "@karnstack/dowel";
 // The docs self-host Inter; dowel itself ships no typeface.
 import "@fontsource-variable/inter";
-import "dowel/dowel.css";
+import "@karnstack/dowel/dowel.css";
 
 export const Route = createRootRoute({
   component: () => (
@@ -2910,7 +2910,7 @@ export const Route = createRootRoute({
 
 ```tsx
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Kbd } from "dowel";
+import { Badge, Button, Kbd } from "@karnstack/dowel";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -2938,7 +2938,7 @@ function Home() {
 
 ```tsx
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "dowel";
+import { Button } from "@karnstack/dowel";
 
 export const Route = createFileRoute("/components/button")({
   component: ButtonDocs,
@@ -2964,7 +2964,7 @@ function ButtonDocs() {
 - [ ] **Step 6: Build and verify prerendering produced HTML**
 
 ```bash
-pnpm --filter dowel build
+pnpm --filter @karnstack/dowel build
 pnpm --filter @dowel/docs build
 test -f apps/docs/dist/index.html && echo "prerender OK"
 ```
@@ -3070,7 +3070,7 @@ jobs:
       - name: Build the library then the docs
         if: steps.token.outputs.present == 'true'
         run: |
-          pnpm --filter dowel build
+          pnpm --filter @karnstack/dowel build
           pnpm --filter @dowel/docs build
 
       - name: Deploy
@@ -3111,19 +3111,19 @@ before debugging.
 - [ ] **Step 5: Final phase-1 verification**
 
 ```bash
-curl -s https://registry.npmjs.org/dowel | python3 -c "import sys,json;print(json.load(sys.stdin)['dist-tags'])"
+curl -s https://registry.npmjs.org/@karnstack%2Fdowel | python3 -c "import sys,json;print(json.load(sys.stdin)['dist-tags'])"
 curl -sS -o /dev/null -w "dowel.sh %{http_code}\n" https://dowel.sh
 gh run list --limit 5
 ```
 
-Expected: `dowel@0.1.0` on npm, `dowel.sh 200`, recent runs green.
+Expected: `@karnstack/dowel@0.1.0` on npm, `dowel.sh 200`, recent runs green.
 
 ---
 
 ## Post-phase cleanup (do this only after a green release run)
 
 The org secrets now shadow-conflict with repo-level copies in three sibling
-repos. Once `dowel`'s release workflow has published successfully — proving the
+repos. Once `@karnstack/dowel`'s release workflow has published successfully — proving the
 org `NPM_TOKEN` works — delete the duplicates so future rotations actually take
 effect:
 

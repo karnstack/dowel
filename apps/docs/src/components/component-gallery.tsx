@@ -18,7 +18,7 @@ import {
   Textarea,
   Tooltip,
   createDataTableColumnHelper,
-} from "dowel";
+} from "@karnstack/dowel";
 import type { ReactNode } from "react";
 
 import { ArrowRightIcon, CheckIcon, CopyIcon, MenuIcon } from "./icons";

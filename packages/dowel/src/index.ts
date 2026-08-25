@@ -1,6 +1,6 @@
-// dowel's public surface. Everything importable from "dowel" is listed here;
+// dowel's public surface. Everything importable from "@karnstack/dowel" is listed here;
 // anything not exported below is internal and may change without a major bump.
-// The stylesheet is a separate entry point: import "dowel/dowel.css" once.
+// The stylesheet is a separate entry point: import "@karnstack/dowel/dowel.css" once.
 import "./index.css";
 
 export { ThemeProvider } from "./theme/theme-provider";

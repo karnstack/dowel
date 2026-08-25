@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, Input, Textarea } from "dowel";
+import { Field, Input, Textarea } from "@karnstack/dowel";
 
 import { Demo } from "../../components/demo";
 import { DocsPage, Section } from "../../components/docs-page";
@@ -32,7 +32,7 @@ function InputDocs() {
         </p>
         <Demo
           layout="stack"
-          code={`import { Input } from "dowel";
+          code={`import { Input } from "@karnstack/dowel";
 
 <Input name="compact-search" size="sm" placeholder="Search components" />
 <Input name="search" placeholder="Search components" />
@@ -128,7 +128,7 @@ function InputDocs() {
         </p>
         <Demo
           layout="stack"
-          code={`import { Field, Input } from "dowel";
+          code={`import { Field, Input } from "@karnstack/dowel";
 
 <Field.Root>
   <Field.Label>Workspace name</Field.Label>

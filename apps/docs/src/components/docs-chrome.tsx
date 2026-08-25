@@ -1,4 +1,4 @@
-import { IconButton, Kbd, Tooltip } from "dowel";
+import { IconButton, Kbd, Tooltip } from "@karnstack/dowel";
 
 import type { DocsTheme } from "./docs-context";
 import { MoonIcon, SearchIcon, SunIcon } from "./icons";

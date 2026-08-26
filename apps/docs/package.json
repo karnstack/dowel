@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "agent-docs": "node scripts/generate-agent-docs.mjs",
+    "predev": "pnpm agent-docs",
     "dev": "vite dev",
+    "prebuild": "pnpm agent-docs",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "echo \"browser accessibility tests run with pnpm test:a11y\" && exit 0",

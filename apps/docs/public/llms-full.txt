@@ -1,0 +1,570 @@
+# Dowel complete documentation
+
+> Dowel 0.2.0 is an opinionated React component library for compact, accessible product interfaces.
+
+## Installation
+
+```sh
+pnpm add @karnstack/dowel
+```
+
+```tsx
+import "@karnstack/dowel/dowel.css";
+```
+
+## Conventions
+
+- Import public components and types from `@karnstack/dowel`.
+- Wrap the application in `ThemeProvider` when selecting light, dark, or system themes explicitly.
+- Dowel controls own their appearance. Prefer documented props over consumer class or style overrides.
+- Icon-only controls require an accessible `label`.
+
+## Accordion
+
+> A keyboard-accessible group of animated disclosure panels.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/accordion)
+- [Markdown documentation](https://dowel.sh/components/accordion.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Alert Dialog
+
+> A focused confirmation modal for consequential actions.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/alert-dialog)
+- [Markdown documentation](https://dowel.sh/components/alert-dialog.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Avatar
+
+> An image or initials fallback with shape, size, and presence.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/avatar)
+- [Markdown documentation](https://dowel.sh/components/avatar.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Badge
+
+> A compact status or metadata pill in five tones.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/badge)
+- [Markdown documentation](https://dowel.sh/components/badge.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Breadcrumbs
+
+> A compact location trail with automatic middle-item elision.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/breadcrumbs)
+- [Markdown documentation](https://dowel.sh/components/breadcrumbs.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Button
+
+> The default action control. Five hierarchy levels, two sizes.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/button)
+- [Markdown documentation](https://dowel.sh/components/button.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Calendar & Date Picker
+
+> An internationalized month grid and segmented date field.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/calendar)
+- [Markdown documentation](https://dowel.sh/components/calendar.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Callout
+
+> Persistent contextual guidance with optional actions and tone.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/callout)
+- [Markdown documentation](https://dowel.sh/components/callout.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Checkbox
+
+> Checked, unchecked, and mixed selection with native form values.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/checkbox)
+- [Markdown documentation](https://dowel.sh/components/checkbox.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Collapsible
+
+> An animated disclosure for one optional content region.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/collapsible)
+- [Markdown documentation](https://dowel.sh/components/collapsible.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Combobox
+
+> A filterable single-choice field for larger collections.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/combobox)
+- [Markdown documentation](https://dowel.sh/components/combobox.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Command Menu
+
+> A modal search surface for grouped application commands.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/command-menu)
+- [Markdown documentation](https://dowel.sh/components/command-menu.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Collection Controls
+
+> Filters, view options, row actions, and bulk selection controls.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/collection-controls)
+- [Markdown documentation](https://dowel.sh/components/collection-controls.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Composer
+
+> A borderless creation shell with metadata and action regions.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/composer)
+- [Markdown documentation](https://dowel.sh/components/composer.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Context Menu
+
+> A pointer-positioned menu for actions on a target surface.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/context-menu)
+- [Markdown documentation](https://dowel.sh/components/context-menu.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Data Table
+
+> A borderless, sortable, selectable, and resizable data table.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/data-table)
+- [Markdown documentation](https://dowel.sh/components/data-table.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Dialog
+
+> A modal on the modal elevation tier, labelled by its title.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/dialog)
+- [Markdown documentation](https://dowel.sh/components/dialog.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Drawer
+
+> A swipe-dismissable edge panel for navigation and detail.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/drawer)
+- [Markdown documentation](https://dowel.sh/components/drawer.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Empty State
+
+> Structured guidance and actions for a surface without content.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/empty-state)
+- [Markdown documentation](https://dowel.sh/components/empty-state.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## File Upload
+
+> A native file picker and dropzone with built-in validation.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/file-upload)
+- [Markdown documentation](https://dowel.sh/components/file-upload.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Form
+
+> TanStack Form with Dowel fields and actions pre-bound.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/form)
+- [Markdown documentation](https://dowel.sh/components/form.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Icon Button
+
+> A square control for a single icon, with a required label.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/icon-button)
+- [Markdown documentation](https://dowel.sh/components/icon-button.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Input
+
+> Surface and borderless fields for settings and rich composers.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/input)
+- [Markdown documentation](https://dowel.sh/components/input.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Kbd
+
+> A keyboard shortcut rendered one key per cap.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/kbd)
+- [Markdown documentation](https://dowel.sh/components/kbd.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## List
+
+> Semantic grouped rows with cells, density, and selection.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/list)
+- [Markdown documentation](https://dowel.sh/components/list.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Menu
+
+> A dropdown with keyboard navigation and typeahead.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/menu)
+- [Markdown documentation](https://dowel.sh/components/menu.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Native Select
+
+> A resilient native choice control with Dowel field styling.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/native-select)
+- [Markdown documentation](https://dowel.sh/components/native-select.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Pagination
+
+> Controlled page navigation with compact number elision.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/pagination)
+- [Markdown documentation](https://dowel.sh/components/pagination.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Popover
+
+> An anchored surface for interactive controls and rich details.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/popover)
+- [Markdown documentation](https://dowel.sh/components/popover.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Property Picker
+
+> Searchable grouped metadata selection with a compact pill trigger.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/property-picker)
+- [Markdown documentation](https://dowel.sh/components/property-picker.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Progress
+
+> Determinate and indeterminate progress for long tasks.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/progress)
+- [Markdown documentation](https://dowel.sh/components/progress.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Radio Group
+
+> A single-choice group with native forms and arrow-key selection.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/radio-group)
+- [Markdown documentation](https://dowel.sh/components/radio-group.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Search Field
+
+> A search input with icon, clear action, and shortcut hint.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/search-field)
+- [Markdown documentation](https://dowel.sh/components/search-field.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Separator
+
+> A quiet horizontal or vertical content divider.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/separator)
+- [Markdown documentation](https://dowel.sh/components/separator.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Select
+
+> A grouped single-choice popup with native form submission.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/select)
+- [Markdown documentation](https://dowel.sh/components/select.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Sidebar
+
+> A responsive application rail with pointer and keyboard resize.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/sidebar)
+- [Markdown documentation](https://dowel.sh/components/sidebar.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Slider
+
+> A pointer and keyboard control for a numeric range.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/slider)
+- [Markdown documentation](https://dowel.sh/components/slider.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Skeleton
+
+> Reduced-motion-aware placeholders for pending content.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/skeleton)
+- [Markdown documentation](https://dowel.sh/components/skeleton.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Spinner
+
+> Accessible indeterminate progress in three compact sizes.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/spinner)
+- [Markdown documentation](https://dowel.sh/components/spinner.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Status
+
+> A lightweight state icon and label in semantic tones.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/status)
+- [Markdown documentation](https://dowel.sh/components/status.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Switch
+
+> A compact immediate setting for binary on and off state.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/switch)
+- [Markdown documentation](https://dowel.sh/components/switch.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Tabs
+
+> Compact pill and line view switching with arrow-key activation.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/tabs)
+- [Markdown documentation](https://dowel.sh/components/tabs.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Toast
+
+> A global notification queue with actions and promises.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/toast)
+- [Markdown documentation](https://dowel.sh/components/toast.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Toggle Group
+
+> A connected set of independently pressed view controls.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/toggle-group)
+- [Markdown documentation](https://dowel.sh/components/toggle-group.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Tooltip
+
+> A hover and focus label on the popover elevation tier.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/tooltip)
+- [Markdown documentation](https://dowel.sh/components/tooltip.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
+## Tree View
+
+> A nested hierarchy with selection and keyboard navigation.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/tree-view)
+- [Markdown documentation](https://dowel.sh/components/tree-view.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.

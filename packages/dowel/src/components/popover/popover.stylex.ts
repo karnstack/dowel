@@ -38,6 +38,9 @@ export const popup = stylex.create({
 });
 
 export const part = stylex.create({
+  positioner: {
+    zIndex: 70,
+  },
   viewport: {
     maxHeight: "min(24rem, var(--available-height))",
     overflowY: "auto",

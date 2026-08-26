@@ -1,4 +1,6 @@
 import {
+  columnOrderingFeature,
+  columnPinningFeature,
   columnResizingFeature,
   columnSizingFeature,
   columnVisibilityFeature,
@@ -6,11 +8,17 @@ import {
   createSortedRowModel,
   rowSelectionFeature,
   rowSortingFeature,
+  sortFn_alphanumeric,
+  sortFn_text,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
 import type {
   ColumnDef,
+  ColumnOrderState,
+  ColumnPinningPosition,
+  ColumnPinningState,
+  ColumnSizingState,
   ColumnVisibilityState,
   OnChangeFn,
   RowData,
@@ -20,21 +28,36 @@ import type {
 } from "@tanstack/react-table";
 import { CheckIcon, ChevronUpIcon, MinusIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Fragment,
+  forwardRef,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type {
   ChangeEvent,
   ComponentPropsWithoutRef,
   CSSProperties,
+  FocusEvent,
   KeyboardEvent,
   MouseEvent,
   ReactNode,
 } from "react";
 
+import { HoverActions } from "../hover-actions";
 import * as styles from "./data-table.stylex";
 
 export type DataTableDensity = "compact" | "comfortable";
 export type DataTableAlign = "start" | "center" | "end";
 export type DataTableCellTone = "primary" | "secondary" | "tertiary";
+export type DataTableColumnOrderState = ColumnOrderState;
+export type DataTableColumnPinningState = ColumnPinningState;
+export type DataTableColumnSizingState = ColumnSizingState;
+export type DataTableColumnVisibilityState = ColumnVisibilityState;
+export type DataTableRowSelectionState = RowSelectionState;
+export type DataTableSortingState = SortingState;
 
 export type DataTableColumnMeta = {
   /** Cell and header alignment. */
@@ -49,14 +72,34 @@ export type DataTableColumnMeta = {
   truncate?: boolean;
 };
 
+export type DataTableGroup = {
+  /** Stable identity used by collapsed-group state. */
+  id: string;
+  /** Visible group heading. */
+  label: ReactNode;
+};
+
+export type DataTableGroupContext<TData extends RowData> = {
+  collapsed: boolean;
+  group: DataTableGroup;
+  rows: ReadonlyArray<TData>;
+  toggle: () => void;
+};
+
 const dataTableFeatures = tableFeatures({
   columnMeta: {} as DataTableColumnMeta,
   columnResizingFeature,
   columnSizingFeature,
+  columnOrderingFeature,
+  columnPinningFeature,
   columnVisibilityFeature,
   rowSelectionFeature,
   rowSortingFeature,
   sortedRowModel: createSortedRowModel(),
+  sortFns: {
+    alphanumeric: sortFn_alphanumeric,
+    text: sortFn_text,
+  },
 });
 
 export type DataTableColumnDef<
@@ -73,8 +116,16 @@ type DivProps = ComponentPropsWithoutRef<"div">;
 export interface DataTableProps<TData extends RowData>
   extends Omit<DivProps, "children"> {
   "aria-label": string;
+  collapsedGroupIds?: ReadonlyArray<string>;
+  columnOrder?: ColumnOrderState;
+  columnPinning?: ColumnPinningState;
+  columnSizing?: ColumnSizingState;
   columns: ReadonlyArray<DataTableColumnDef<TData, any>>;
   data: ReadonlyArray<TData>;
+  defaultCollapsedGroupIds?: ReadonlyArray<string>;
+  defaultColumnOrder?: ColumnOrderState;
+  defaultColumnPinning?: ColumnPinningState;
+  defaultColumnSizing?: ColumnSizingState;
   defaultColumnVisibility?: ColumnVisibilityState;
   defaultRowSelection?: RowSelectionState;
   defaultSorting?: SortingState;
@@ -82,17 +133,29 @@ export interface DataTableProps<TData extends RowData>
   emptyDescription?: ReactNode;
   emptyTitle?: ReactNode;
   getRowId?: (row: TData, index: number) => string;
+  /** Groups the final sorted rows into collapsible sections. */
+  groupBy?: (row: TData) => DataTableGroup | null;
+  /** Enables roving Arrow/Home/End row focus. Defaults to true. */
+  keyboardNavigation?: boolean;
   loading?: boolean;
   loadingRows?: number;
+  onCollapsedGroupIdsChange?: (groupIds: ReadonlyArray<string>) => void;
+  onColumnOrderChange?: OnChangeFn<ColumnOrderState>;
+  onColumnPinningChange?: OnChangeFn<ColumnPinningState>;
+  onColumnSizingChange?: OnChangeFn<ColumnSizingState>;
   onColumnVisibilityChange?: OnChangeFn<ColumnVisibilityState>;
   onRowActivate?: (row: TData) => void;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
   onSortingChange?: OnChangeFn<SortingState>;
   resizable?: boolean;
+  /** Optional actions revealed when a row is hovered or contains focus. */
+  renderRowActions?: (row: TData) => ReactNode;
+  renderGroupHeader?: (context: DataTableGroupContext<TData>) => ReactNode;
   rowSelection?: RowSelectionState;
   selectable?: boolean;
   showHeader?: boolean;
   sorting?: SortingState;
+  stickyHeader?: boolean;
   columnVisibility?: ColumnVisibilityState;
 }
 
@@ -206,16 +269,39 @@ function triggerRow<TData extends RowData>(
   onRowActivate: ((row: TData) => void) | undefined,
 ) {
   if (!onRowActivate || isInteractiveTarget(event.target)) return;
-  if ("key" in event && event.key !== "Enter" && event.key !== " ") return;
+  if ("key" in event && event.key !== "Enter") return;
   event.preventDefault();
   onRowActivate(row);
+}
+
+function pinnedPositionStyle(column: {
+  getAfter: (position?: ColumnPinningPosition | "center") => number;
+  getIsPinned: () => ColumnPinningPosition;
+  getStart: (position?: ColumnPinningPosition | "center") => number;
+}): CSSProperties | undefined {
+  const pinned = column.getIsPinned();
+  if (pinned === "start") {
+    return { insetInlineStart: column.getStart("start") };
+  }
+  if (pinned === "end") {
+    return { insetInlineEnd: column.getAfter("end") };
+  }
+  return undefined;
 }
 
 export const DataTable = forwardRef(function DataTable<TData extends RowData>(
   {
     "aria-label": ariaLabel,
+    collapsedGroupIds,
+    columnOrder,
+    columnPinning,
+    columnSizing,
     columns,
     data,
+    defaultCollapsedGroupIds,
+    defaultColumnOrder,
+    defaultColumnPinning,
+    defaultColumnSizing,
     defaultColumnVisibility,
     defaultRowSelection,
     defaultSorting,
@@ -223,17 +309,26 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
     emptyDescription,
     emptyTitle = "No results",
     getRowId,
+    groupBy,
+    keyboardNavigation = true,
     loading = false,
     loadingRows = 5,
+    onCollapsedGroupIdsChange,
+    onColumnOrderChange,
+    onColumnPinningChange,
+    onColumnSizingChange,
     onColumnVisibilityChange,
     onRowActivate,
     onRowSelectionChange,
     onSortingChange,
     resizable = true,
+    renderGroupHeader,
+    renderRowActions,
     rowSelection,
     selectable = false,
     showHeader = true,
     sorting,
+    stickyHeader = false,
     columnVisibility,
     className,
     style,
@@ -241,6 +336,12 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
   }: DataTableProps<TData>,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+  const selectionAnchorRef = useRef<string | null>(null);
+  const rowRefs = useRef(new Map<string, HTMLTableRowElement>());
+  const [activeRowId, setActiveRowId] = useState<string | null>(null);
+  const [activeActionsRowId, setActiveActionsRowId] = useState<string | null>(
+    null,
+  );
   const selectionColumn = useMemo<DataTableColumnDef<TData>>(
     () => ({
       id: "__dowel_selection",
@@ -259,23 +360,89 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
           onChange={table.getToggleAllRowsSelectedHandler()}
         />
       ),
-      cell: ({ row }) => (
+      cell: ({ row, table }) => (
         <Checkbox
           label={`Select row ${row.getDisplayIndex() + 1}`}
           checked={row.getIsSelected()}
           disabled={!row.getCanSelect()}
           indeterminate={row.getIsSomeSelected()}
-          onChange={row.getToggleSelectedHandler()}
+          onChange={(event) => {
+            const checked = event.currentTarget.checked;
+            const shiftKey =
+              "shiftKey" in event.nativeEvent && event.nativeEvent.shiftKey;
+            const modelRows = table.getRowModel().rows;
+            const anchorIndex = modelRows.findIndex(
+              (candidate) => candidate.id === selectionAnchorRef.current,
+            );
+            const rowIndex = modelRows.findIndex(
+              (candidate) => candidate.id === row.id,
+            );
+
+            if (shiftKey && anchorIndex >= 0 && rowIndex >= 0) {
+              const start = Math.min(anchorIndex, rowIndex);
+              const end = Math.max(anchorIndex, rowIndex);
+              table.setRowSelection((current) => {
+                const next = { ...current };
+                for (const candidate of modelRows.slice(start, end + 1)) {
+                  if (!candidate.getCanSelect()) continue;
+                  if (checked) next[candidate.id] = true;
+                  else delete next[candidate.id];
+                }
+                return next;
+              });
+            } else {
+              row.toggleSelected(checked);
+            }
+            selectionAnchorRef.current = row.id;
+          }}
         />
       ),
     }),
     [],
   );
 
-  const resolvedColumns = useMemo(
-    () => (selectable ? [selectionColumn, ...columns] : columns),
-    [columns, selectable, selectionColumn],
+  const actionsColumn = useMemo<DataTableColumnDef<TData> | null>(
+    () =>
+      renderRowActions
+        ? {
+            id: "__dowel_actions",
+            enableHiding: false,
+            enableResizing: false,
+            enableSorting: false,
+            size: 88,
+            minSize: 48,
+            maxSize: 160,
+            meta: { align: "end", truncate: false },
+            header: "",
+            cell: ({ row }) => (
+              <HoverActions
+                label={`Actions for row ${row.getDisplayIndex() + 1}`}
+                visible={activeActionsRowId === row.id}
+              >
+                {renderRowActions(row.original)}
+              </HoverActions>
+            ),
+          }
+        : null,
+    [activeActionsRowId, renderRowActions],
   );
+
+  const resolvedColumns = useMemo(
+    () => [
+      ...(selectable ? [selectionColumn] : []),
+      ...columns,
+      ...(actionsColumn ? [actionsColumn] : []),
+    ],
+    [actionsColumn, columns, selectable, selectionColumn],
+  );
+  const [internalColumnOrder, setInternalColumnOrder] =
+    useState<ColumnOrderState>(defaultColumnOrder ?? []);
+  const [internalColumnPinning, setInternalColumnPinning] =
+    useState<ColumnPinningState>(
+      defaultColumnPinning ?? { start: [], end: [] },
+    );
+  const [internalColumnSizing, setInternalColumnSizing] =
+    useState<ColumnSizingState>(defaultColumnSizing ?? {});
   const [internalSorting, setInternalSorting] = useState<SortingState>(
     defaultSorting ?? [],
   );
@@ -283,6 +450,28 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
     useState<RowSelectionState>(defaultRowSelection ?? {});
   const [internalColumnVisibility, setInternalColumnVisibility] =
     useState<ColumnVisibilityState>(defaultColumnVisibility ?? {});
+  const [internalCollapsedGroupIds, setInternalCollapsedGroupIds] = useState(
+    defaultCollapsedGroupIds ?? [],
+  );
+
+  const publicColumnPinning = columnPinning ?? internalColumnPinning;
+  const effectiveColumnPinning = useMemo<ColumnPinningState>(
+    () => ({
+      start: [
+        ...(selectable ? ["__dowel_selection"] : []),
+        ...publicColumnPinning.start.filter(
+          (id) => id !== "__dowel_selection" && id !== "__dowel_actions",
+        ),
+      ],
+      end: [
+        ...publicColumnPinning.end.filter(
+          (id) => id !== "__dowel_selection" && id !== "__dowel_actions",
+        ),
+        ...(actionsColumn ? ["__dowel_actions"] : []),
+      ],
+    }),
+    [actionsColumn, publicColumnPinning, selectable],
+  );
 
   const table = useTable({
     features: dataTableFeatures,
@@ -294,9 +483,19 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
       maxSize: 720,
     },
     enableColumnResizing: resizable,
+    enableColumnPinning: true,
     enableRowSelection: selectable,
     getRowId,
     initialState: {
+      ...(defaultColumnOrder === undefined
+        ? null
+        : { columnOrder: defaultColumnOrder }),
+      ...(defaultColumnPinning === undefined
+        ? null
+        : { columnPinning: defaultColumnPinning }),
+      ...(defaultColumnSizing === undefined
+        ? null
+        : { columnSizing: defaultColumnSizing }),
       ...(defaultColumnVisibility === undefined
         ? null
         : { columnVisibility: defaultColumnVisibility }),
@@ -306,11 +505,39 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
       ...(defaultSorting === undefined ? null : { sorting: defaultSorting }),
     },
     state: {
+      columnOrder: columnOrder ?? internalColumnOrder,
+      columnPinning: effectiveColumnPinning,
+      columnSizing: columnSizing ?? internalColumnSizing,
       sorting: sorting ?? internalSorting,
       rowSelection: rowSelection ?? internalRowSelection,
       columnVisibility: columnVisibility ?? internalColumnVisibility,
     },
     sortDescFirst: false,
+    onColumnOrderChange: (updater) => {
+      if (columnOrder === undefined) {
+        setInternalColumnOrder((current) => applyUpdater(updater, current));
+      }
+      onColumnOrderChange?.(updater);
+    },
+    onColumnPinningChange: (updater) => {
+      const effective = applyUpdater(updater, effectiveColumnPinning);
+      const next = {
+        start: effective.start.filter(
+          (id) => id !== "__dowel_selection" && id !== "__dowel_actions",
+        ),
+        end: effective.end.filter(
+          (id) => id !== "__dowel_selection" && id !== "__dowel_actions",
+        ),
+      };
+      if (columnPinning === undefined) setInternalColumnPinning(next);
+      onColumnPinningChange?.(next);
+    },
+    onColumnSizingChange: (updater) => {
+      if (columnSizing === undefined) {
+        setInternalColumnSizing((current) => applyUpdater(updater, current));
+      }
+      onColumnSizingChange?.(updater);
+    },
     onColumnVisibilityChange: (updater) => {
       if (columnVisibility === undefined) {
         setInternalColumnVisibility((current) =>
@@ -336,6 +563,41 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
 
   const visibleColumns = table.getVisibleLeafColumns();
   const rows = table.getRowModel().rows;
+  const resolvedCollapsedGroupIds =
+    collapsedGroupIds ?? internalCollapsedGroupIds;
+  const collapsedGroupSet = useMemo(
+    () => new Set(resolvedCollapsedGroupIds),
+    [resolvedCollapsedGroupIds],
+  );
+  const groupedRows = useMemo(() => {
+    if (!groupBy) return [{ group: null, rows }];
+
+    const groups = new Map<
+      string,
+      { group: DataTableGroup; rows: typeof rows }
+    >();
+    for (const row of rows) {
+      const group = groupBy(row.original);
+      if (!group) {
+        const fallback = { id: "__dowel_ungrouped", label: "Other" };
+        const current = groups.get(fallback.id);
+        if (current) current.rows.push(row);
+        else groups.set(fallback.id, { group: fallback, rows: [row] });
+        continue;
+      }
+      const current = groups.get(group.id);
+      if (current) current.rows.push(row);
+      else groups.set(group.id, { group, rows: [row] });
+    }
+    return [...groups.values()];
+  }, [groupBy, rows]);
+  const navigableRows = useMemo(
+    () =>
+      groupedRows.flatMap((entry) =>
+        entry.group && collapsedGroupSet.has(entry.group.id) ? [] : entry.rows,
+      ),
+    [collapsedGroupSet, groupedRows],
+  );
   const tableWidth = Math.max(table.getTotalSize(), 480);
   const growingColumns = visibleColumns.filter(
     (column) => column.columnDef.meta?.grow,
@@ -345,6 +607,167 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
     .reduce((total, column) => total + column.getSize(), 0);
   const rootStyles = stylex.props(styles.parts.root);
 
+  useEffect(() => {
+    if (
+      activeRowId === null ||
+      !navigableRows.some((row) => row.id === activeRowId)
+    ) {
+      setActiveRowId(navigableRows[0]?.id ?? null);
+    }
+  }, [activeRowId, navigableRows]);
+
+  function setCollapsedGroups(next: ReadonlyArray<string>) {
+    if (collapsedGroupIds === undefined) setInternalCollapsedGroupIds(next);
+    onCollapsedGroupIdsChange?.(next);
+  }
+
+  function toggleGroup(groupId: string) {
+    const next = new Set(resolvedCollapsedGroupIds);
+    if (next.has(groupId)) next.delete(groupId);
+    else next.add(groupId);
+    setCollapsedGroups([...next]);
+  }
+
+  function selectRowRange(fromId: string, toId: string, selected = true) {
+    const from = navigableRows.findIndex((row) => row.id === fromId);
+    const to = navigableRows.findIndex((row) => row.id === toId);
+    if (from < 0 || to < 0) return;
+    const start = Math.min(from, to);
+    const end = Math.max(from, to);
+    table.setRowSelection((current) => {
+      const next = { ...current };
+      for (const row of navigableRows.slice(start, end + 1)) {
+        if (!row.getCanSelect()) continue;
+        if (selected) next[row.id] = true;
+        else delete next[row.id];
+      }
+      return next;
+    });
+  }
+
+  function handleRowKeyDown(
+    event: KeyboardEvent<HTMLTableRowElement>,
+    row: (typeof rows)[number],
+  ) {
+    if (isInteractiveTarget(event.target)) return;
+    const currentIndex = navigableRows.findIndex(
+      (candidate) => candidate.id === row.id,
+    );
+    let nextIndex = currentIndex;
+    if (event.key === "ArrowDown") nextIndex = currentIndex + 1;
+    else if (event.key === "ArrowUp") nextIndex = currentIndex - 1;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = navigableRows.length - 1;
+    else if (event.key === " " && selectable) {
+      event.preventDefault();
+      row.toggleSelected(!row.getIsSelected());
+      selectionAnchorRef.current = row.id;
+      return;
+    } else {
+      triggerRow(event, row.original, onRowActivate);
+      return;
+    }
+
+    const nextRow =
+      navigableRows[Math.max(0, Math.min(nextIndex, navigableRows.length - 1))];
+    if (!nextRow || nextRow.id === row.id) return;
+    event.preventDefault();
+    if (event.shiftKey && selectable) {
+      const anchor = selectionAnchorRef.current ?? row.id;
+      selectRowRange(anchor, nextRow.id);
+      selectionAnchorRef.current = anchor;
+    } else {
+      selectionAnchorRef.current = nextRow.id;
+    }
+    setActiveRowId(nextRow.id);
+    rowRefs.current.get(nextRow.id)?.focus();
+  }
+
+  function handleRowBlur(event: FocusEvent<HTMLTableRowElement>) {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      const rowId = event.currentTarget.dataset.rowId;
+      setActiveActionsRowId((current) => (current === rowId ? null : current));
+    }
+  }
+
+  function renderDataRow(row: (typeof rows)[number]) {
+    const rowIsFocusable =
+      keyboardNavigation &&
+      Boolean(onRowActivate || selectable || renderRowActions);
+    return (
+      <tr
+        key={row.id}
+        ref={(node) => {
+          if (node) rowRefs.current.set(row.id, node);
+          else rowRefs.current.delete(row.id);
+        }}
+        {...stylex.props(styles.parts.row)}
+        data-row-id={row.id}
+        data-selected={row.getIsSelected() ? "" : undefined}
+        data-actionable={onRowActivate ? "" : undefined}
+        tabIndex={
+          rowIsFocusable ? (activeRowId === row.id ? 0 : -1) : undefined
+        }
+        onBlurCapture={handleRowBlur}
+        onClick={(event) => triggerRow(event, row.original, onRowActivate)}
+        onFocusCapture={() => {
+          setActiveRowId(row.id);
+          setActiveActionsRowId(row.id);
+        }}
+        onKeyDown={(event) =>
+          keyboardNavigation
+            ? handleRowKeyDown(event, row)
+            : triggerRow(event, row.original, onRowActivate)
+        }
+        onMouseEnter={() => setActiveActionsRowId(row.id)}
+        onMouseLeave={() =>
+          setActiveActionsRowId((current) =>
+            current === row.id ? null : current,
+          )
+        }
+      >
+        {row.getVisibleCells().map((cell) => {
+          const meta = cell.column.columnDef.meta;
+          const pinned = cell.column.getIsPinned();
+          return (
+            <td
+              key={cell.id}
+              {...stylex.props(
+                styles.parts.cell,
+                density === "compact"
+                  ? styles.parts.compactCell
+                  : styles.parts.comfortableCell,
+                cell.column.id === "__dowel_selection" &&
+                  styles.parts.selectionCell,
+                pinned && styles.parts.pinnedCell,
+                pinned === "start" &&
+                  cell.column.getIsLastColumn("start") &&
+                  styles.parts.pinnedStartEdge,
+                pinned === "end" &&
+                  cell.column.getIsFirstColumn("end") &&
+                  styles.parts.pinnedEndEdge,
+              )}
+              style={pinnedPositionStyle(cell.column)}
+            >
+              <div
+                {...stylex.props(
+                  styles.parts.cellContent,
+                  meta?.truncate !== false && styles.parts.truncate,
+                  alignmentStyle(meta?.align),
+                  meta?.tone === "secondary" && styles.parts.secondary,
+                  meta?.tone === "tertiary" && styles.parts.tertiary,
+                  meta?.mono && styles.parts.mono,
+                )}
+              >
+                <table.FlexRender cell={cell} />
+              </div>
+            </td>
+          );
+        })}
+      </tr>
+    );
+  }
+
   return (
     <div
       ref={ref}
@@ -353,6 +776,7 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
       style={{ ...rootStyles.style, ...style }}
       data-dowel-component="data-table"
       data-density={density}
+      data-sticky-header={stickyHeader || undefined}
     >
       <table
         {...stylex.props(styles.parts.table)}
@@ -373,7 +797,7 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
           ))}
         </colgroup>
         {showHeader ? (
-          <thead>
+          <thead {...stylex.props(stickyHeader && styles.parts.stickyHeader)}>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
@@ -394,7 +818,16 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
                         alignmentStyle(meta?.align),
                         header.column.id === "__dowel_selection" &&
                           styles.parts.selectionCell,
+                        header.column.getIsPinned() &&
+                          styles.parts.pinnedHeaderCell,
+                        header.column.getIsPinned() === "start" &&
+                          header.column.getIsLastColumn("start") &&
+                          styles.parts.pinnedStartEdge,
+                        header.column.getIsPinned() === "end" &&
+                          header.column.getIsFirstColumn("end") &&
+                          styles.parts.pinnedEndEdge,
                       )}
+                      style={pinnedPositionStyle(header.column)}
                       scope="col"
                       aria-sort={
                         sorted === "asc"
@@ -499,55 +932,65 @@ export const DataTable = forwardRef(function DataTable<TData extends RowData>(
                   </tr>
                 ),
               )
-            : rows.map((row) => (
-                <tr
-                  key={row.id}
-                  {...stylex.props(
-                    styles.parts.row,
-                    row.getIsSelected() && styles.parts.row,
-                  )}
-                  data-selected={row.getIsSelected() ? "" : undefined}
-                  data-actionable={onRowActivate ? "" : undefined}
-                  tabIndex={onRowActivate ? 0 : undefined}
-                  onClick={(event) =>
-                    triggerRow(event, row.original, onRowActivate)
-                  }
-                  onKeyDown={(event) =>
-                    triggerRow(event, row.original, onRowActivate)
-                  }
-                >
-                  {row.getVisibleCells().map((cell) => {
-                    const meta = cell.column.columnDef.meta;
-                    return (
+            : groupedRows.map((entry, index) => {
+                if (!entry.group) {
+                  return (
+                    <Fragment key={`rows-${index}`}>
+                      {entry.rows.map(renderDataRow)}
+                    </Fragment>
+                  );
+                }
+
+                const collapsed = collapsedGroupSet.has(entry.group.id);
+                const context: DataTableGroupContext<TData> = {
+                  collapsed,
+                  group: entry.group,
+                  rows: entry.rows.map((row) => row.original),
+                  toggle: () => toggleGroup(entry.group!.id),
+                };
+                return (
+                  <Fragment key={entry.group.id}>
+                    <tr {...stylex.props(styles.parts.groupRow)}>
                       <td
-                        key={cell.id}
-                        {...stylex.props(
-                          styles.parts.cell,
-                          density === "compact"
-                            ? styles.parts.compactCell
-                            : styles.parts.comfortableCell,
-                          cell.column.id === "__dowel_selection" &&
-                            styles.parts.selectionCell,
-                        )}
+                        {...stylex.props(styles.parts.groupCell)}
+                        colSpan={Math.max(visibleColumns.length, 1)}
                       >
-                        <div
-                          {...stylex.props(
-                            styles.parts.cellContent,
-                            meta?.truncate !== false && styles.parts.truncate,
-                            alignmentStyle(meta?.align),
-                            meta?.tone === "secondary" &&
-                              styles.parts.secondary,
-                            meta?.tone === "tertiary" && styles.parts.tertiary,
-                            meta?.mono && styles.parts.mono,
-                          )}
-                        >
-                          <table.FlexRender cell={cell} />
-                        </div>
+                        {renderGroupHeader ? (
+                          renderGroupHeader(context)
+                        ) : (
+                          <button
+                            {...stylex.props(styles.parts.groupButton)}
+                            type="button"
+                            aria-expanded={!collapsed}
+                            onClick={context.toggle}
+                          >
+                            <span
+                              {...stylex.props(
+                                styles.parts.groupChevron,
+                                !collapsed && styles.parts.groupChevronExpanded,
+                              )}
+                              aria-hidden="true"
+                            >
+                              <span
+                                {...stylex.props(
+                                  styles.parts.groupChevronGlyph,
+                                )}
+                              />
+                            </span>
+                            <span {...stylex.props(styles.parts.groupLabel)}>
+                              {entry.group.label}
+                            </span>
+                            <span {...stylex.props(styles.parts.groupCount)}>
+                              {entry.rows.length}
+                            </span>
+                          </button>
+                        )}
                       </td>
-                    );
-                  })}
-                </tr>
-              ))}
+                    </tr>
+                    {collapsed ? null : entry.rows.map(renderDataRow)}
+                  </Fragment>
+                );
+              })}
           {!loading && rows.length === 0 ? (
             <tr>
               <td

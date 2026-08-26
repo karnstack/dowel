@@ -43,7 +43,14 @@ export const Route = createRootRoute({
         content: "Compact, accessible React components for product interfaces.",
       },
     ],
-    links: faviconLinks,
+    links: [
+      ...faviconLinks,
+      {
+        rel: "describedby",
+        href: "/llms.txt",
+        type: "text/markdown",
+      },
+    ],
   }),
   component: RootDocument,
 });

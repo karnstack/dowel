@@ -70,6 +70,13 @@ describe("DataTable", () => {
     ).toBe("ascending");
   });
 
+  it("sorts text columns with the registered automatic comparator", async () => {
+    render(<Example sorting={[{ id: "title", desc: false }]} />);
+    const rows = screen.getAllByRole("row").slice(1);
+    expect(within(rows[0]!).getByText("Add keyboard navigation")).toBeDefined();
+    expect(within(rows[1]!).getByText("Polish the empty state")).toBeDefined();
+  });
+
   it("selects one row and all rows with accessible checkboxes", async () => {
     const onRowSelectionChange = vi.fn();
     render(<Example selectable onRowSelectionChange={onRowSelectionChange} />);
@@ -97,6 +104,77 @@ describe("DataTable", () => {
     expect(handle.getAttribute("aria-valuenow")).toBe("96");
     await userEvent.keyboard("{Home}");
     expect(handle.getAttribute("aria-valuenow")).toBe("48");
+  });
+
+  it("supports controlled column order, pinning, and sizing", async () => {
+    const onColumnSizingChange = vi.fn();
+    render(
+      <Example
+        columnOrder={["priority", "title", "id"]}
+        columnPinning={{ start: ["priority"], end: [] }}
+        columnSizing={{ priority: 104 }}
+        onColumnSizingChange={onColumnSizingChange}
+      />,
+    );
+    const headers = screen.getAllByRole("columnheader");
+    expect(within(headers[0]!).getByText("Priority")).toBeDefined();
+    expect(headers[0]?.getAttribute("style")).toContain("inset-inline-start");
+
+    const handle = screen.getByRole("separator", {
+      name: "Resize priority column",
+    });
+    handle.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(onColumnSizingChange).toHaveBeenCalled();
+  });
+
+  it("renders collapsible row groups", async () => {
+    render(
+      <Example
+        groupBy={(issue) => ({
+          id: String(issue.priority),
+          label: `Priority ${issue.priority}`,
+        })}
+      />,
+    );
+    const group = screen.getByRole("button", { name: /Priority 21/ });
+    expect(group.getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getAllByRole("row")).toHaveLength(5);
+    await userEvent.click(group);
+    expect(group.getAttribute("aria-expanded")).toBe("false");
+    expect(screen.getAllByRole("row")).toHaveLength(4);
+    expect(screen.queryByText("Add keyboard navigation")).toBeNull();
+  });
+
+  it("uses roving row focus and shift-arrow range selection", async () => {
+    render(<Example selectable />);
+    const rows = screen.getAllByRole("row").slice(1);
+    (rows[0] as HTMLTableRowElement).focus();
+    await userEvent.keyboard("{Shift>}{ArrowDown}{/Shift}");
+    expect(document.activeElement).toBe(rows[1]);
+    const checkboxes = screen.getAllByRole("checkbox").slice(1);
+    expect((checkboxes[0] as HTMLInputElement).checked).toBe(true);
+    expect((checkboxes[1] as HTMLInputElement).checked).toBe(true);
+  });
+
+  it("reveals row actions on hover and supports sticky headers", async () => {
+    render(
+      <Example
+        stickyHeader
+        renderRowActions={(issue) => (
+          <button type="button">Archive {issue.id}</button>
+        )}
+      />,
+    );
+    const root = screen.getByRole("table").parentElement!;
+    expect(root.hasAttribute("data-sticky-header")).toBe(true);
+    const firstRow = screen.getAllByRole("row")[1]!;
+    await userEvent.hover(firstRow);
+    expect(
+      screen
+        .getByRole("toolbar", { name: "Actions for row 1" })
+        .hasAttribute("data-visible"),
+    ).toBe(true);
   });
 
   it("activates actionable rows without hijacking embedded controls", async () => {

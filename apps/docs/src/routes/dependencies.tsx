@@ -36,6 +36,11 @@ const runtimeDependencies = [
     role: "Its headless, application-controlled state model handles advanced table behavior without coupling Dowel to a table layout or data-fetching opinion.",
   },
   {
+    name: "@tanstack/react-form",
+    version: packageMetadata.dependencies["@tanstack/react-form"],
+    role: "Its typed, headless state and validation model powers Dowel's pre-bound form hook while leaving schema choice and submission behavior application-owned.",
+  },
+  {
     name: "@internationalized/date",
     version: packageMetadata.dependencies["@internationalized/date"],
     role: "Its timezone-safe date types and locale-aware calendar arithmetic keep date-only values stable across regions, time zones, and calendar systems.",
@@ -132,7 +137,7 @@ function DependenciesDocs() {
 
       <Section id="not-included" title="What is not included">
         <p>
-          Dowel does not install a router, form library, or data-fetching
+          Dowel does not install a router, schema validator, or data-fetching
           client, and it does not prescribe an application-wide icon system.
           Consumer-facing icon slots accept ordinary React content, so
           applications keep control of their visual language.

@@ -23,6 +23,7 @@ import { Route as ComponentsCalendarRouteImport } from './routes/components/cale
 import { Route as ComponentsCalloutRouteImport } from './routes/components/callout'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCollapsibleRouteImport } from './routes/components/collapsible'
+import { Route as ComponentsCollectionControlsRouteImport } from './routes/components/collection-controls'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCommandMenuRouteImport } from './routes/components/command-menu'
 import { Route as ComponentsComposerRouteImport } from './routes/components/composer'
@@ -32,6 +33,7 @@ import { Route as ComponentsDialogRouteImport } from './routes/components/dialog
 import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsFileUploadRouteImport } from './routes/components/file-upload'
+import { Route as ComponentsFormRouteImport } from './routes/components/form'
 import { Route as ComponentsIconButtonRouteImport } from './routes/components/icon-button'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
@@ -128,6 +130,12 @@ const ComponentsCollapsibleRoute = ComponentsCollapsibleRouteImport.update({
   path: '/collapsible',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsCollectionControlsRoute =
+  ComponentsCollectionControlsRouteImport.update({
+    id: '/collection-controls',
+    path: '/collection-controls',
+    getParentRoute: () => ComponentsRouteRoute,
+  } as any)
 const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
   id: '/combobox',
   path: '/combobox',
@@ -171,6 +179,11 @@ const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
 const ComponentsFileUploadRoute = ComponentsFileUploadRouteImport.update({
   id: '/file-upload',
   path: '/file-upload',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsFormRoute = ComponentsFormRouteImport.update({
+  id: '/form',
+  path: '/form',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsIconButtonRoute = ComponentsIconButtonRouteImport.update({
@@ -314,6 +327,7 @@ export interface FileRoutesByFullPath {
   '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/collapsible': typeof ComponentsCollapsibleRoute
+  '/components/collection-controls': typeof ComponentsCollectionControlsRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/command-menu': typeof ComponentsCommandMenuRoute
   '/components/composer': typeof ComponentsComposerRoute
@@ -323,6 +337,7 @@ export interface FileRoutesByFullPath {
   '/components/drawer': typeof ComponentsDrawerRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/file-upload': typeof ComponentsFileUploadRoute
+  '/components/form': typeof ComponentsFormRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
@@ -363,6 +378,7 @@ export interface FileRoutesByTo {
   '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/collapsible': typeof ComponentsCollapsibleRoute
+  '/components/collection-controls': typeof ComponentsCollectionControlsRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/command-menu': typeof ComponentsCommandMenuRoute
   '/components/composer': typeof ComponentsComposerRoute
@@ -372,6 +388,7 @@ export interface FileRoutesByTo {
   '/components/drawer': typeof ComponentsDrawerRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/file-upload': typeof ComponentsFileUploadRoute
+  '/components/form': typeof ComponentsFormRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
@@ -414,6 +431,7 @@ export interface FileRoutesById {
   '/components/callout': typeof ComponentsCalloutRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/collapsible': typeof ComponentsCollapsibleRoute
+  '/components/collection-controls': typeof ComponentsCollectionControlsRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/command-menu': typeof ComponentsCommandMenuRoute
   '/components/composer': typeof ComponentsComposerRoute
@@ -423,6 +441,7 @@ export interface FileRoutesById {
   '/components/drawer': typeof ComponentsDrawerRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/file-upload': typeof ComponentsFileUploadRoute
+  '/components/form': typeof ComponentsFormRoute
   '/components/icon-button': typeof ComponentsIconButtonRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/kbd': typeof ComponentsKbdRoute
@@ -466,6 +485,7 @@ export interface FileRouteTypes {
     | '/components/callout'
     | '/components/checkbox'
     | '/components/collapsible'
+    | '/components/collection-controls'
     | '/components/combobox'
     | '/components/command-menu'
     | '/components/composer'
@@ -475,6 +495,7 @@ export interface FileRouteTypes {
     | '/components/drawer'
     | '/components/empty-state'
     | '/components/file-upload'
+    | '/components/form'
     | '/components/icon-button'
     | '/components/input'
     | '/components/kbd'
@@ -515,6 +536,7 @@ export interface FileRouteTypes {
     | '/components/callout'
     | '/components/checkbox'
     | '/components/collapsible'
+    | '/components/collection-controls'
     | '/components/combobox'
     | '/components/command-menu'
     | '/components/composer'
@@ -524,6 +546,7 @@ export interface FileRouteTypes {
     | '/components/drawer'
     | '/components/empty-state'
     | '/components/file-upload'
+    | '/components/form'
     | '/components/icon-button'
     | '/components/input'
     | '/components/kbd'
@@ -565,6 +588,7 @@ export interface FileRouteTypes {
     | '/components/callout'
     | '/components/checkbox'
     | '/components/collapsible'
+    | '/components/collection-controls'
     | '/components/combobox'
     | '/components/command-menu'
     | '/components/composer'
@@ -574,6 +598,7 @@ export interface FileRouteTypes {
     | '/components/drawer'
     | '/components/empty-state'
     | '/components/file-upload'
+    | '/components/form'
     | '/components/icon-button'
     | '/components/input'
     | '/components/kbd'
@@ -708,6 +733,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCollapsibleRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/collection-controls': {
+      id: '/components/collection-controls'
+      path: '/collection-controls'
+      fullPath: '/components/collection-controls'
+      preLoaderRoute: typeof ComponentsCollectionControlsRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/combobox': {
       id: '/components/combobox'
       path: '/combobox'
@@ -769,6 +801,13 @@ declare module '@tanstack/react-router' {
       path: '/file-upload'
       fullPath: '/components/file-upload'
       preLoaderRoute: typeof ComponentsFileUploadRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/form': {
+      id: '/components/form'
+      path: '/form'
+      fullPath: '/components/form'
+      preLoaderRoute: typeof ComponentsFormRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/icon-button': {
@@ -960,6 +999,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsCalloutRoute: typeof ComponentsCalloutRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsCollapsibleRoute: typeof ComponentsCollapsibleRoute
+  ComponentsCollectionControlsRoute: typeof ComponentsCollectionControlsRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsCommandMenuRoute: typeof ComponentsCommandMenuRoute
   ComponentsComposerRoute: typeof ComponentsComposerRoute
@@ -969,6 +1009,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsDrawerRoute: typeof ComponentsDrawerRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFileUploadRoute: typeof ComponentsFileUploadRoute
+  ComponentsFormRoute: typeof ComponentsFormRoute
   ComponentsIconButtonRoute: typeof ComponentsIconButtonRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsKbdRoute: typeof ComponentsKbdRoute
@@ -1008,6 +1049,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsCalloutRoute: ComponentsCalloutRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsCollapsibleRoute: ComponentsCollapsibleRoute,
+  ComponentsCollectionControlsRoute: ComponentsCollectionControlsRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsCommandMenuRoute: ComponentsCommandMenuRoute,
   ComponentsComposerRoute: ComponentsComposerRoute,
@@ -1017,6 +1059,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsDrawerRoute: ComponentsDrawerRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFileUploadRoute: ComponentsFileUploadRoute,
+  ComponentsFormRoute: ComponentsFormRoute,
   ComponentsIconButtonRoute: ComponentsIconButtonRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsKbdRoute: ComponentsKbdRoute,

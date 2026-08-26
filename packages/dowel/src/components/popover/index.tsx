@@ -48,8 +48,7 @@ export const Popover = {
         sideOffset={6}
         collisionPadding={8}
         {...props}
-        className={undefined}
-        style={undefined}
+        {...partProps(styles.part.positioner)}
       />
     );
   },

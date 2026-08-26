@@ -1,0 +1,50 @@
+# Dowel components
+
+> The complete Dowel component catalog.
+
+- [Accordion](https://dowel.sh/components/accordion.md): A keyboard-accessible group of animated disclosure panels.
+- [Alert Dialog](https://dowel.sh/components/alert-dialog.md): A focused confirmation modal for consequential actions.
+- [Avatar](https://dowel.sh/components/avatar.md): An image or initials fallback with shape, size, and presence.
+- [Badge](https://dowel.sh/components/badge.md): A compact status or metadata pill in five tones.
+- [Breadcrumbs](https://dowel.sh/components/breadcrumbs.md): A compact location trail with automatic middle-item elision.
+- [Button](https://dowel.sh/components/button.md): The default action control. Five hierarchy levels, two sizes.
+- [Calendar & Date Picker](https://dowel.sh/components/calendar.md): An internationalized month grid and segmented date field.
+- [Callout](https://dowel.sh/components/callout.md): Persistent contextual guidance with optional actions and tone.
+- [Checkbox](https://dowel.sh/components/checkbox.md): Checked, unchecked, and mixed selection with native form values.
+- [Collapsible](https://dowel.sh/components/collapsible.md): An animated disclosure for one optional content region.
+- [Combobox](https://dowel.sh/components/combobox.md): A filterable single-choice field for larger collections.
+- [Command Menu](https://dowel.sh/components/command-menu.md): A modal search surface for grouped application commands.
+- [Collection Controls](https://dowel.sh/components/collection-controls.md): Filters, view options, row actions, and bulk selection controls.
+- [Composer](https://dowel.sh/components/composer.md): A borderless creation shell with metadata and action regions.
+- [Context Menu](https://dowel.sh/components/context-menu.md): A pointer-positioned menu for actions on a target surface.
+- [Data Table](https://dowel.sh/components/data-table.md): A borderless, sortable, selectable, and resizable data table.
+- [Dialog](https://dowel.sh/components/dialog.md): A modal on the modal elevation tier, labelled by its title.
+- [Drawer](https://dowel.sh/components/drawer.md): A swipe-dismissable edge panel for navigation and detail.
+- [Empty State](https://dowel.sh/components/empty-state.md): Structured guidance and actions for a surface without content.
+- [File Upload](https://dowel.sh/components/file-upload.md): A native file picker and dropzone with built-in validation.
+- [Form](https://dowel.sh/components/form.md): TanStack Form with Dowel fields and actions pre-bound.
+- [Icon Button](https://dowel.sh/components/icon-button.md): A square control for a single icon, with a required label.
+- [Input](https://dowel.sh/components/input.md): Surface and borderless fields for settings and rich composers.
+- [Kbd](https://dowel.sh/components/kbd.md): A keyboard shortcut rendered one key per cap.
+- [List](https://dowel.sh/components/list.md): Semantic grouped rows with cells, density, and selection.
+- [Menu](https://dowel.sh/components/menu.md): A dropdown with keyboard navigation and typeahead.
+- [Native Select](https://dowel.sh/components/native-select.md): A resilient native choice control with Dowel field styling.
+- [Pagination](https://dowel.sh/components/pagination.md): Controlled page navigation with compact number elision.
+- [Popover](https://dowel.sh/components/popover.md): An anchored surface for interactive controls and rich details.
+- [Property Picker](https://dowel.sh/components/property-picker.md): Searchable grouped metadata selection with a compact pill trigger.
+- [Progress](https://dowel.sh/components/progress.md): Determinate and indeterminate progress for long tasks.
+- [Radio Group](https://dowel.sh/components/radio-group.md): A single-choice group with native forms and arrow-key selection.
+- [Search Field](https://dowel.sh/components/search-field.md): A search input with icon, clear action, and shortcut hint.
+- [Separator](https://dowel.sh/components/separator.md): A quiet horizontal or vertical content divider.
+- [Select](https://dowel.sh/components/select.md): A grouped single-choice popup with native form submission.
+- [Sidebar](https://dowel.sh/components/sidebar.md): A responsive application rail with pointer and keyboard resize.
+- [Slider](https://dowel.sh/components/slider.md): A pointer and keyboard control for a numeric range.
+- [Skeleton](https://dowel.sh/components/skeleton.md): Reduced-motion-aware placeholders for pending content.
+- [Spinner](https://dowel.sh/components/spinner.md): Accessible indeterminate progress in three compact sizes.
+- [Status](https://dowel.sh/components/status.md): A lightweight state icon and label in semantic tones.
+- [Switch](https://dowel.sh/components/switch.md): A compact immediate setting for binary on and off state.
+- [Tabs](https://dowel.sh/components/tabs.md): Compact pill and line view switching with arrow-key activation.
+- [Toast](https://dowel.sh/components/toast.md): A global notification queue with actions and promises.
+- [Toggle Group](https://dowel.sh/components/toggle-group.md): A connected set of independently pressed view controls.
+- [Tooltip](https://dowel.sh/components/tooltip.md): A hover and focus label on the popover elevation tier.
+- [Tree View](https://dowel.sh/components/tree-view.md): A nested hierarchy with selection and keyboard navigation.

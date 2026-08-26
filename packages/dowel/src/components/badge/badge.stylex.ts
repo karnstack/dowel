@@ -5,7 +5,7 @@ import { tokens } from "../../theme/tokens.stylex";
 export const badge = stylex.create({
   root: {
     alignItems: "center",
-    backgroundColor: tokens["--dowel-bg-surface-2"],
+    backgroundColor: tokens["--dowel-bg-badge"],
     borderColor: tokens["--dowel-border-default"],
     borderRadius: tokens["--dowel-radius-pill"],
     borderStyle: "solid",

@@ -1,5 +1,12 @@
 # @karnstack/dowel
 
+## 0.3.0
+
+### Minor Changes
+
+- [#11](https://github.com/karnstack/dowel/pull/11) [`62e2632`](https://github.com/karnstack/dowel/commit/62e2632e4f469d7631c002ad408fc3e67c7eab33) - Add collection view controls, advanced DataTable state and interactions, a
+  TanStack Form adapter, and a darker dark-mode badge surface.
+
 ## 0.2.0
 
 ### Minor Changes

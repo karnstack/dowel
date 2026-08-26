@@ -27,6 +27,12 @@ export const parts = stylex.create({
   headerRow: {
     backgroundColor: "transparent",
   },
+  stickyHeader: {
+    backgroundColor: tokens["--dowel-bg-surface-1"],
+    insetBlockStart: 0,
+    position: "sticky",
+    zIndex: 4,
+  },
   headerCell: {
     boxSizing: "border-box",
     color: tokens["--dowel-text-tertiary"],
@@ -41,11 +47,16 @@ export const parts = stylex.create({
     verticalAlign: "middle",
     whiteSpace: "nowrap",
   },
+  pinnedHeaderCell: {
+    backgroundColor: tokens["--dowel-bg-surface-1"],
+    position: "sticky",
+    zIndex: 5,
+  },
   headerButton: {
     alignItems: "center",
     appearance: "none",
     backgroundColor: "transparent",
-    border: 0,
+    borderStyle: "none",
     borderRadius: tokens["--dowel-radius-sm"],
     color: "inherit",
     cursor: "pointer",
@@ -95,7 +106,7 @@ export const parts = stylex.create({
   },
   resizeHandle: {
     backgroundColor: "transparent",
-    border: 0,
+    borderStyle: "none",
     cursor: "col-resize",
     height: "1.25rem",
     outline: "none",
@@ -144,10 +155,10 @@ export const parts = stylex.create({
     transitionProperty: "background-color",
     transitionTimingFunction: tokens["--dowel-ease-out"],
     ":hover": {
-      backgroundColor: tokens["--dowel-bg-hover"],
+      backgroundColor: tokens["--dowel-bg-row-hover"],
     },
     ":focus-visible": {
-      backgroundColor: tokens["--dowel-bg-hover"],
+      backgroundColor: tokens["--dowel-bg-row-hover"],
       boxShadow: `inset 0 0 0 1px ${tokens["--dowel-focus-ring"]}`,
     },
     "[data-selected]": {
@@ -162,11 +173,11 @@ export const parts = stylex.create({
     boxSizing: "border-box",
     color: tokens["--dowel-text-primary"],
     fontSize: "0.8125rem",
-    fontWeight: 450,
-    letterSpacing: "-0.0075rem",
-    lineHeight: 1.35,
+    fontWeight: 500,
+    letterSpacing: "-0.005rem",
+    lineHeight: 1.2,
     paddingBlock: 0,
-    paddingInline: "0.5rem",
+    paddingInline: "0.375rem",
     textAlign: "left",
     verticalAlign: "middle",
     ":first-child": {
@@ -178,8 +189,22 @@ export const parts = stylex.create({
       borderTopRightRadius: tokens["--dowel-radius-md"],
     },
   },
+  pinnedCell: {
+    position: "sticky",
+    zIndex: 2,
+  },
+  pinnedStartEdge: {
+    borderInlineEndColor: tokens["--dowel-border-default"],
+    borderInlineEndStyle: "solid",
+    borderInlineEndWidth: tokens["--dowel-hairline"],
+  },
+  pinnedEndEdge: {
+    borderInlineStartColor: tokens["--dowel-border-default"],
+    borderInlineStartStyle: "solid",
+    borderInlineStartWidth: tokens["--dowel-hairline"],
+  },
   compactCell: {
-    height: tokens["--dowel-row-md"],
+    height: "2.5rem",
   },
   comfortableCell: {
     height: "3.25rem",
@@ -197,6 +222,70 @@ export const parts = stylex.create({
   },
   selectionCell: {
     paddingInline: "0.375rem",
+  },
+  groupRow: {
+    backgroundColor: "transparent",
+  },
+  groupCell: {
+    backgroundColor: tokens["--dowel-bg-surface-1"],
+    borderRadius: tokens["--dowel-radius-md"],
+    boxSizing: "border-box",
+    boxShadow: `inset 0 0 0 ${tokens["--dowel-hairline"]} ${tokens["--dowel-border-subtle"]}`,
+    padding: "0.125rem 0.375rem",
+  },
+  groupButton: {
+    alignItems: "center",
+    appearance: "none",
+    backgroundColor: "transparent",
+    borderStyle: "none",
+    borderRadius: tokens["--dowel-radius-sm"],
+    color: tokens["--dowel-text-secondary"],
+    cursor: "pointer",
+    display: "inline-flex",
+    fontFamily: tokens["--dowel-font-sans"],
+    fontSize: "0.75rem",
+    fontWeight: 550,
+    gap: "0.25rem",
+    height: "1.75rem",
+    maxWidth: "100%",
+    outline: "none",
+    paddingInline: "0.25rem 0.5rem",
+    ":hover": {
+      backgroundColor: tokens["--dowel-bg-hover"],
+      color: tokens["--dowel-text-primary"],
+    },
+    ":focus-visible": {
+      boxShadow: `inset 0 0 0 1px ${tokens["--dowel-focus-ring"]}`,
+      color: tokens["--dowel-text-primary"],
+    },
+  },
+  groupChevron: {
+    alignItems: "center",
+    display: "inline-flex",
+    flexShrink: 0,
+    height: "0.75rem",
+    justifyContent: "center",
+    width: "0.75rem",
+  },
+  groupChevronExpanded: {
+    transform: "rotate(90deg)",
+  },
+  groupChevronGlyph: {
+    backgroundColor: "currentColor",
+    clipPath: "polygon(15% 10%, 85% 50%, 15% 90%)",
+    display: "block",
+    height: "0.5rem",
+    width: "0.4375rem",
+  },
+  groupLabel: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  groupCount: {
+    color: tokens["--dowel-text-tertiary"],
+    fontSize: "0.6875rem",
+    fontWeight: 450,
   },
   alignCenter: {
     justifyContent: "center",
@@ -264,7 +353,7 @@ export const parts = stylex.create({
   },
   emptyCell: {
     color: tokens["--dowel-text-secondary"],
-    padding: "3.5rem 1rem",
+    padding: "2.5rem 1rem",
     textAlign: "center",
   },
   emptyTitle: {
@@ -287,6 +376,7 @@ export const parts = stylex.create({
     animationTimingFunction: "ease-in-out",
     backgroundColor: tokens["--dowel-bg-surface-3"],
     borderRadius: tokens["--dowel-radius-pill"],
+    display: "block",
     height: "0.375rem",
     maxWidth: "12rem",
     width: "68%",

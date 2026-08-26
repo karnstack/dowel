@@ -72,8 +72,7 @@ export const Menu = {
       <BaseMenu.Positioner
         sideOffset={4}
         {...props}
-        className={undefined}
-        style={undefined}
+        {...partProps(styles.part.positioner)}
       />
     );
   },

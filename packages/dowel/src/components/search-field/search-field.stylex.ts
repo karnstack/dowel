@@ -40,6 +40,10 @@ export const root = stylex.create({
     borderColor: "transparent",
     borderRadius: tokens["--dowel-radius-sm"],
     paddingInline: 0,
+    ":focus-within": {
+      backgroundColor: "transparent",
+      borderColor: "transparent",
+    },
   },
 });
 

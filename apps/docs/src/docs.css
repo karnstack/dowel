@@ -1709,22 +1709,101 @@ body {
   border: 0;
 }
 
-.docs-data-table-header-demo {
-  margin-block-start: var(--dowel-space-8);
+.docs-collection-view {
+  position: relative;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.docs-collection-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dowel-space-3);
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding-block-end: var(--dowel-space-3);
+}
+
+.docs-collection-controls [data-dowel-component="filter-bar"] {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.docs-collection-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--dowel-space-2);
+}
+
+.docs-selection-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dowel-space-8);
+  inline-size: 100%;
+  min-block-size: 5rem;
+}
+
+.docs-form-demo {
+  inline-size: min(100%, 30rem);
+}
+
+.docs-form-result {
+  margin: var(--dowel-space-4) 0 0;
+  color: var(--dowel-text-2);
+  font-size: var(--dowel-font-size-sm);
 }
 
 .docs-data-table-states {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--dowel-space-6);
+  gap: var(--dowel-space-4);
   margin-block-start: var(--dowel-space-8);
 }
 
-.docs-data-table-states > [data-dowel-component="data-table"] {
-  padding: var(--dowel-space-3);
+.docs-data-table-state,
+.docs-data-table-mode {
+  overflow: hidden;
   border: 1px solid var(--dowel-border-1);
   border-radius: var(--dowel-radius-lg);
   background-color: var(--dowel-bg-1);
+}
+
+.docs-data-table-state {
+  margin: 0;
+}
+
+.docs-data-table-state figcaption,
+.docs-data-table-mode-heading {
+  display: flex;
+  align-items: center;
+  min-block-size: 2.25rem;
+  padding-inline: var(--dowel-space-5);
+  border-block-end: 1px solid var(--dowel-border-1);
+  color: var(--dowel-text-2);
+  font-size: var(--dowel-fs-mini);
+  font-weight: 550;
+}
+
+.docs-data-table-state > [data-dowel-component="data-table"],
+.docs-data-table-mode > [data-dowel-component="data-table"] {
+  padding: var(--dowel-space-2);
+}
+
+.docs-data-table-mode {
+  margin-block-start: var(--dowel-space-8);
+}
+
+.docs-data-table-mode-heading {
+  justify-content: space-between;
+  gap: var(--dowel-space-4);
+}
+
+.docs-data-table-mode-heading > :last-child {
+  color: var(--dowel-text-4);
+  font-weight: 450;
 }
 
 .docs-issue-title {

@@ -10,8 +10,10 @@ export const tokens = stylex.defineVars({
   "--dowel-bg-surface-1": "#ffffff",
   "--dowel-bg-surface-2": "oklch(96.7% 0.001 286.375)",
   "--dowel-bg-surface-3": "oklch(92% 0.004 286.32)",
+  "--dowel-bg-badge": "oklch(96.7% 0.001 286.375)",
   "--dowel-bg-elevated": "#ffffff",
   "--dowel-bg-hover": "#0000000a",
+  "--dowel-bg-row-hover": "oklch(97.4% 0.001 286.375)",
   "--dowel-bg-active": "#00000010",
 
   "--dowel-border-subtle": "#0000000a",

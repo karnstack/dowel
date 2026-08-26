@@ -52,9 +52,47 @@ export type {
   DataTableCellTone,
   DataTableColumnDef,
   DataTableColumnMeta,
+  DataTableColumnOrderState,
+  DataTableColumnPinningState,
+  DataTableColumnSizingState,
+  DataTableColumnVisibilityState,
   DataTableDensity,
+  DataTableGroup,
+  DataTableGroupContext,
   DataTableProps,
+  DataTableRowSelectionState,
+  DataTableSortingState,
 } from "./components/data-table";
+export { HoverActions } from "./components/hover-actions";
+export type { HoverActionsProps } from "./components/hover-actions";
+export { ViewOptions } from "./components/view-options";
+export type {
+  ViewOptionsChoice,
+  ViewOptionsColumn,
+  ViewOptionsProps,
+} from "./components/view-options";
+export { FilterBar } from "./components/filter-bar";
+export type { FilterBarFilter, FilterBarProps } from "./components/filter-bar";
+export { FilterPicker } from "./components/filter-picker";
+export type {
+  FilterPickerProperty,
+  FilterPickerProps,
+  FilterPickerValue,
+} from "./components/filter-picker";
+export { MultiSelectToolbar } from "./components/multi-select-toolbar";
+export type { MultiSelectToolbarProps } from "./components/multi-select-toolbar";
+export {
+  useDowelForm,
+  withDowelFieldGroup,
+  withDowelForm,
+} from "./components/form";
+export type {
+  FormRootProps,
+  FormSubmitButtonProps,
+  FormTextFieldProps,
+  FormTextareaFieldProps,
+} from "./components/form";
+export { formOptions } from "@tanstack/react-form";
 export { Tabs } from "./components/tabs";
 export type { TabsRootProps, TabsSize, TabsVariant } from "./components/tabs";
 export { Checkbox, CheckboxGroup } from "./components/checkbox";

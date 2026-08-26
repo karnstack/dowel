@@ -82,6 +82,9 @@ export const item = stylex.create({
 });
 
 export const part = stylex.create({
+  positioner: {
+    zIndex: 60,
+  },
   separator: {
     backgroundColor: tokens["--dowel-border-subtle"],
     height: tokens["--dowel-hairline"],

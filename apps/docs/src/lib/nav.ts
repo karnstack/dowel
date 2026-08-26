@@ -81,6 +81,11 @@ export const componentNav: NavItem[] = [
     summary: "A modal search surface for grouped application commands.",
   },
   {
+    title: "Collection Controls",
+    to: "/components/collection-controls",
+    summary: "Filters, view options, row actions, and bulk selection controls.",
+  },
+  {
     title: "Composer",
     to: "/components/composer",
     summary: "A borderless creation shell with metadata and action regions.",
@@ -114,6 +119,11 @@ export const componentNav: NavItem[] = [
     title: "File Upload",
     to: "/components/file-upload",
     summary: "A native file picker and dropzone with built-in validation.",
+  },
+  {
+    title: "Form",
+    to: "/components/form",
+    summary: "TanStack Form with Dowel fields and actions pre-bound.",
   },
   {
     title: "Icon Button",
@@ -267,6 +277,7 @@ export const componentSections: NavSection[] = [
       "/components/calendar",
       "/components/combobox",
       "/components/file-upload",
+      "/components/form",
       "/components/input",
       "/components/native-select",
       "/components/property-picker",
@@ -327,7 +338,10 @@ export const componentSections: NavSection[] = [
   },
   {
     title: "Composites",
-    items: components("/components/composer"),
+    items: components(
+      "/components/collection-controls",
+      "/components/composer",
+    ),
   },
 ];
 

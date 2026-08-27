@@ -101,11 +101,30 @@ test("component navigation opens the active category and toggles sections", asyn
   ).toBeVisible();
   await expect(actions).toHaveAttribute("aria-expanded", "true");
 
+  const actionsSection = actions.locator("xpath=..");
   await actions.click();
   await expect(actions).toHaveAttribute("aria-expanded", "false");
-  await expect(
-    actions.locator("xpath=following-sibling::*[1]"),
-  ).toHaveAttribute("aria-hidden", "true");
+  await expect(actionsSection).toHaveAttribute("data-closed", "");
+});
+
+test("mobile navigation opens as a focused drawer and closes after navigation", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/components/sidebar");
+  await page.waitForLoadState("networkidle");
+
+  const trigger = page.getByRole("button", { name: "Open navigation" });
+  await trigger.click();
+
+  const drawer = page.getByRole("dialog", { name: "Documentation" });
+  await expect(drawer).toBeVisible();
+  await expect(drawer.locator('[aria-expanded="true"]')).toHaveCount(1);
+
+  await drawer.getByRole("button", { name: "Library" }).click();
+  await drawer.getByRole("link", { name: "Dependencies" }).click();
+  await expect(page).toHaveURL(/\/dependencies$/);
+  await expect(drawer).toBeHidden();
 });
 
 test("toast notifications stack and expand on hover", async ({ page }) => {

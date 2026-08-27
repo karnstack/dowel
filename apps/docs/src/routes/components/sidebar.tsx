@@ -92,7 +92,9 @@ function SidebarDocs() {
           Root owns width state. Panel can contain Header, Body, and Footer.
           ResizeHandle exposes separator semantics and current pixel bounds.
           Content always keeps a zero minimum width so dense application views
-          can shrink safely.
+          can shrink safely. Nav, Section, SectionTrigger, SectionPanel, and
+          Item provide the shared navigation structure for desktop rails and
+          mobile drawers.
         </p>
       </Section>
     </DocsPage>

@@ -1,5 +1,9 @@
+import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
+import { useRender } from "@base-ui/react/use-render";
+import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import * as stylex from "@stylexjs/stylex";
 import {
+  cloneElement,
   createContext,
   forwardRef,
   useCallback,
@@ -11,13 +15,20 @@ import {
 import type {
   ComponentPropsWithoutRef,
   CSSProperties,
+  MouseEvent as ReactMouseEvent,
   PointerEvent as ReactPointerEvent,
+  ReactElement,
+  ReactNode,
 } from "react";
 
 import * as styles from "./sidebar.stylex";
 
 type DivProps = ComponentPropsWithoutRef<"div">;
 type AsideProps = ComponentPropsWithoutRef<"aside">;
+type PublicElementProps<T extends keyof React.JSX.IntrinsicElements> = Omit<
+  ComponentPropsWithoutRef<T>,
+  "className" | "style"
+>;
 
 type SidebarContextValue = {
   defaultWidth: number;
@@ -215,6 +226,206 @@ const Content = forwardRef<HTMLDivElement, DivProps>(function SidebarContent(
   );
 });
 
+const Nav = forwardRef<HTMLElement, PublicElementProps<"nav">>(
+  function SidebarNav(props, ref) {
+    const resolved = stylex.props(styles.navigation.root);
+    return (
+      <nav
+        ref={ref}
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-part="sidebar-nav"
+      />
+    );
+  },
+);
+
+type SectionProps = Omit<
+  ComponentPropsWithoutRef<typeof BaseCollapsible.Root>,
+  "className" | "style"
+>;
+
+const Section = forwardRef<HTMLDivElement, SectionProps>(
+  function SidebarSection(props, ref) {
+    const resolved = stylex.props(styles.navigation.section);
+    return (
+      <BaseCollapsible.Root
+        ref={ref}
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-part="sidebar-section"
+      />
+    );
+  },
+);
+
+type SectionTriggerProps = Omit<
+  ComponentPropsWithoutRef<typeof BaseCollapsible.Trigger>,
+  "children" | "className" | "render" | "style"
+> & { active?: boolean; children?: ReactNode };
+
+const SectionTrigger = forwardRef<HTMLButtonElement, SectionTriggerProps>(
+  function SidebarSectionTrigger({ active = false, children, ...props }, ref) {
+    const resolved = stylex.props(styles.navigation.trigger);
+    return (
+      <BaseCollapsible.Trigger
+        ref={ref}
+        {...props}
+        render={(triggerProps, state) => {
+          const icon = stylex.props(
+            styles.navigation.chevron,
+            state.open && styles.navigation.chevronOpen,
+          );
+          return (
+            <button
+              {...triggerProps}
+              className={resolved.className}
+              style={resolved.style}
+              data-active={active ? "" : undefined}
+              data-dowel-part="sidebar-section-trigger"
+            >
+              <span {...stylex.props(styles.navigation.triggerLabel)}>
+                {children}
+              </span>
+              <ChevronRightIcon
+                aria-hidden="true"
+                className={icon.className}
+                style={icon.style}
+              />
+            </button>
+          );
+        }}
+      />
+    );
+  },
+);
+
+type SectionPanelProps = Omit<
+  ComponentPropsWithoutRef<typeof BaseCollapsible.Panel>,
+  "className" | "style"
+>;
+
+const SectionPanel = forwardRef<HTMLDivElement, SectionPanelProps>(
+  function SidebarSectionPanel(props, ref) {
+    const resolved = stylex.props(styles.navigation.panel);
+    return (
+      <BaseCollapsible.Panel
+        ref={ref}
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-part="sidebar-section-panel"
+      />
+    );
+  },
+);
+
+const SectionContent = forwardRef<HTMLDivElement, PublicElementProps<"div">>(
+  function SidebarSectionContent(props, ref) {
+    const resolved = stylex.props(styles.navigation.sectionContent);
+    return (
+      <div
+        ref={ref}
+        {...props}
+        className={resolved.className}
+        style={resolved.style}
+        data-dowel-part="sidebar-section-content"
+      />
+    );
+  },
+);
+
+type ItemState = { active: boolean; disabled: boolean };
+
+export interface SidebarItemProps
+  extends Omit<
+    useRender.ComponentProps<"a", ItemState>,
+    "className" | "style"
+  > {
+  active?: boolean;
+  disabled?: boolean;
+  icon?: ReactNode;
+  nested?: boolean;
+  suffix?: ReactNode;
+}
+
+const Item = forwardRef<HTMLAnchorElement, SidebarItemProps>(
+  function SidebarItem(
+    {
+      active = false,
+      children,
+      disabled = false,
+      icon,
+      nested = false,
+      onClick,
+      render,
+      suffix,
+      ...props
+    },
+    ref,
+  ) {
+    const resolved = stylex.props(
+      styles.navigation.item,
+      nested && styles.navigation.itemNested,
+    );
+    const element = useRender<ItemState, HTMLAnchorElement>({
+      defaultTagName: "a",
+      render,
+      ref,
+      state: { active, disabled },
+      props: {
+        ...props,
+        "aria-current": active ? "page" : undefined,
+        "aria-disabled": disabled || undefined,
+        className: resolved.className,
+        onClick: (event: ReactMouseEvent<HTMLAnchorElement>) => {
+          onClick?.(event);
+          if (disabled && !event.defaultPrevented) event.preventDefault();
+        },
+        style: resolved.style,
+        children: (
+          <>
+            {icon ? (
+              <span
+                {...stylex.props(styles.navigation.itemIcon)}
+                aria-hidden="true"
+              >
+                {icon}
+              </span>
+            ) : null}
+            <span {...stylex.props(styles.navigation.itemLabel)}>
+              {children}
+            </span>
+            {suffix ? (
+              <span
+                {...stylex.props(styles.navigation.itemSuffix)}
+                aria-hidden="true"
+              >
+                {suffix}
+              </span>
+            ) : null}
+          </>
+        ),
+      },
+    });
+
+    return cloneElement(
+      element as ReactElement<{
+        className?: string;
+        style?: CSSProperties;
+        "data-dowel-part"?: string;
+      }>,
+      {
+        className: resolved.className,
+        style: resolved.style,
+        "data-dowel-part": "sidebar-item",
+      },
+    );
+  },
+);
+
 export interface SidebarResizeHandleProps
   extends Omit<DivProps, "role" | "tabIndex"> {
   /** Pixel change used by each arrow-key press. */
@@ -336,4 +547,10 @@ export const Sidebar = {
   Footer,
   ResizeHandle,
   Content,
+  Nav,
+  Section,
+  SectionTrigger,
+  SectionPanel,
+  SectionContent,
+  Item,
 };

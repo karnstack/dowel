@@ -39,6 +39,7 @@ export type { MenuItemProps, MenuItemTone } from "./components/menu";
 export { Tooltip } from "./components/tooltip";
 export { Sidebar } from "./components/sidebar";
 export type {
+  SidebarItemProps,
   SidebarResizeHandleProps,
   SidebarRootProps,
   SidebarVariant,

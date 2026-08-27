@@ -44,6 +44,13 @@ export type {
   SidebarRootProps,
   SidebarVariant,
 } from "./components/sidebar";
+export { PageHeader } from "./components/page-header";
+export type { PageHeaderProps } from "./components/page-header";
+export { SettingsRow, SettingsSection } from "./components/settings";
+export type {
+  SettingsRowProps,
+  SettingsSectionProps,
+} from "./components/settings";
 export {
   DataTable,
   createDataTableColumnHelper,

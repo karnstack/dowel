@@ -33,14 +33,16 @@ Install `@karnstack/dowel`, import `@karnstack/dowel/dowel.css` once, and import
 - [List](https://dowel.sh/components/list.md): Semantic grouped rows with cells, density, and selection.
 - [Menu](https://dowel.sh/components/menu.md): A dropdown with keyboard navigation and typeahead.
 - [Native Select](https://dowel.sh/components/native-select.md): A resilient native choice control with Dowel field styling.
+- [Page Header](https://dowel.sh/components/page-header.md): A compact workspace heading with context, actions, and tabs.
 - [Pagination](https://dowel.sh/components/pagination.md): Controlled page navigation with compact number elision.
 - [Popover](https://dowel.sh/components/popover.md): An anchored surface for interactive controls and rich details.
 - [Property Picker](https://dowel.sh/components/property-picker.md): Searchable grouped metadata selection with a compact pill trigger.
 - [Progress](https://dowel.sh/components/progress.md): Determinate and indeterminate progress for long tasks.
 - [Radio Group](https://dowel.sh/components/radio-group.md): A single-choice group with native forms and arrow-key selection.
 - [Search Field](https://dowel.sh/components/search-field.md): A search input with icon, clear action, and shortcut hint.
-- [Separator](https://dowel.sh/components/separator.md): A quiet horizontal or vertical content divider.
 - [Select](https://dowel.sh/components/select.md): A grouped single-choice popup with native form submission.
+- [Separator](https://dowel.sh/components/separator.md): A quiet horizontal or vertical content divider.
+- [Settings](https://dowel.sh/components/settings.md): Divider-led sections and rows for compact preference screens.
 - [Sidebar](https://dowel.sh/components/sidebar.md): A responsive application rail with pointer and keyboard resize.
 - [Slider](https://dowel.sh/components/slider.md): A pointer and keyboard control for a numeric range.
 - [Skeleton](https://dowel.sh/components/skeleton.md): Reduced-motion-aware placeholders for pending content.

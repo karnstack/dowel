@@ -31,6 +31,7 @@ import {
   Menu,
   NativeSelect,
   Pagination,
+  PageHeader,
   Popover,
   Progress,
   PropertyPicker,
@@ -39,6 +40,8 @@ import {
   SearchField,
   Separator,
   Select,
+  SettingsRow,
+  SettingsSection,
   Sidebar,
   Slider,
   Skeleton,
@@ -532,6 +535,30 @@ export function ComponentGallery() {
 
         <GalleryItem title="Pagination" to="/components/pagination">
           <GalleryPagination />
+        </GalleryItem>
+
+        <GalleryItem
+          title="Page Header"
+          to="/components/page-header"
+          layout="wide"
+        >
+          <PageHeader
+            headingLevel={3}
+            title="Project settings"
+            description="Manage defaults and access."
+            actions={<Button size="sm">Save</Button>}
+          />
+        </GalleryItem>
+
+        <GalleryItem title="Settings" to="/components/settings" layout="wide">
+          <SettingsSection headingLevel={3} title="Notifications">
+            <SettingsRow title="Issue activity">
+              <Switch aria-label="Issue activity preview" defaultChecked />
+            </SettingsRow>
+            <SettingsRow title="Weekly digest">
+              <Switch aria-label="Weekly digest preview" />
+            </SettingsRow>
+          </SettingsSection>
         </GalleryItem>
 
         <GalleryItem title="Slider" to="/components/slider" layout="stack">

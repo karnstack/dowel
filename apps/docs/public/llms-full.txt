@@ -343,6 +343,18 @@ Import public components and types from the package root. Import `@karnstack/dow
 
 ---
 
+## Page Header
+
+> A compact workspace heading with context, actions, and tabs.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/page-header)
+- [Markdown documentation](https://dowel.sh/components/page-header.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
 ## Pagination
 
 > Controlled page navigation with compact number elision.
@@ -415,6 +427,18 @@ Import public components and types from the package root. Import `@karnstack/dow
 
 ---
 
+## Select
+
+> A grouped single-choice popup with native form submission.
+
+- Package: `@karnstack/dowel`
+- [HTML documentation](https://dowel.sh/components/select)
+- [Markdown documentation](https://dowel.sh/components/select.md)
+
+Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
+
+---
+
 ## Separator
 
 > A quiet horizontal or vertical content divider.
@@ -427,13 +451,13 @@ Import public components and types from the package root. Import `@karnstack/dow
 
 ---
 
-## Select
+## Settings
 
-> A grouped single-choice popup with native form submission.
+> Divider-led sections and rows for compact preference screens.
 
 - Package: `@karnstack/dowel`
-- [HTML documentation](https://dowel.sh/components/select)
-- [Markdown documentation](https://dowel.sh/components/select.md)
+- [HTML documentation](https://dowel.sh/components/settings)
+- [Markdown documentation](https://dowel.sh/components/settings.md)
 
 Import public components and types from the package root. Import `@karnstack/dowel/dowel.css` once at the application root.
 

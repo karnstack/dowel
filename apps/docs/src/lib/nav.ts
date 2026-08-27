@@ -156,6 +156,11 @@ export const componentNav: NavItem[] = [
     summary: "A resilient native choice control with Dowel field styling.",
   },
   {
+    title: "Page Header",
+    to: "/components/page-header",
+    summary: "A compact workspace heading with context, actions, and tabs.",
+  },
+  {
     title: "Pagination",
     to: "/components/pagination",
     summary: "Controlled page navigation with compact number elision.",
@@ -187,14 +192,19 @@ export const componentNav: NavItem[] = [
     summary: "A search input with icon, clear action, and shortcut hint.",
   },
   {
+    title: "Select",
+    to: "/components/select",
+    summary: "A grouped single-choice popup with native form submission.",
+  },
+  {
     title: "Separator",
     to: "/components/separator",
     summary: "A quiet horizontal or vertical content divider.",
   },
   {
-    title: "Select",
-    to: "/components/select",
-    summary: "A grouped single-choice popup with native form submission.",
+    title: "Settings",
+    to: "/components/settings",
+    summary: "Divider-led sections and rows for compact preference screens.",
   },
   {
     title: "Sidebar",
@@ -293,6 +303,7 @@ export const componentSections: NavSection[] = [
     items: components(
       "/components/breadcrumbs",
       "/components/command-menu",
+      "/components/page-header",
       "/components/pagination",
       "/components/sidebar",
       "/components/tabs",
@@ -341,6 +352,7 @@ export const componentSections: NavSection[] = [
     items: components(
       "/components/collection-controls",
       "/components/composer",
+      "/components/settings",
     ),
   },
 ];

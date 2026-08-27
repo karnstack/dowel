@@ -40,6 +40,7 @@ import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsListRouteImport } from './routes/components/list'
 import { Route as ComponentsMenuRouteImport } from './routes/components/menu'
 import { Route as ComponentsNativeSelectRouteImport } from './routes/components/native-select'
+import { Route as ComponentsPageHeaderRouteImport } from './routes/components/page-header'
 import { Route as ComponentsPaginationRouteImport } from './routes/components/pagination'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
@@ -48,6 +49,7 @@ import { Route as ComponentsRadioGroupRouteImport } from './routes/components/ra
 import { Route as ComponentsSearchFieldRouteImport } from './routes/components/search-field'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
+import { Route as ComponentsSettingsRouteImport } from './routes/components/settings'
 import { Route as ComponentsSidebarRouteImport } from './routes/components/sidebar'
 import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
 import { Route as ComponentsSliderRouteImport } from './routes/components/slider'
@@ -216,6 +218,11 @@ const ComponentsNativeSelectRoute = ComponentsNativeSelectRouteImport.update({
   path: '/native-select',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsPageHeaderRoute = ComponentsPageHeaderRouteImport.update({
+  id: '/page-header',
+  path: '/page-header',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsPaginationRoute = ComponentsPaginationRouteImport.update({
   id: '/pagination',
   path: '/pagination',
@@ -255,6 +262,11 @@ const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
 const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
   id: '/separator',
   path: '/separator',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsSettingsRoute = ComponentsSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
 const ComponentsSidebarRoute = ComponentsSidebarRouteImport.update({
@@ -344,6 +356,7 @@ export interface FileRoutesByFullPath {
   '/components/list': typeof ComponentsListRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/native-select': typeof ComponentsNativeSelectRoute
+  '/components/page-header': typeof ComponentsPageHeaderRoute
   '/components/pagination': typeof ComponentsPaginationRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/progress': typeof ComponentsProgressRoute
@@ -352,6 +365,7 @@ export interface FileRoutesByFullPath {
   '/components/search-field': typeof ComponentsSearchFieldRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/settings': typeof ComponentsSettingsRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/slider': typeof ComponentsSliderRoute
@@ -395,6 +409,7 @@ export interface FileRoutesByTo {
   '/components/list': typeof ComponentsListRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/native-select': typeof ComponentsNativeSelectRoute
+  '/components/page-header': typeof ComponentsPageHeaderRoute
   '/components/pagination': typeof ComponentsPaginationRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/progress': typeof ComponentsProgressRoute
@@ -403,6 +418,7 @@ export interface FileRoutesByTo {
   '/components/search-field': typeof ComponentsSearchFieldRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/settings': typeof ComponentsSettingsRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/slider': typeof ComponentsSliderRoute
@@ -448,6 +464,7 @@ export interface FileRoutesById {
   '/components/list': typeof ComponentsListRoute
   '/components/menu': typeof ComponentsMenuRoute
   '/components/native-select': typeof ComponentsNativeSelectRoute
+  '/components/page-header': typeof ComponentsPageHeaderRoute
   '/components/pagination': typeof ComponentsPaginationRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/progress': typeof ComponentsProgressRoute
@@ -456,6 +473,7 @@ export interface FileRoutesById {
   '/components/search-field': typeof ComponentsSearchFieldRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/settings': typeof ComponentsSettingsRoute
   '/components/sidebar': typeof ComponentsSidebarRoute
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/slider': typeof ComponentsSliderRoute
@@ -502,6 +520,7 @@ export interface FileRouteTypes {
     | '/components/list'
     | '/components/menu'
     | '/components/native-select'
+    | '/components/page-header'
     | '/components/pagination'
     | '/components/popover'
     | '/components/progress'
@@ -510,6 +529,7 @@ export interface FileRouteTypes {
     | '/components/search-field'
     | '/components/select'
     | '/components/separator'
+    | '/components/settings'
     | '/components/sidebar'
     | '/components/skeleton'
     | '/components/slider'
@@ -553,6 +573,7 @@ export interface FileRouteTypes {
     | '/components/list'
     | '/components/menu'
     | '/components/native-select'
+    | '/components/page-header'
     | '/components/pagination'
     | '/components/popover'
     | '/components/progress'
@@ -561,6 +582,7 @@ export interface FileRouteTypes {
     | '/components/search-field'
     | '/components/select'
     | '/components/separator'
+    | '/components/settings'
     | '/components/sidebar'
     | '/components/skeleton'
     | '/components/slider'
@@ -605,6 +627,7 @@ export interface FileRouteTypes {
     | '/components/list'
     | '/components/menu'
     | '/components/native-select'
+    | '/components/page-header'
     | '/components/pagination'
     | '/components/popover'
     | '/components/progress'
@@ -613,6 +636,7 @@ export interface FileRouteTypes {
     | '/components/search-field'
     | '/components/select'
     | '/components/separator'
+    | '/components/settings'
     | '/components/sidebar'
     | '/components/skeleton'
     | '/components/slider'
@@ -852,6 +876,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsNativeSelectRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/page-header': {
+      id: '/components/page-header'
+      path: '/page-header'
+      fullPath: '/components/page-header'
+      preLoaderRoute: typeof ComponentsPageHeaderRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/pagination': {
       id: '/components/pagination'
       path: '/pagination'
@@ -906,6 +937,13 @@ declare module '@tanstack/react-router' {
       path: '/separator'
       fullPath: '/components/separator'
       preLoaderRoute: typeof ComponentsSeparatorRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/settings': {
+      id: '/components/settings'
+      path: '/settings'
+      fullPath: '/components/settings'
+      preLoaderRoute: typeof ComponentsSettingsRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
     '/components/sidebar': {
@@ -1016,6 +1054,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsListRoute: typeof ComponentsListRoute
   ComponentsMenuRoute: typeof ComponentsMenuRoute
   ComponentsNativeSelectRoute: typeof ComponentsNativeSelectRoute
+  ComponentsPageHeaderRoute: typeof ComponentsPageHeaderRoute
   ComponentsPaginationRoute: typeof ComponentsPaginationRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
@@ -1024,6 +1063,7 @@ interface ComponentsRouteRouteChildren {
   ComponentsSearchFieldRoute: typeof ComponentsSearchFieldRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
+  ComponentsSettingsRoute: typeof ComponentsSettingsRoute
   ComponentsSidebarRoute: typeof ComponentsSidebarRoute
   ComponentsSkeletonRoute: typeof ComponentsSkeletonRoute
   ComponentsSliderRoute: typeof ComponentsSliderRoute
@@ -1066,6 +1106,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsListRoute: ComponentsListRoute,
   ComponentsMenuRoute: ComponentsMenuRoute,
   ComponentsNativeSelectRoute: ComponentsNativeSelectRoute,
+  ComponentsPageHeaderRoute: ComponentsPageHeaderRoute,
   ComponentsPaginationRoute: ComponentsPaginationRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
@@ -1074,6 +1115,7 @@ const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsSearchFieldRoute: ComponentsSearchFieldRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,
+  ComponentsSettingsRoute: ComponentsSettingsRoute,
   ComponentsSidebarRoute: ComponentsSidebarRoute,
   ComponentsSkeletonRoute: ComponentsSkeletonRoute,
   ComponentsSliderRoute: ComponentsSliderRoute,

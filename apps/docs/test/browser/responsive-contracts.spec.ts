@@ -182,3 +182,35 @@ for (const viewport of viewports.filter(({ compact }) => compact)) {
     await context.close();
   });
 }
+
+test("workspace composition stays compact at phone width", async ({
+  browser,
+}) => {
+  const { context, page } = await createPage(browser, {
+    width: 390,
+    height: 844,
+  });
+
+  await page.goto("/components/page-header");
+  await page.waitForLoadState("networkidle");
+  const header = page.locator('[data-dowel-component="page-header"]').first();
+  await expect(header).toBeVisible();
+  const headerBox = await header.boundingBox();
+  expect(Math.round(headerBox?.height ?? 0)).toBe(165);
+  await expect(
+    header.getByRole("button", { name: "Save changes" }),
+  ).toBeVisible();
+
+  await page.goto("/components/settings");
+  await page.waitForLoadState("networkidle");
+  const rows = page.locator('[data-dowel-component="settings-row"]');
+  await expect(rows).toHaveCount(3);
+  const rowHeights = await rows.evaluateAll((elements) =>
+    elements.map((element) =>
+      Math.round(element.getBoundingClientRect().height),
+    ),
+  );
+  expect(rowHeights).toEqual([59, 59, 52]);
+
+  await context.close();
+});

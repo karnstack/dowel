@@ -120,6 +120,21 @@ test("mobile navigation opens as a focused drawer and closes after navigation", 
   const drawer = page.getByRole("dialog", { name: "Documentation" });
   await expect(drawer).toBeVisible();
   await expect(drawer.locator('[aria-expanded="true"]')).toHaveCount(1);
+  await expect(drawer).toContainText("Sidebar");
+  await expect(drawer).toHaveCSS("width", "351px");
+  await expect(drawer).toBeFocused();
+
+  const drawerAudit = await new AxeBuilder({ page })
+    .include('[role="dialog"]')
+    .analyze();
+  expect(drawerAudit.violations).toEqual([]);
+
+  await page.keyboard.press("Escape");
+  await expect(drawer).toBeHidden();
+  await expect(trigger).toBeFocused();
+
+  await trigger.click();
+  await expect(drawer).toBeVisible();
 
   await drawer.getByRole("button", { name: "Library" }).click();
   await drawer.getByRole("link", { name: "Dependencies" }).click();

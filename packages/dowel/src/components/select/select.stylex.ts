@@ -118,7 +118,7 @@ export const item = stylex.create({
     display: "flex",
     gap: "0.5rem",
     marginInline: "0.25rem",
-    minHeight: "2.25rem",
+    minHeight: { default: "2rem", [MOBILE]: "2.75rem" },
     outline: "none",
     padding: "0.375rem 2rem 0.375rem 0.5rem",
     position: "relative",
@@ -135,6 +135,10 @@ export const item = stylex.create({
       opacity: 0.45,
     },
   },
+  withDescription: {
+    minHeight: { default: "2.75rem", [MOBILE]: "3.5rem" },
+    paddingBlock: "0.25rem",
+  },
   copy: {
     display: "flex",
     flexDirection: "column",
@@ -142,14 +146,14 @@ export const item = stylex.create({
     minWidth: 0,
   },
   label: {
-    fontSize: "0.8125rem",
+    fontSize: { default: "0.8125rem", [MOBILE]: "1rem" },
     fontWeight: 500,
     letterSpacing: "-0.0125rem",
     lineHeight: 1.25,
   },
   description: {
     color: tokens["--dowel-text-tertiary"],
-    fontSize: "0.75rem",
+    fontSize: { default: "0.75rem", [MOBILE]: "0.875rem" },
     letterSpacing: "-0.0125rem",
     lineHeight: 1.25,
   },

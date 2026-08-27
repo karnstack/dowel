@@ -2,8 +2,14 @@ import * as stylex from "@stylexjs/stylex";
 
 import { tokens } from "../../theme/tokens.stylex";
 
+const COARSE = "@media (pointer: coarse)";
+
 export const control = stylex.create({
   root: {
+    "--dowel-switch-hit-size": {
+      default: "calc(100% + 0.75rem)",
+      [COARSE]: "3rem",
+    },
     alignItems: "center",
     appearance: "none",
     backgroundColor: tokens["--dowel-bg-surface-3"],
@@ -15,20 +21,24 @@ export const control = stylex.create({
     cursor: "default",
     display: "inline-flex",
     flexShrink: 0,
-    height: "1rem",
+    height: { default: "1rem", [COARSE]: "1.25rem" },
     justifyContent: "flex-start",
     outline: "none",
-    padding: "1.5px",
+    padding: { default: "1.5px", [COARSE]: "2px" },
     position: "relative",
     transitionDuration: tokens["--dowel-duration-fast"],
     transitionProperty: "border-color, background-color, color, opacity",
     transitionTimingFunction: tokens["--dowel-ease-out"],
     verticalAlign: "middle",
-    width: "1.75rem",
+    width: { default: "1.75rem", [COARSE]: "2.75rem" },
     "::before": {
       content: '""',
-      inset: "-0.375rem",
+      height: "var(--dowel-switch-hit-size)",
+      left: "50%",
       position: "absolute",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "var(--dowel-switch-hit-size)",
     },
     ":hover:not([data-disabled])": {
       backgroundColor: tokens["--dowel-border-strong"],
@@ -62,7 +72,7 @@ export const control = stylex.create({
     boxShadow: tokens["--dowel-shadow-control"],
     boxSizing: "border-box",
     display: "block",
-    height: "0.6875rem",
-    width: "0.6875rem",
+    height: { default: "0.6875rem", [COARSE]: "0.9375rem" },
+    width: { default: "0.6875rem", [COARSE]: "0.9375rem" },
   },
 });

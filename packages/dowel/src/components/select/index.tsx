@@ -135,7 +135,11 @@ export function Select({
                       value={option.value}
                       label={option.label}
                       disabled={option.disabled}
-                      {...stylex.props(styles.item.root)}
+                      {...stylex.props(
+                        styles.item.root,
+                        Boolean(option.description) &&
+                          styles.item.withDescription,
+                      )}
                     >
                       <span {...stylex.props(styles.item.copy)}>
                         <BaseSelect.ItemText

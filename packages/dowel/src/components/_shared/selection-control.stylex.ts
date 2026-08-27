@@ -2,8 +2,14 @@ import * as stylex from "@stylexjs/stylex";
 
 import { tokens } from "../../theme/tokens.stylex";
 
+const COARSE = "@media (pointer: coarse)";
+
 export const control = stylex.create({
   root: {
+    "--dowel-selection-hit-size": {
+      default: "calc(100% + 0.75rem)",
+      [COARSE]: "3rem",
+    },
     alignItems: "center",
     appearance: "none",
     backgroundColor: tokens["--dowel-bg-surface-1"],
@@ -24,8 +30,12 @@ export const control = stylex.create({
     verticalAlign: "middle",
     "::before": {
       content: '""',
-      inset: "-0.375rem",
+      height: "var(--dowel-selection-hit-size)",
+      left: "50%",
       position: "absolute",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "var(--dowel-selection-hit-size)",
     },
     ":hover:not([data-disabled])": {
       backgroundColor: tokens["--dowel-bg-hover"],

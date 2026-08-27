@@ -2,11 +2,13 @@ import * as stylex from "@stylexjs/stylex";
 
 import { tokens } from "../../theme/tokens.stylex";
 
+const COARSE = "@media (pointer: coarse)";
+
 export const checkbox = stylex.create({
   root: {
     borderRadius: tokens["--dowel-radius-sm"],
-    height: "1rem",
-    width: "1rem",
+    height: { default: "1rem", [COARSE]: "1.25rem" },
+    width: { default: "1rem", [COARSE]: "1.25rem" },
     "[data-indeterminate]": {
       backgroundColor: tokens["--dowel-accent"],
       borderColor: tokens["--dowel-accent"],

@@ -149,7 +149,11 @@ export function CommandMenu({
                         value={item}
                         disabled={item.disabled}
                         onClick={() => select(item)}
-                        {...sx(styles.command.item)}
+                        {...sx(
+                          styles.command.item,
+                          Boolean(item.description) &&
+                            styles.command.itemWithDescription,
+                        )}
                       >
                         {item.icon ? (
                           <span

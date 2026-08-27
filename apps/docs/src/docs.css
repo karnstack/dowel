@@ -1285,7 +1285,7 @@ body {
 .docs-gallery-item {
   display: flex;
   min-inline-size: 0;
-  min-block-size: 10rem;
+  min-block-size: 8.5rem;
   flex-direction: column;
   gap: var(--dowel-space-7);
   overflow: hidden;
@@ -1333,7 +1333,7 @@ body {
 }
 
 .docs-gallery-item[data-layout="wide"] {
-  min-block-size: 18rem;
+  min-block-size: 16rem;
 }
 
 .docs-gallery-item[data-layout="wide"] .docs-gallery-preview {
@@ -1396,13 +1396,13 @@ body {
   }
 
   .docs-gallery-item {
-    min-block-size: 10.5rem;
+    min-block-size: 9rem;
     padding: var(--dowel-space-7);
   }
 
   .docs-gallery-item[data-layout="wide"] {
     grid-column: 1 / -1;
-    min-block-size: 18rem;
+    min-block-size: 16rem;
   }
 }
 

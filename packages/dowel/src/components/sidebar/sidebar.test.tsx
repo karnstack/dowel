@@ -112,4 +112,35 @@ describe("Sidebar", () => {
     const { container } = render(<Example />);
     await expectNoA11yViolations(container);
   });
+
+  it("renders collapsible navigation sections and active items", async () => {
+    render(
+      <Sidebar.Nav aria-label="Workspace">
+        <Sidebar.Section defaultOpen>
+          <Sidebar.SectionTrigger active>Projects</Sidebar.SectionTrigger>
+          <Sidebar.SectionPanel>
+            <Sidebar.SectionContent>
+              <Sidebar.Item href="/active" active suffix="4">
+                Active
+              </Sidebar.Item>
+              <Sidebar.Item href="/archive">Archive</Sidebar.Item>
+              <Sidebar.Item href="/disabled" disabled>
+                Disabled
+              </Sidebar.Item>
+            </Sidebar.SectionContent>
+          </Sidebar.SectionPanel>
+        </Sidebar.Section>
+      </Sidebar.Nav>,
+    );
+
+    expect(
+      screen.getByRole("link", { name: "Active" }).getAttribute("aria-current"),
+    ).toBe("page");
+    const disabled = screen.getByRole("link", { name: "Disabled" });
+    expect(disabled.getAttribute("aria-disabled")).toBe("true");
+
+    const trigger = screen.getByRole("button", { name: "Projects" });
+    await userEvent.click(trigger);
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+  });
 });

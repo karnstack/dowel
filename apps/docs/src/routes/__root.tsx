@@ -98,7 +98,7 @@ function RootDocument() {
   );
 
   return (
-    <html lang="en" data-nav-open={navOpen ? "" : undefined}>
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

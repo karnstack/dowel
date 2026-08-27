@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { IconButton, Sidebar, Tooltip } from "@karnstack/dowel";
+import { Drawer, IconButton, Sidebar, Tooltip } from "@karnstack/dowel";
 import type { ReactNode } from "react";
 
 import { SearchTrigger, ThemeToggle, Wordmark } from "./docs-chrome";
@@ -76,31 +76,62 @@ export function DocsShell({ children }: { children: ReactNode }) {
             background: "var(--dowel-bg-1)",
           }}
         >
-          <div className="docs-mobile-bar">
-            <IconButton
-              label={navOpen ? "Close navigation" : "Open navigation"}
-              aria-expanded={navOpen}
-              aria-controls="docs-mobile-nav"
-              onClick={() => setNavOpen(!navOpen)}
-            >
-              {navOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
+          <Drawer.Root open={navOpen} onOpenChange={setNavOpen} side="left">
+            <div className="docs-mobile-bar">
+              <Drawer.Trigger
+                render={
+                  <IconButton label="Open navigation">
+                    <MenuIcon />
+                  </IconButton>
+                }
+              />
 
-            <Link to="/" aria-label="Homepage" className="docs-brand">
-              <Wordmark />
-            </Link>
+              <Link to="/" aria-label="Homepage" className="docs-brand">
+                <Wordmark />
+              </Link>
 
-            <div className="docs-mobile-actions">
-              <IconButton label="Search documentation" onClick={openSearch}>
-                <SearchIcon />
-              </IconButton>
-              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <div className="docs-mobile-actions">
+                <IconButton label="Search documentation" onClick={openSearch}>
+                  <SearchIcon />
+                </IconButton>
+                <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              </div>
             </div>
-          </div>
 
-          <div className="docs-mobile-nav" id="docs-mobile-nav">
-            <SidebarNav onNavigate={() => setNavOpen(false)} />
-          </div>
+            <Drawer.Portal>
+              <Drawer.Backdrop />
+              <Drawer.Viewport>
+                <Drawer.Popup>
+                  <Drawer.Content>
+                    <Drawer.Header>
+                      <div className="docs-mobile-drawer-heading">
+                        <Drawer.Title>Documentation</Drawer.Title>
+                        <Drawer.Close
+                          render={
+                            <IconButton label="Close navigation">
+                              <CloseIcon />
+                            </IconButton>
+                          }
+                        />
+                      </div>
+                      <SearchTrigger
+                        onClick={() => {
+                          setNavOpen(false);
+                          openSearch();
+                        }}
+                      />
+                    </Drawer.Header>
+                    <Drawer.Body>
+                      <SidebarNav
+                        collapseInactive
+                        onNavigate={() => setNavOpen(false)}
+                      />
+                    </Drawer.Body>
+                  </Drawer.Content>
+                </Drawer.Popup>
+              </Drawer.Viewport>
+            </Drawer.Portal>
+          </Drawer.Root>
 
           <div className="docs-workspace-bar">
             <WorkspaceTitle />
